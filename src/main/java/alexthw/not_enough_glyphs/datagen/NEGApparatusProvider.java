@@ -7,19 +7,14 @@ import alexthw.not_enough_glyphs.init.Registry;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.common.crafting.recipes.EnchantingApparatusRecipe;
 import com.hollingsworth.arsnouveau.common.datagen.ApparatusRecipeBuilder;
 import com.hollingsworth.arsnouveau.common.datagen.ApparatusRecipeProvider;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -32,13 +27,11 @@ public class NEGApparatusProvider extends ApparatusRecipeProvider {
         super(generatorIn);
     }
 
-    static TagKey<Item> SPELLBOOKS = TagKey.create(Registries.ITEM, ArsNouveau.prefix("spellbook"));
-
     @Override
     public void collectJsons(CachedOutput pOutput) {
         List<ApparatusRecipeBuilder.RecipeWrapper<? extends EnchantingApparatusRecipe>> elementalList = new ArrayList<>();
 
-        addRecipe(builder().withReagent(Ingredient.of(SPELLBOOKS)).withPedestalItem(8, Items.LEATHER).withResult(Registry.SPELL_BINDER.get()).withId(prefix("spell_binder")).build());
+        addRecipe(builder().withReagent(ItemsRegistry.NOVICE_SPELLBOOK).withPedestalItem(8, Items.LEATHER).withResult(Registry.SPELL_BINDER.get()).withId(prefix("spell_binder")).build());
         addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(ItemsRegistry.SHAPERS_FOCUS).withPedestalItem(2, ItemsRegistry.MANIPULATION_ESSENCE).withResult(getPerkItem(FocusPerk.MANIPULATION.getRegistryName())).build());
         addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(ItemsRegistry.SUMMONING_FOCUS).withPedestalItem(2, ItemsRegistry.CONJURATION_ESSENCE).withResult(getPerkItem(FocusPerk.SUMMONING.getRegistryName())).build());
         addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(Items.ENDER_PEARL).withPedestalItem(Items.RABBIT_FOOT).withPedestalItem(Items.BONE).withResult(getPerkItem(RandomPerk.INSTANCE.getRegistryName())).build());

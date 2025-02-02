@@ -28,7 +28,7 @@
     }
   ],
   "reagent": {
-    "tag": "ars_nouveau:spellbook"
+    "item": "ars_nouveau:novice_spell_book"
   },
   "result": {
     "count": 1,

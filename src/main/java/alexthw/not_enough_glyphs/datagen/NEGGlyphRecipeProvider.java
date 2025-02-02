@@ -74,7 +74,7 @@ public class NEGGlyphRecipeProvider extends GlyphRecipeProvider {
         recipes.add(get(FilterMature.INSTANCE).withItem(Items.CHICKEN));
 
         recipes.add(get(FilterLight.LIGHT).withItem(Items.TORCH));
-        recipes.add(get(FilterLight.DARK).withItem(Items.TORCH).withIngredient(Ingredient.of(Tags.Items.DYES_BLACK)));
+        recipes.add(get(FilterDark.DARK).withItem(Items.TORCH).withIngredient(Ingredient.of(Tags.Items.DYES_BLACK)));
 
         recipes.add(get(PropagatePlane.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(Items.DIAMOND_BLOCK).withItem(Items.FIREWORK_STAR).withItem(ItemsRegistry.WILDEN_SPIKE));
         recipes.add(get(PropagateSelf.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodSelf.INSTANCE.getGlyph()));

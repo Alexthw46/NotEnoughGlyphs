@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation fg.deobf("com.alexthw.not_enough_glyphs:not_enough_glyphs-[MC_VERSION]:[VERSION]")
+    implementation ("com.alexthw.not_enough_glyphs:not_enough_glyphs-[MC_VERSION]:[VERSION]") {transitive=false}
 }
 ```
 

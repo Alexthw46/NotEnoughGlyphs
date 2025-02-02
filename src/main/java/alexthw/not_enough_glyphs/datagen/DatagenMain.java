@@ -27,10 +27,9 @@ public class DatagenMain {
         ModDatagen.registries = provider;
         DataGenerator generator = event.getGenerator();
 
+        generator.addProvider(event.includeClient(), new NEGItemModels(generator, fileHelper));
         generator.addProvider(event.includeServer(), new NEGGlyphRecipeProvider(generator));
         generator.addProvider(event.includeServer(), new NEGApparatusProvider(generator));
-
-        generator.addProvider(event.includeServer(), new NEGPatchouliProvider(generator));
 
         generator.addProvider(event.includeClient(), new NEGLangProvider(generator.getPackOutput(), NotEnoughGlyphs.MODID, "en_us"));
     }

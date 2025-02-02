@@ -9,7 +9,6 @@ import net.minecraft.world.phys.EntityHitResult;
 public class FilterLight extends AbstractEffectFilter {
 
     public static final FilterLight LIGHT = new FilterLight("filter_light", "Filter: Light");
-    public static final FilterLight DARK = (FilterLight) new FilterLight("filter_dark", "Filter: Dark").inverted();
 
     public FilterLight(String tag, String description) {
         super(CompatRL.neg(tag), description);
@@ -17,16 +16,16 @@ public class FilterLight extends AbstractEffectFilter {
 
     @Override
     public boolean shouldResolveOnBlock(BlockHitResult blockHitResult, Level level) {
-        return level.getBrightness(LightLayer.BLOCK, blockHitResult.getBlockPos().above()) >= 8;
+        return level.getBrightness(LightLayer.SKY, blockHitResult.getBlockPos().above()) >= 8;
     }
 
     @Override
     public boolean shouldResolveOnEntity(EntityHitResult entity, Level level) {
-        return level.getBrightness(LightLayer.BLOCK, entity.getEntity().getOnPos()) >= 8;
+        return level.getBrightness(LightLayer.SKY, entity.getEntity().getOnPos()) >= 8;
     }
 
     @Override
     String getDescriptionSegment() {
-        return (inverted ? "a dark" : "an illuminated.") + " area. The light threshold for this glyph is 8 and ignores sunlight.";
+        return ("an area with enough sunlight. The light threshold for this glyph is 8 and ignores artificial light.");
     }
 }

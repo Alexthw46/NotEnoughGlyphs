@@ -52,7 +52,7 @@ public class ArsNouveauRegistry {
 
         //neg filters
         register(FilterLight.LIGHT);
-        register(FilterLight.DARK);
+        register(FilterDark.DARK);
 
         //tmg
         if (!tooManyGlyphs) {

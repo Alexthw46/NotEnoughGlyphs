@@ -28,11 +28,6 @@ public class SpellBinderModel extends TransformAnimatedModel<SpellBinder> {
     }
 
     @Override
-    public ResourceLocation getModelResource(SpellBinder object) {
-        return getModelResource(object, null);
-    }
-
-    @Override
     public ResourceLocation getModelResource(SpellBinder object, @Nullable ItemDisplayContext transformType) {
         if (transformType == ItemDisplayContext.GUI || transformType == ItemDisplayContext.FIXED) {
             return CLOSED;

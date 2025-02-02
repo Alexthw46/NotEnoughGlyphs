@@ -7,7 +7,6 @@ import alexthw.not_enough_glyphs.common.spellbinder.SpellBinder;
 import alexthw.not_enough_glyphs.common.spellbinder.SpellBinderContainer;
 import com.hollingsworth.arsnouveau.common.potions.PublicEffect;
 import com.hollingsworth.arsnouveau.setup.registry.CreativeTabRegistry;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
@@ -66,8 +65,6 @@ public class Registry {
             ItemStack stack = inv.player.getItemInHand(mainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
             return new SpellBinderContainer(id, inv, stack);
         }));
-
-
     }
 
     static <T extends Entity> Supplier<EntityType<T>> addEntity(String name, float width, float height, boolean fire, boolean noSave, EntityType.EntityFactory<T> factory, MobCategory kind) {

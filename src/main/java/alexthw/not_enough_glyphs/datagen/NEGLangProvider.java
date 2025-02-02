@@ -59,7 +59,8 @@ public class NEGLangProvider extends LanguageProvider {
         add("ars_nouveau.page.focus_threads", "Book Thread: Focus");
         add("ars_nouveau.page.focus_threads.desc", "Having these threads on the spellbinder will allow to cast spells as if the focus was equipped.");
         add("ars_nouveau.page.spell_binder", "An alternative to the traditional spellcasting, the spellbinder is a tool that allows to cast spells from the spell parchemnts and caster tomes put inside it. The left side will hold the 10 spells for the radial menu (V), while the right side allow to keep additional 15 spells to switch when needed.");
-
+        add("ars_nouveau.page.book_threads", "Book Threads");
+        add("not_enough_glyphs.page.book_threads.desc", "The book threads are at the core of the spellbinder. They allow to give your binder special properties and effects, similar to how Armor Threads work. You can use an Alteration Table to slot up to two threads into the Spell Binder.");
         for (Supplier<Glyph> supplier : GlyphRegistry.getGlyphItemMap().values()) {
             Glyph glyph = supplier.get();
             AbstractSpellPart spellPart = glyph.spellPart;
