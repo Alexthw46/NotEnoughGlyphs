@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.renderer.GeoRenderer;
 
 public class SpellBinderModel extends TransformAnimatedModel<SpellBinder> {
     public static final ResourceLocation OPEN = ResourceLocation.fromNamespaceAndPath(NotEnoughGlyphs.MODID, "geo/spell_binder.geo.json");
@@ -35,9 +36,13 @@ public class SpellBinderModel extends TransformAnimatedModel<SpellBinder> {
         return modelLoc;
     }
 
-
     @Override
     public ResourceLocation getTextureResource(SpellBinder object) {
+        return ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "textures/item/spellbinder_purple.png");
+    }
+
+    @Override
+    public ResourceLocation getTextureResource(SpellBinder object, @Nullable GeoRenderer<SpellBinder> renderer) {
         return ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "textures/item/spellbinder_purple.png");
     }
 

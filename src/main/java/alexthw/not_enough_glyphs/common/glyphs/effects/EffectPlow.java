@@ -2,13 +2,16 @@ package alexthw.not_enough_glyphs.common.glyphs.effects;
 
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +48,7 @@ public class EffectPlow extends AbstractEffect {
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         for (BlockPos p : SpellUtil.calcAOEBlocks(shooter, rayTraceResult.getBlockPos(), rayTraceResult, spellStats.getAoeMultiplier(), spellStats.getBuffCount(AugmentPierce.INSTANCE))) {
-            doTill(p, rayTraceResult, world, shooter, spellStats, spellContext, resolver);
+            doTill(p, world, shooter, spellStats, spellContext, resolver);
         }
     }
 
@@ -54,15 +57,18 @@ public class EffectPlow extends AbstractEffect {
         return be != null && (world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null) != null || be instanceof Container);
     }
 
-    public void doTill(BlockPos p, BlockHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+    public void doTill(BlockPos p, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         ItemStack hoe = new ItemStack(Items.DIAMOND_HOE);
         applyEnchantments(world, spellStats, hoe);
-        Player entity = ANFakePlayer.getPlayer((ServerLevel) world);
+        Player entity = ANFakePlayer.getPlayer((ServerLevel) world, shooter.getUUID());
         entity.setItemInHand(InteractionHand.MAIN_HAND, hoe);
-        if (dupeCheck(world, p)) return;
+        if (dupeCheck(world, p) || !BlockUtil.destroyRespectsClaim(entity, world, p)) return;
         entity.setPos(p.getX(), p.getY(), p.getZ());
-        world.getBlockState(p).useItemOn(hoe, world, entity, InteractionHand.MAIN_HAND, rayTraceResult);
-        hoe.useOn(new UseOnContext(entity, InteractionHand.MAIN_HAND, rayTraceResult));
+        BlockHitResult rayTraceResult = new BlockHitResult(entity.position(), Direction.UP, p, false);
+        // block's reaction to the hoe (not used by dirt)
+        if (world.getBlockState(p).useItemOn(hoe, world, entity, InteractionHand.MAIN_HAND, rayTraceResult) != ItemInteractionResult.FAIL)
+            // hoe use method (used by dirt)
+            hoe.useOn(new UseOnContext(entity, InteractionHand.MAIN_HAND, rayTraceResult));
     }
 
     @Override

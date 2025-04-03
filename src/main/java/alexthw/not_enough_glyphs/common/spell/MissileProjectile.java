@@ -114,7 +114,7 @@ public class MissileProjectile extends EntityProjectileSpell {
                     Networking.sendToNearbyClient(level(), blockraytraceresult.getBlockPos(), new PacketANEffect(PacketANEffect.EffectType.BURST,
                             blockraytraceresult.getBlockPos().below(), getParticleColor()));
                 }
-                Networking.sendToNearbyClient(level(), ((BlockHitResult) result).getBlockPos(), new PacketANEffect(PacketANEffect.EffectType.BURST,
+                Networking.sendToNearbyClient(level(), blockraytraceresult.getBlockPos(), new PacketANEffect(PacketANEffect.EffectType.BURST,
                         BlockPos.containing(result.getLocation()).below(), getParticleColor()));
                 attemptRemoval();
             }
