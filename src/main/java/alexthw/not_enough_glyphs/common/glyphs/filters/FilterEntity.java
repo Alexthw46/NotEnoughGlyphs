@@ -1,6 +1,7 @@
 package alexthw.not_enough_glyphs.common.glyphs.filters;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
@@ -11,6 +12,11 @@ public class FilterEntity extends AbstractEffectFilter {
     public FilterEntity(String tag, String description) {
         super(CompatRL.tmg(tag), description);
     }
+
+    public FilterEntity(ResourceLocation tag, String description) {
+        super(tag, description);
+    }
+
 
     @Override
     String getDescriptionSegment() {

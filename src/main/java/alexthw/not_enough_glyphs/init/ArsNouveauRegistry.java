@@ -37,13 +37,14 @@ import static com.hollingsworth.arsnouveau.common.block.RotatingSpellTurret.ROT_
 public class ArsNouveauRegistry {
     public static List<AbstractSpellPart> registeredSpells = new ArrayList<>();
 
-    static public boolean arsElemental, tooManyGlyphs, arsOmega;
+    static public boolean arsElemental, tooManyGlyphs, arsOmega, arsTrinkets;
 
     public static void registerGlyphs() {
 
         arsElemental = ModList.get().isLoaded("ars_elemental");
         tooManyGlyphs = ModList.get().isLoaded("toomanyglyphs");
         arsOmega = ModList.get().isLoaded("arsomega");
+        arsTrinkets = ModList.get().isLoaded("ars_trinkets");
 
         //neg effects
         register(EffectPlow.INSTANCE);
@@ -75,6 +76,12 @@ public class ArsNouveauRegistry {
             register(FilterAnimal.INSTANCE);
             register(FilterBaby.INSTANCE);
             register(FilterMature.INSTANCE);
+        }
+
+        // trinket self filter
+        if (!arsTrinkets) {
+            register(FilterSelf.SELF);
+            register(FilterSelf.NOT_SELF);
         }
 
         //neg propagators
