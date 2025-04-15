@@ -61,6 +61,12 @@ public class NEGLangProvider extends LanguageProvider {
         add("ars_nouveau.page.spell_binder", "An alternative to the traditional spellcasting, the spellbinder is a tool that allows to cast spells from the spell parchemnts and caster tomes put inside it. The left side will hold the 10 spells for the radial menu (V), while the right side allow to keep additional 15 spells to switch when needed.");
         add("ars_nouveau.page.book_threads", "Book Threads");
         add("not_enough_glyphs.page.book_threads.desc", "The book threads are at the core of the spellbinder. They allow to give your binder special properties and effects, similar to how Armor Threads work. You can use an Alteration Table to slot up to two threads into the Spell Binder.");
+
+        add("effect.not_enough_glyphs.shrink", "Shrinking");
+        add("effect.not_enough_glyphs.shrink.desc", "Shrinks down the entity.");
+        add("effect.not_enough_glyphs.grow", "Growing");
+        add("effect.not_enough_glyphs.grow.desc", "Increases the entity's size.");
+
         for (Supplier<Glyph> supplier : GlyphRegistry.getGlyphItemMap().values()) {
             Glyph glyph = supplier.get();
             AbstractSpellPart spellPart = glyph.spellPart;
