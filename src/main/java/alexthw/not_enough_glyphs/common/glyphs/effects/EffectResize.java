@@ -73,6 +73,7 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
         if (entity == null)
             return;
         int ticks = baseDurationSeconds * 20 + durationBuffSeconds * stats.getDurationInTicks();
+        // use the absolute value of the amp multiplier to determine the effect level, since negative values are used for shrinking
         int amp = (int) Math.abs(stats.getAmpMultiplier());
         entity.addEffect(new MobEffectInstance(potionEffect, ticks, amp, false, showParticles, false));
     }
@@ -129,7 +130,7 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
     }
 
     public int getDurationDown() {
-        return DURATION_DOWN_TIME == null ? -30 : -DURATION_DOWN_TIME.get();
+        return DURATION_DOWN_TIME == null ? 30 : DURATION_DOWN_TIME.get();
     }
 
 }
