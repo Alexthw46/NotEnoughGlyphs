@@ -4,6 +4,7 @@ import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
+import com.hollingsworth.arsnouveau.common.items.Glyph;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -38,5 +39,10 @@ public class FilterSelf extends FilterEntity {
     @Override
     public String getBookDescription() {
         return "Stops the spell from resolving " + (inverted ? "if" : "unless") + " it targets the caster.";
+    }
+
+    @Override
+    public Glyph getGlyph() {
+        return super.getGlyph();
     }
 }

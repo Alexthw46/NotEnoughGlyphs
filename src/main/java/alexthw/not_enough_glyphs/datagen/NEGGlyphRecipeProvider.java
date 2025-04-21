@@ -82,14 +82,19 @@ public class NEGGlyphRecipeProvider extends GlyphRecipeProvider {
 
         recipes.add(get(PropagateUnderfoot.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodUnderfoot.INSTANCE.getGlyph()));
 
+        // Omega
         recipes.add(get(MethodMissile.INSTANCE).withItem(Items.FIREWORK_ROCKET, 2).withItem(ItemsRegistry.AIR_ESSENCE).withItem(ItemsRegistry.FIRE_ESSENCE));
         recipes.add(get(PropagateMissile.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodMissile.INSTANCE.getGlyph()));
 
         recipes.add(get(MethodOverhead.INSTANCE).withItem(Items.IRON_HELMET).withItem(ItemsRegistry.AIR_ESSENCE));
         recipes.add(get(PropagateOverhead.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodOverhead.INSTANCE.getGlyph()));
 
+        // Scalaes
         recipes.add(get(EffectResize.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.BROWN_MUSHROOM));
 
+        // Trinkets
+        recipes.add(get(FilterSelf.SELF).withItem(Items.CORNFLOWER));
+        recipes.add(get(FilterSelf.NOT_SELF).withItem(Items.ALLIUM));
 
         Path outputBase = generator.getPackOutput().getOutputFolder();
         for (GlyphRecipe recipe : recipes)

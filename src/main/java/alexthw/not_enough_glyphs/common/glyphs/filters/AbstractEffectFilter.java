@@ -1,5 +1,6 @@
 package alexthw.not_enough_glyphs.common.glyphs.filters;
 
+import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
 import net.minecraft.resources.ResourceLocation;
@@ -83,7 +84,7 @@ public abstract class AbstractEffectFilter extends AbstractFilter {
             glyphItem = new Glyph(this) {
                 @Override
                 public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return getRegistryName().getNamespace();
+                    return NotEnoughGlyphs.MODID;
                 }
             };
         }
