@@ -38,6 +38,11 @@ public class PropagateArc extends AbstractEffect implements IPropagator {
     }
 
     @Override
+    public AbstractCastMethod getCastType() {
+        return MethodArc.INSTANCE;
+    }
+
+    @Override
     public Integer getTypeIndex() {
         return 8;
     }

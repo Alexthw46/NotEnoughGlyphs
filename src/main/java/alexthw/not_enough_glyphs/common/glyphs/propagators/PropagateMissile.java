@@ -37,6 +37,11 @@ public class PropagateMissile extends AbstractEffect implements IPropagator {
     }
 
     @Override
+    public AbstractCastMethod getCastType() {
+        return MethodMissile.INSTANCE;
+    }
+
+    @Override
     public String getBookDescription() {
         return "Convert the remainder of the spell into a Missile spell and shoot it from where it resolves towards where the caster is looking.";
     }

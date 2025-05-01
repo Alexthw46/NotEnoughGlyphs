@@ -1,9 +1,6 @@
 package alexthw.not_enough_glyphs.api;
 
-import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
-import com.hollingsworth.arsnouveau.api.spell.SpellStats;
+import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -17,11 +14,22 @@ public interface IPropagator {
         newContext.withSpell(newContext.getSpell().mutable().add(0, DUMMY).immutable());
         SpellResolver newResolver = resolver.getNewResolver(newContext);
         spellContext.setCanceled(true);
+        AbstractCastMethod newCastType = getCastType();
+        if (newCastType != null)
+            newResolver.castType = newCastType;
         propagate(world, rayTraceResult, shooter, stats, newResolver);
     }
 
     AbstractAugment DUMMY = AugmentDampen.INSTANCE;
 
     void propagate(Level world, HitResult hitResult, LivingEntity shooter, SpellStats stats, SpellResolver resolver);
+
+    /**
+     * @return the new cast method for the propagated resolver
+     */
+    @Nullable
+    default AbstractCastMethod getCastType() {
+        return null;
+    }
 
 }

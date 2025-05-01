@@ -34,6 +34,11 @@ public class PropagateHoming extends AbstractEffect implements IPropagator {
 
     public static final PropagateHoming INSTANCE = new PropagateHoming();
 
+    @Override
+    public AbstractCastMethod getCastType() {
+        return MethodHoming.INSTANCE;
+    }
+
     public PropagateHoming() {
         super(CompatRL.elemental("propagator_homing"), "Propagate Homing");
     }

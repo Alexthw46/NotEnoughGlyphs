@@ -37,6 +37,11 @@ public class PropagateProjectile extends AbstractEffect implements IPropagator {
     }
 
     @Override
+    public AbstractCastMethod getCastType() {
+        return MethodProjectile.INSTANCE;
+    }
+
+    @Override
     public String getBookDescription() {
         return "Convert the remainder of the spell into a Projectile spell, shot from the hit point towards where the caster is looking.";
     }
