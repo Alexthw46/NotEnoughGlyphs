@@ -1,5 +1,6 @@
 package alexthw.not_enough_glyphs.init;
 
+import alexthw.not_enough_glyphs.common.ContingencyEffect;
 import alexthw.not_enough_glyphs.common.spell.MissileProjectile;
 import alexthw.not_enough_glyphs.common.spell.TrailingProjectile;
 import alexthw.not_enough_glyphs.common.spellbinder.BinderCasterData;
@@ -45,13 +46,18 @@ public class Registry {
     public static final Supplier<EntityType<TrailingProjectile>> TRAILING_PROJECTILE;
     public static final Supplier<EntityType<MissileProjectile>> MISSILE_PROJECTILE;
 
-    public static final DeferredHolder<Attribute,Attribute> MANA_DISCOUNT = registerAttribute("not_enough_glyphs.perk.mana_discount", (id) -> new RangedAttribute(id, 0.0, 0.0, Double.MAX_VALUE).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> MANA_DISCOUNT = registerAttribute("not_enough_glyphs.perk.mana_discount", (id) -> new RangedAttribute(id, 0.0, 0.0, Double.MAX_VALUE).setSyncable(true));
 
     public static final Supplier<MenuType<SpellBinderContainer>> SPELL_HOLDER;
     public static final Supplier<Item> SPELL_BINDER;
 
-    public static final DeferredHolder<MobEffect,MobEffect> GROWING_EFFECT = EFFECTS.register("grow", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.grow"), 0.5D, AttributeModifier.Operation.ADD_VALUE));
-    public static final DeferredHolder<MobEffect,MobEffect> SHRINKING_EFFECT = EFFECTS.register("shrink", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.shrink"), -0.2D, AttributeModifier.Operation.ADD_VALUE));
+    public static final DeferredHolder<MobEffect, MobEffect> GROWING_EFFECT = EFFECTS.register("grow", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.grow"), 0.5D, AttributeModifier.Operation.ADD_VALUE));
+    public static final DeferredHolder<MobEffect, MobEffect> SHRINKING_EFFECT = EFFECTS.register("shrink", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.shrink"), -0.2D, AttributeModifier.Operation.ADD_VALUE));
+
+    public static DeferredHolder<Attribute, Attribute> registerAttribute(String name, Function<String, Attribute> attribute) {
+        //UUIDS.put(registryObject, uuid);
+        return ATTRIBUTES.register(name, () -> attribute.apply(name));
+    }    public static final DeferredHolder<MobEffect, MobEffect> CONTINGENCY = EFFECTS.register("contingency", ContingencyEffect::new);
 
 
     static {
@@ -98,10 +104,7 @@ public class Registry {
     }
 
 
-    public static DeferredHolder<Attribute,Attribute> registerAttribute(String name, Function<String, Attribute> attribute) {
-        //UUIDS.put(registryObject, uuid);
-        return ATTRIBUTES.register(name, () -> attribute.apply(name));
-    }
+
 
     public static void modifyEntityAttributes(EntityAttributeModificationEvent event) {
         event.getTypes().stream().filter(e -> e == EntityType.PLAYER).forEach(e -> Registry.ATTRIBUTES.getEntries().forEach((v) -> event.add(e, v)));
