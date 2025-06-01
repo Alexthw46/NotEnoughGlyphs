@@ -4,10 +4,7 @@ import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
 import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
 import alexthw.ars_elemental.common.glyphs.PropagatorArc;
 import alexthw.ars_elemental.common.glyphs.PropagatorHoming;
-import alexthw.not_enough_glyphs.common.glyphs.contingency.DeathContingency;
-import alexthw.not_enough_glyphs.common.glyphs.contingency.FallContingency;
-import alexthw.not_enough_glyphs.common.glyphs.contingency.HealContingency;
-import alexthw.not_enough_glyphs.common.glyphs.contingency.HurtContingency;
+import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
 import alexthw.not_enough_glyphs.common.glyphs.effects.*;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
 import alexthw.not_enough_glyphs.common.glyphs.forms.*;
@@ -64,6 +61,7 @@ public class ArsNouveauRegistry {
         register(HealContingency.INSTANCE);
         register(HurtContingency.INSTANCE);
         register(DeathContingency.INSTANCE);
+        register(FireContingency.INSTANCE);
 
         //tmg
         if (!tooManyGlyphs) {

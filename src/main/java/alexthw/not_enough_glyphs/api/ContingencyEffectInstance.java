@@ -13,11 +13,13 @@ public class ContingencyEffectInstance extends MobEffectInstance {
 
     protected final TRIGGER trigger;
     SpellResolver spell;
+    double amplifier;
 
-    public ContingencyEffectInstance(SpellResolver spell, TRIGGER trigger, int duration) {
+    public ContingencyEffectInstance(SpellResolver spell, TRIGGER trigger, int duration, double amplifier) {
         super(Registry.CONTINGENCY, duration, 0, false, false);
         this.spell = spell;
         this.trigger = trigger;
+        this.amplifier = amplifier;
     }
 
     public TRIGGER getTrigger() {
@@ -31,7 +33,7 @@ public class ContingencyEffectInstance extends MobEffectInstance {
 
     @Override
     public void onMobHurt(@NotNull LivingEntity livingEntity, @NotNull DamageSource damageSource, float amount) {
-        if (trigger == TRIGGER.HEROICS && (livingEntity.getHealth() <= livingEntity.getMaxHealth() * 0.25) || trigger == TRIGGER.ON_FIRE && damageSource.is(DamageTypeTags.IS_FIRE) || trigger == TRIGGER.ON_FALL && damageSource.is(DamageTypeTags.IS_FALL)) {
+        if (trigger == TRIGGER.HEROICS && (livingEntity.getHealth() <= livingEntity.getMaxHealth() * (2 + amplifier) / 10) || trigger == TRIGGER.ON_FIRE && damageSource.is(DamageTypeTags.IS_FIRE) || trigger == TRIGGER.ON_FALL && damageSource.is(DamageTypeTags.IS_FALL)) {
             triggerSpell(livingEntity);
         }
     }
@@ -44,7 +46,7 @@ public class ContingencyEffectInstance extends MobEffectInstance {
     @Override
     public boolean tick(@NotNull LivingEntity entity, @NotNull Runnable onExpirationRunnable) {
         if (trigger == TRIGGER.ON_FALL) {
-            if (entity.fallDistance > 10) {
+            if (entity.fallDistance > 5 + amplifier) {
                 triggerSpell(entity);
             }
         }

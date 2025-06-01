@@ -11,6 +11,11 @@ public class HealContingency extends AbstractContingency {
     }
 
     @Override
+    public String getBookDescription() {
+        return "The contingency will trigger after the target heals, casting the spell contained within.";
+    }
+
+    @Override
     public ContingencyEffectInstance.TRIGGER getTrigger() {
         return ContingencyEffectInstance.TRIGGER.ON_HEAL;
     }

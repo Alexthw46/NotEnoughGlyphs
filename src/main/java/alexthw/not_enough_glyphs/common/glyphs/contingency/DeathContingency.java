@@ -11,6 +11,11 @@ public class DeathContingency extends AbstractContingency {
     }
 
     @Override
+    public String getBookDescription() {
+        return "The contingency will trigger after the target's death. It will still trigger if the target survives with a totem.";
+    }
+
+    @Override
     public ContingencyEffectInstance.TRIGGER getTrigger() {
         return ContingencyEffectInstance.TRIGGER.DEATH;
     }

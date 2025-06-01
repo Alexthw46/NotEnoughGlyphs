@@ -27,8 +27,13 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
             // make sure to remove existing contingencies
             if (livingEntity.hasEffect(Registry.CONTINGENCY)) livingEntity.removeEffectNoUpdate(Registry.CONTINGENCY);
             int ticks = getBaseDuration() * 20 + getExtendTimeDuration() * spellStats.getDurationInTicks();
-            livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks));
+            livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks, spellStats.getAmpMultiplier()));
         }
+    }
+
+    @Override
+    public Integer getTypeIndex() {
+        return 6;
     }
 
     public abstract ContingencyEffectInstance.TRIGGER getTrigger();
@@ -40,6 +45,12 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
 
     @Override
     protected @NotNull Set<AbstractAugment> getCompatibleAugments() {
-        return Set.of();
+        return getSummonAugments();
     }
+
+    @Override
+    protected @NotNull Set<SpellSchool> getSchools() {
+        return Set.of(SpellSchools.ABJURATION);
+    }
+
 }

@@ -36,6 +36,7 @@ public class SpellBinderModel extends TransformAnimatedModel<SpellBinder> {
         return modelLoc;
     }
 
+    @SuppressWarnings("removal")
     @Override
     public ResourceLocation getTextureResource(SpellBinder object) {
         return ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "textures/item/spellbinder_purple.png");
