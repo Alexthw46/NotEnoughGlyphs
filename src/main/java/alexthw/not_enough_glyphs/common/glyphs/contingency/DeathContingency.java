@@ -20,13 +20,5 @@ public class DeathContingency extends AbstractContingency {
         return ContingencyEffectInstance.TRIGGER.DEATH;
     }
 
-    @Override
-    public int getBaseDuration() {
-        return 100;
-    }
 
-    @Override
-    public int getExtendTimeDuration() {
-        return 100;
-    }
 }

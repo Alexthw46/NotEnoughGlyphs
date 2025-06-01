@@ -7,7 +7,7 @@ public class FireContingency extends AbstractContingency {
     public static final FireContingency INSTANCE = new FireContingency();
 
     public FireContingency() {
-        super("fire_contingency", "Contingency: Fire");
+        super("contingency_fire", "Contingency: Fire");
     }
 
     @Override
@@ -18,16 +18,6 @@ public class FireContingency extends AbstractContingency {
     @Override
     public String getBookDescription() {
         return "The contingency will trigger after the target is hurt from fire damage, casting the spell contained within.";
-    }
-
-    @Override
-    public int getBaseDuration() {
-        return 100;
-    }
-
-    @Override
-    public int getExtendTimeDuration() {
-        return 100;
     }
 
 }

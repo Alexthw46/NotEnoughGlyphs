@@ -41,13 +41,4 @@ public class FallContingency extends AbstractContingency {
         return augmentSetOf(AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE);
     }
 
-    @Override
-    public int getBaseDuration() {
-        return 100;
-    }
-
-    @Override
-    public int getExtendTimeDuration() {
-        return 100;
-    }
 }

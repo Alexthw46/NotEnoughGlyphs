@@ -20,14 +20,5 @@ public class HealContingency extends AbstractContingency {
         return ContingencyEffectInstance.TRIGGER.ON_HEAL;
     }
 
-    @Override
-    public int getBaseDuration() {
-        return 100;
-    }
-
-    @Override
-    public int getExtendTimeDuration() {
-        return 100;
-    }
 
 }

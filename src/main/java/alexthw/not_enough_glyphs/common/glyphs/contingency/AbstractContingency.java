@@ -7,6 +7,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -24,19 +25,28 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
             SpellContext newContext = spellContext.makeChildContext();
             SpellResolver newResolver = resolver.getNewResolver(newContext);
             spellContext.setCanceled(true);
-            // make sure to remove existing contingencies
-            if (livingEntity.hasEffect(Registry.CONTINGENCY)) livingEntity.removeEffectNoUpdate(Registry.CONTINGENCY);
-            int ticks = getBaseDuration() * 20 + getExtendTimeDuration() * spellStats.getDurationInTicks();
-            livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks, spellStats.getAmpMultiplier()));
+            applyContingency(spellStats, livingEntity, newResolver);
         }
+    }
+
+    public void applyContingency(SpellStats spellStats, LivingEntity livingEntity, SpellResolver newResolver) {
+        // make sure to remove existing contingencies
+        if (livingEntity.hasEffect(Registry.CONTINGENCY)) livingEntity.removeEffectNoUpdate(Registry.CONTINGENCY);
+        int ticks = getBaseDuration() * 20 + getExtendTimeDuration() * spellStats.getDurationInTicks();
+        livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks, spellStats.getAmpMultiplier()));
     }
 
     @Override
     public Integer getTypeIndex() {
-        return 6;
+        return 9;
     }
 
     public abstract ContingencyEffectInstance.TRIGGER getTrigger();
+
+    @Override
+    public SpellTier defaultTier() {
+        return SpellTier.TWO;
+    }
 
     @Override
     protected int getDefaultManaCost() {
@@ -51,6 +61,23 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
     @Override
     protected @NotNull Set<SpellSchool> getSchools() {
         return Set.of(SpellSchools.ABJURATION);
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return POTION_TIME == null ? 100 : POTION_TIME.get();
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return EXTEND_TIME == null ? 100 : EXTEND_TIME.get();
+    }
+
+    @Override
+    public void buildConfig(ModConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+        addPotionConfig(builder, 100);
+        addExtendTimeConfig(builder, 50);
     }
 
 }

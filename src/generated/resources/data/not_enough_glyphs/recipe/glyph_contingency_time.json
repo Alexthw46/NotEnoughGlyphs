@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 55,
+  "inputs": [
+    {
+      "item": "ars_nouveau:abjuration_essence"
+    },
+    {
+      "item": "minecraft:repeater"
+    },
+    {
+      "item": "minecraft:clock"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "not_enough_glyphs:glyph_contingency_time"
+  }
+}

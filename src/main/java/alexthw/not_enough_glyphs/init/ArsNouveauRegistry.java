@@ -59,9 +59,11 @@ public class ArsNouveauRegistry {
         //contingencies
         register(FallContingency.INSTANCE);
         register(HealContingency.INSTANCE);
-        register(HurtContingency.INSTANCE);
+        register(HeroicsContingency.INSTANCE);
         register(DeathContingency.INSTANCE);
         register(FireContingency.INSTANCE);
+        register(BlinkContingency.INSTANCE);
+        register(ExpireContingency.INSTANCE);
 
         //tmg
         if (!tooManyGlyphs) {

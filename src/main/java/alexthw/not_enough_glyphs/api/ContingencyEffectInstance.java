@@ -31,9 +31,10 @@ public class ContingencyEffectInstance extends MobEffectInstance {
         entity.removeEffect(Registry.CONTINGENCY);
     }
 
+
     @Override
     public void onMobHurt(@NotNull LivingEntity livingEntity, @NotNull DamageSource damageSource, float amount) {
-        if (trigger == TRIGGER.HEROICS && (livingEntity.getHealth() <= livingEntity.getMaxHealth() * (2 + amplifier) / 10) || trigger == TRIGGER.ON_FIRE && damageSource.is(DamageTypeTags.IS_FIRE) || trigger == TRIGGER.ON_FALL && damageSource.is(DamageTypeTags.IS_FALL)) {
+        if (trigger == TRIGGER.HEROICS && (livingEntity.getHealth() <= livingEntity.getMaxHealth() * (2 + amplifier) / 10) || trigger == TRIGGER.ON_FIRE && damageSource.is(DamageTypeTags.IS_FIRE)) {
             triggerSpell(livingEntity);
         }
     }
@@ -45,12 +46,21 @@ public class ContingencyEffectInstance extends MobEffectInstance {
 
     @Override
     public boolean tick(@NotNull LivingEntity entity, @NotNull Runnable onExpirationRunnable) {
+        if (entity.level().isClientSide) return super.tick(entity, onExpirationRunnable);
         if (trigger == TRIGGER.ON_FALL) {
             if (entity.fallDistance > 5 + amplifier) {
                 triggerSpell(entity);
             }
         }
-        return super.tick(entity, onExpirationRunnable);
+
+        // chain the runnable with an additional method to trigger the spell if the trigger is EXPIRE
+        Runnable newExpirationRunnable = () -> {
+            if (trigger == TRIGGER.EXPIRE) {
+                triggerSpell(entity);
+            } else onExpirationRunnable.run();
+        };
+
+        return super.tick(entity, newExpirationRunnable);
     }
 
     public enum TRIGGER {
@@ -58,7 +68,9 @@ public class ContingencyEffectInstance extends MobEffectInstance {
         ON_FIRE,
         ON_HEAL,
         HEROICS,
-        DEATH
+        BLINK,
+        DEATH,
+        EXPIRE
     }
 
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 
@@ -14,6 +15,7 @@ public class ContingencyEffect extends PublicEffect {
     public ContingencyEffect() {
         super(MobEffectCategory.NEUTRAL, 0);
         NeoForge.EVENT_BUS.addListener(ContingencyEffect::onHealTrigger);
+        NeoForge.EVENT_BUS.addListener(ContingencyEffect::onBlinkTrigger);
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGH, ContingencyEffect::onDeathEvent);
     }
 
@@ -30,4 +32,13 @@ public class ContingencyEffect extends PublicEffect {
             cei.triggerSpell(entity);
         }
     }
+
+    public static void onBlinkTrigger(EntityTeleportEvent event) {
+        if (event.getEntity() instanceof LivingEntity entity && entity.hasEffect(Registry.CONTINGENCY)) {
+            if (entity.getEffect(Registry.CONTINGENCY) instanceof ContingencyEffectInstance cei && cei.getTrigger() == ContingencyEffectInstance.TRIGGER.BLINK) {
+                cei.triggerSpell(entity);
+            }
+        }
+    }
+
 }

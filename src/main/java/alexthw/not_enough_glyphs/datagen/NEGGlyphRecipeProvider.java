@@ -4,6 +4,7 @@ import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
 import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
 import alexthw.ars_elemental.common.glyphs.PropagatorArc;
 import alexthw.ars_elemental.common.glyphs.PropagatorHoming;
+import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
 import alexthw.not_enough_glyphs.common.glyphs.effects.*;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
 import alexthw.not_enough_glyphs.common.glyphs.forms.*;
@@ -19,6 +20,7 @@ import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -39,9 +41,25 @@ public class NEGGlyphRecipeProvider extends GlyphRecipeProvider {
     @Override
     public void collectJsons(CachedOutput pOutput) {
 
+        // NEG
         recipes.add(get(EffectPlow.INSTANCE).withItem(ItemsRegistry.EARTH_ESSENCE).withItem(Items.STONE_HOE));
         recipes.add(get(EffectFlatten.INSTANCE).withItem(ItemsRegistry.EARTH_ESSENCE).withItem(Items.IRON_SHOVEL).withItem(Items.ANVIL));
 
+        recipes.add(get(PropagatePlane.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(Items.DIAMOND_BLOCK).withItem(Items.FIREWORK_STAR).withItem(ItemsRegistry.WILDEN_SPIKE));
+
+        recipes.add(get(FilterLight.LIGHT).withItem(Items.TORCH));
+        recipes.add(get(FilterDark.DARK).withItem(Items.TORCH).withIngredient(Ingredient.of(Tags.Items.DYES_BLACK)));
+
+        // Contingency Glyphs
+        recipes.add(get(HealContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.HONEY_BOTTLE));
+        recipes.add(get(HeroicsContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.LEATHER_CHESTPLATE));
+        recipes.add(get(FallContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.FEATHER));
+        recipes.add(get(FireContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.MAGMA_CREAM));
+        recipes.add(get(DeathContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withIngredient(Ingredient.of(ItemTags.SKULLS)));
+        recipes.add(get(BlinkContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.ENDER_PEARL));
+        recipes.add(get(ExpireContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.CLOCK));
+
+        // elemental placeholders
         addRecipe(arsElemental ? MethodArcProjectile.INSTANCE : MethodArc.INSTANCE, Items.ARROW, Items.SNOWBALL, Items.SLIME_BALL, Items.ENDER_PEARL);
         addRecipe(arsElemental ? MethodHomingProjectile.INSTANCE : MethodHoming.INSTANCE, Items.NETHER_STAR, ItemsRegistry.MANIPULATION_ESSENCE, ItemsRegistry.DOWSING_ROD, Items.ENDER_EYE);
 
@@ -54,6 +72,7 @@ public class NEGGlyphRecipeProvider extends GlyphRecipeProvider {
 //        addRecipe(PropagateArc.INSTANCE, ItemsRegistry.MANIPULATION_ESSENCE, MethodArc.INSTANCE.getGlyph());
 //        addRecipe(PropagateHoming.INSTANCE, ItemsRegistry.MANIPULATION_ESSENCE, MethodHoming.INSTANCE.getGlyph());
 
+        // tmg stuff
         recipes.add(get(MethodRay.INSTANCE).withItem(Items.TARGET).withItem(ItemsRegistry.SOURCE_GEM, 1));
         recipes.add(get(MethodTrail.INSTANCE).withItem(Items.DRAGON_BREATH).withItem(Items.ECHO_SHARD, 2).withItem(ItemsRegistry.AIR_ESSENCE));
         recipes.add(get(EffectChaining.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(Items.CHAIN, 3).withItem(Items.LAPIS_BLOCK, 1).withItem(Items.REDSTONE_BLOCK, 1).withItem(BlockRegistry.SOURCE_GEM_BLOCK, 1));
@@ -73,21 +92,16 @@ public class NEGGlyphRecipeProvider extends GlyphRecipeProvider {
         recipes.add(get(FilterBaby.INSTANCE).withIngredient(Ingredient.of(Tags.Items.EGGS)));
         recipes.add(get(FilterMature.INSTANCE).withItem(Items.CHICKEN));
 
-        recipes.add(get(FilterLight.LIGHT).withItem(Items.TORCH));
-        recipes.add(get(FilterDark.DARK).withItem(Items.TORCH).withIngredient(Ingredient.of(Tags.Items.DYES_BLACK)));
-
-        recipes.add(get(PropagatePlane.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(Items.DIAMOND_BLOCK).withItem(Items.FIREWORK_STAR).withItem(ItemsRegistry.WILDEN_SPIKE));
-        recipes.add(get(PropagateSelf.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodSelf.INSTANCE.getGlyph()));
-        recipes.add(get(PropagateProjectile.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodProjectile.INSTANCE.getGlyph()));
-
-        recipes.add(get(PropagateUnderfoot.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodUnderfoot.INSTANCE.getGlyph()));
-
         // Omega
         recipes.add(get(MethodMissile.INSTANCE).withItem(Items.FIREWORK_ROCKET, 2).withItem(ItemsRegistry.AIR_ESSENCE).withItem(ItemsRegistry.FIRE_ESSENCE));
         recipes.add(get(PropagateMissile.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodMissile.INSTANCE.getGlyph()));
 
         recipes.add(get(MethodOverhead.INSTANCE).withItem(Items.IRON_HELMET).withItem(ItemsRegistry.AIR_ESSENCE));
         recipes.add(get(PropagateOverhead.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodOverhead.INSTANCE.getGlyph()));
+
+        recipes.add(get(PropagateSelf.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodSelf.INSTANCE.getGlyph()));
+        recipes.add(get(PropagateProjectile.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodProjectile.INSTANCE.getGlyph()));
+        recipes.add(get(PropagateUnderfoot.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(MethodUnderfoot.INSTANCE.getGlyph()));
 
         // Scalaes
         recipes.add(get(EffectResize.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.BROWN_MUSHROOM));

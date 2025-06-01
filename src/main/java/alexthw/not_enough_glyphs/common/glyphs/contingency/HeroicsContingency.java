@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Set;
 
-public class HurtContingency extends AbstractContingency {
+public class HeroicsContingency extends AbstractContingency {
 
-    public static final HurtContingency INSTANCE = new HurtContingency();
+    public static final HeroicsContingency INSTANCE = new HeroicsContingency();
 
-    public HurtContingency() {
-        super("contingency_hurt", "Contingency: Hurt");
+    public HeroicsContingency() {
+        super("contingency_health", "Contingency: Health");
     }
 
     @Override
@@ -44,13 +44,4 @@ public class HurtContingency extends AbstractContingency {
         map.put(AugmentAmplify.INSTANCE, "Increases health threshold by 10%.");
     }
 
-    @Override
-    public int getBaseDuration() {
-        return 100;
-    }
-
-    @Override
-    public int getExtendTimeDuration() {
-        return 100;
-    }
 }
