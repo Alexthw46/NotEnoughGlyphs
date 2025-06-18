@@ -21,8 +21,8 @@ import java.util.function.Supplier;
 
 public class NEGLangProvider extends LanguageProvider {
 
-    public NEGLangProvider(PackOutput output, String modid, String locale) {
-        super(output, modid, locale);
+    public NEGLangProvider(PackOutput output, String mod_id, String locale) {
+        super(output, mod_id, locale);
     }
 
     @Override
@@ -33,17 +33,17 @@ public class NEGLangProvider extends LanguageProvider {
         add("ars_nouveau.book_thread", "Book Thread : %s");
         add("ars_nouveau.book_slot", "Book Thread Slots");
         add("item.ars_nouveau.thread_summon_focus", "Summoning Focus");
-        add("ars_nouveau.perk_desc.thread_summon_focus", "Thread for the spellbinder. Will cast spells as if the summoning focus was equipped.");
+        add("ars_nouveau.perk_desc.thread_summon_focus", "Thread for the spellbinder. Will enable glyph combos as if the summoning focus was equipped.");
         add("item.ars_nouveau.thread_shaper_focus", "BlockShaping Focus");
-        add("ars_nouveau.perk_desc.thread_shaper_focus", "Thread for the spellbinder. Will cast spells as if the blockshaping focus was equipped.");
+        add("ars_nouveau.perk_desc.thread_shaper_focus", "Thread for the spellbinder. Will enable glyph combos as if the block shaping focus was equipped.");
         add("item.ars_nouveau.thread_fire_focus", "Fire Focus");
-        add("ars_nouveau.perk_desc.thread_fire_focus", "Thread for the spellbinder. Will cast spells as if the fire focus was equipped.");
+        add("ars_nouveau.perk_desc.thread_fire_focus", "Thread for the spellbinder. Will enable glyph combos as if the fire focus was equipped.");
         add("item.ars_nouveau.thread_earth_focus", "Earth Focus");
-        add("ars_nouveau.perk_desc.thread_earth_focus", "Thread for the spellbinder. Will cast spells as if the earth focus was equipped.");
+        add("ars_nouveau.perk_desc.thread_earth_focus", "Thread for the spellbinder. Will enable glyph combos as if the earth focus was equipped.");
         add("item.ars_nouveau.thread_water_focus", "Water Focus");
-        add("ars_nouveau.perk_desc.thread_water_focus", "Thread for the spellbinder. Will cast spells as if the water focus was equipped.");
+        add("ars_nouveau.perk_desc.thread_water_focus", "Thread for the spellbinder. Will enable glyph combos as if the water focus was equipped.");
         add("item.ars_nouveau.thread_air_focus", "Air Focus");
-        add("ars_nouveau.perk_desc.thread_air_focus", "Thread for the spellbinder. Will cast spells as if the air focus was equipped.");
+        add("ars_nouveau.perk_desc.thread_air_focus", "Thread for the spellbinder. Will enable glyph combos as if the air focus was equipped.");
         add("item.ars_nouveau.thread_wild_magic", "Wheel of Fortune");
         add("ars_nouveau.perk_desc.thread_wild_magic", "Thread for the spellbinder. Will randomly add positive augments to effects of your spells when equipped.");
         add("item.ars_nouveau.thread_cheap_damage", "Cheap Damage");
@@ -57,7 +57,7 @@ public class NEGLangProvider extends LanguageProvider {
         add("not_enough_glyphs.perk.mana_discount", "Mana Discount");
         add("not_enough_glyphs.perk.mana_discount.desc", "Reduces the mana cost of the spell by %s.");
         add("ars_nouveau.page.focus_threads", "Book Thread: Focus");
-        add("ars_nouveau.page.focus_threads.desc", "Having these threads on the spellbinder will allow to cast spells as if the focus was equipped.");
+        add("ars_nouveau.page.focus_threads.desc", "Having these threads on the spellbinder will allow to unlock the glyph combos as if the corresponding focus was equipped. In a level 2 slot, they will give a small damage bonus to the spells from the matching school.");
         add("not_enough_glyphs.page.spell_binder", "An alternative to the traditional spellcasting, the spellbinder is a tool that allows to cast spells from the spell parchemnts and caster tomes put inside it. The left side will hold the 10 spells for the radial menu (V), while the right side allow to keep additional 15 spells to switch when needed.");
         add("ars_nouveau.page.book_threads", "Book Threads");
         add("not_enough_glyphs.page.book_threads.desc", "The book threads are at the core of the spellbinder. They allow to give your binder special properties and effects, similar to how Armor Threads work. You can use an Alteration Table to slot up to two threads into the Spell Binder.");
