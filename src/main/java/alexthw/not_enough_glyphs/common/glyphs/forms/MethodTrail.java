@@ -79,7 +79,7 @@ public class MethodTrail extends AbstractCastMethod {
     // Summons the projectiles directly above the block, facing downwards. Legacy Splits
     public void summonProjectiles(Level world, BlockPos pos, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         ArrayList<EntityProjectileSpell> projectiles = new ArrayList<>();
-        EntityProjectileSpell projectileSpell = new EntityProjectileSpell(world, resolver);
+        EntityProjectileSpell projectileSpell = new TrailingProjectile(world, resolver);
         projectileSpell.setPos(pos.getX(), pos.getY() + 1, pos.getZ());
         projectiles.add(projectileSpell);
 
@@ -91,7 +91,7 @@ public class MethodTrail extends AbstractCastMethod {
             // Alternate sides
             BlockPos projPos = pos.relative(offset, i);
             projPos = projPos.offset(0, 2, 0);
-            EntityProjectileSpell spell = new EntityProjectileSpell(world, resolver);
+            EntityProjectileSpell spell = new TrailingProjectile(world, resolver);
             spell.setPos(projPos.getX(), projPos.getY(), projPos.getZ());
             projectiles.add(spell);
         }

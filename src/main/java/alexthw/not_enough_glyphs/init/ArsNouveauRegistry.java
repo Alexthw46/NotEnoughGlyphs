@@ -4,13 +4,21 @@ import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
 import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
 import alexthw.ars_elemental.common.glyphs.PropagatorArc;
 import alexthw.ars_elemental.common.glyphs.PropagatorHoming;
+import alexthw.not_enough_glyphs.api.spell_style.RayMotion;
+import alexthw.not_enough_glyphs.api.spell_style.RayTimeline;
 import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
 import alexthw.not_enough_glyphs.common.glyphs.effects.*;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
 import alexthw.not_enough_glyphs.common.glyphs.forms.*;
 import alexthw.not_enough_glyphs.common.glyphs.propagators.*;
 import alexthw.not_enough_glyphs.common.spell.*;
+import com.hollingsworth.arsnouveau.api.particle.configurations.IParticleMotionType;
+import com.hollingsworth.arsnouveau.api.particle.configurations.SimpleParticleMotionType;
+import com.hollingsworth.arsnouveau.api.particle.timelines.IParticleTimelineType;
+import com.hollingsworth.arsnouveau.api.particle.timelines.ProjectileTimeline;
+import com.hollingsworth.arsnouveau.api.particle.timelines.SimpleParticleTimelineType;
 import com.hollingsworth.arsnouveau.api.perk.PerkSlot;
+import com.hollingsworth.arsnouveau.api.registry.ParticleMotionRegistry;
 import com.hollingsworth.arsnouveau.api.registry.PerkRegistry;
 import com.hollingsworth.arsnouveau.api.registry.SpellCasterRegistry;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
@@ -28,10 +36,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.hollingsworth.arsnouveau.api.registry.ParticleMotionRegistry.PARTICLE_CONFIG;
+import static com.hollingsworth.arsnouveau.api.registry.ParticleTimelineRegistry.TIMELINE_DF;
 import static com.hollingsworth.arsnouveau.common.block.BasicSpellTurret.TURRET_BEHAVIOR_MAP;
 import static com.hollingsworth.arsnouveau.common.block.RotatingSpellTurret.ROT_TURRET_BEHAVIOR_MAP;
 
@@ -148,12 +160,43 @@ public class ArsNouveauRegistry {
         registeredSpells.add(spellPart);
     }
 
+    public static final DeferredHolder<IParticleMotionType<?>, IParticleMotionType<RayMotion>> RAY_MOTION = PARTICLE_CONFIG.register("ray", () -> new SimpleParticleMotionType<>(RayMotion.CODEC, RayMotion.STREAM, RayMotion::new));
+    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> MISSILE_TIMELINE = TIMELINE_DF.register("missile_projectile", () -> new SimpleParticleTimelineType<>(MethodMissile.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, ProjectileTimeline::new));
+    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> TRAIL_TIMELINE = TIMELINE_DF.register("trail_projectile", () -> new SimpleParticleTimelineType<>(MethodTrail.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, ProjectileTimeline::new));
+    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<RayTimeline>> RAY_TIMELINE = TIMELINE_DF.register("ray", () -> new SimpleParticleTimelineType<>(MethodRay.INSTANCE, RayTimeline.CODEC, RayTimeline.STREAM_CODEC, RayTimeline::new));
+
     public static void postInit() {
         SpellCasterRegistry.register(Registry.SPELL_BINDER.get(), (stack) -> stack.get(Registry.SPELL_BINDER_CASTER));
         PerkRegistry.registerPerkProvider(Registry.SPELL_BINDER.get(), List.of(List.of(PerkSlot.ONE, PerkSlot.TWO)));
         EffectReset.RESET_LIMITS.add(PropagatePlane.INSTANCE);
         EffectReset.RESET_LIMITS.add(EffectChaining.INSTANCE);
+
+        registerSpellStyles();
     }
+
+    public static void registerSpellStyles() {
+
+
+        List<IParticleMotionType<?>> PROJECTILE_OPTIONS = Arrays.asList(
+                ParticleMotionRegistry.TRAIL_TYPE.get(),
+                ParticleMotionRegistry.SPIRAL_TYPE.get(),
+                ParticleMotionRegistry.HELIX_TYPE.get(),
+                ParticleMotionRegistry.WAVE_TYPE.get(),
+                ParticleMotionRegistry.ZIGZAG_TYPE.get());
+
+        List<IParticleMotionType<?>> RESOLVE_OPTIONS = Arrays.asList(ParticleMotionRegistry.BURST_TYPE.get(), RAY_MOTION.get());
+
+        List<IParticleMotionType<?>> ON_SPAWN_OPTIONS = Arrays.asList(ParticleMotionRegistry.NONE_TYPE.get(),
+                ParticleMotionRegistry.BURST_TYPE.get());
+        List<IParticleMotionType<?>> FLAIR_OPTIONS = Arrays.asList(ParticleMotionRegistry.NONE_TYPE.get(),
+                ParticleMotionRegistry.SPIRAL_TYPE.get(), ParticleMotionRegistry.TRAIL_TYPE.get(), ParticleMotionRegistry.HELIX_TYPE.get(),
+                ParticleMotionRegistry.WAVE_TYPE.get(),
+                ParticleMotionRegistry.ZIGZAG_TYPE.get());
+
+        RayTimeline.RESOLVING_OPTIONS.addAll(RESOLVE_OPTIONS);
+
+    }
+
 
     static {
 

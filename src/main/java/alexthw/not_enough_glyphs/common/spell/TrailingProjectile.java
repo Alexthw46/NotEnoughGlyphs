@@ -1,15 +1,20 @@
 package alexthw.not_enough_glyphs.common.spell;
 
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodTrail;
+import alexthw.not_enough_glyphs.init.ArsNouveauRegistry;
 import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.block.IPrismaticBlock;
+import com.hollingsworth.arsnouveau.api.particle.ParticleEmitter;
+import com.hollingsworth.arsnouveau.api.particle.timelines.ProjectileTimeline;
+import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineEntryData;
+import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineMap;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
+import com.hollingsworth.arsnouveau.client.ClientInfo;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.lib.EntityTags;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TargetBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static net.neoforged.neoforge.event.EventHooks.onProjectileImpact;
@@ -46,7 +52,7 @@ public class TrailingProjectile extends EntityProjectileSpell {
     }
 
     @Override
-    public EntityType<?> getType() {
+    public @NotNull EntityType<?> getType() {
         return Registry.TRAILING_PROJECTILE.get();
     }
 
@@ -116,7 +122,7 @@ public class TrailingProjectile extends EntityProjectileSpell {
             if (isSensitive()) {
                 int counter = 0;
                 for (BlockPos p : BlockPos.betweenClosed(blockPosition().east(flatAoe).north(flatAoe), blockPosition().west(flatAoe).south(flatAoe))) {
-                    spellResolver.onResolveEffect(level(), new
+                    resolver().onResolveEffect(level(), new
                             BlockHitResult(Vec3.atCenterOf(p), Direction.DOWN, p, true));
                     this.hitList.add(p.immutable());
                     counter++;
@@ -127,7 +133,7 @@ public class TrailingProjectile extends EntityProjectileSpell {
                 int i = 0;
                 for (Entity entity : level().getEntities(null, new AABB(this.blockPosition()).inflate(getAoe()))) {
                     if (entity.equals(this) || entity.getType().is(EntityTags.LINGERING_BLACKLIST)) continue;
-                    spellResolver.onResolveEffect(level(), new EntityHitResult(entity));
+                    resolver().onResolveEffect(level(), new EntityHitResult(entity));
                     i++;
                     if (i > 5)
                         break;
@@ -137,8 +143,26 @@ public class TrailingProjectile extends EntityProjectileSpell {
             if (totalProcs >= maxProcs)
                 this.remove(RemovalReason.DISCARDED);
         }else{
-                level().addParticle(ParticleTypes.SONIC_BOOM, getX(), getY(), getZ(), getDeltaMovement().x(),getDeltaMovement().y(), getDeltaMovement().z());
+            sendResolveParticles();
+            //level().addParticle(ParticleTypes.SONIC_BOOM, getX(), getY(), getZ(), getDeltaMovement().x(),getDeltaMovement().y(), getDeltaMovement().z());
         }
+    }
+
+    @Override
+    public void buildEmitters() {
+        TimelineMap timelineMap = this.resolver().spell.particleTimeline();
+        ProjectileTimeline projectileTimeline = timelineMap.get(ArsNouveauRegistry.TRAIL_TIMELINE.get());
+        TimelineEntryData trailConfig = projectileTimeline.trailEffect;
+        TimelineEntryData resolveConfig = projectileTimeline.onResolvingEffect;
+        TimelineEntryData spawnConfig = projectileTimeline.onSpawnEffect;
+        TimelineEntryData flairConfig = projectileTimeline.flairEffect;
+
+        this.tickEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, trailConfig);
+        this.resolveEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, resolveConfig);
+        this.onSpawnEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, spawnConfig);
+        this.flairEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, flairConfig);
+        this.castSound = projectileTimeline.castSound.sound;
+        this.resolveSound = projectileTimeline.resolveSound.sound;
     }
 
     public int getDelay() {

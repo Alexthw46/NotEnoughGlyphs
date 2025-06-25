@@ -2,10 +2,7 @@ package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
 import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -38,7 +35,7 @@ public class FallContingency extends AbstractContingency {
 
     @Override
     protected @NotNull Set<AbstractAugment> getCompatibleAugments() {
-        return augmentSetOf(AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE);
+        return augmentSetOf(AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE, AugmentSplit.INSTANCE);
     }
 
 }

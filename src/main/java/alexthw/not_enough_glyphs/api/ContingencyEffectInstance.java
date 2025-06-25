@@ -14,12 +14,15 @@ public class ContingencyEffectInstance extends MobEffectInstance {
     protected final TRIGGER trigger;
     SpellResolver spell;
     double amplifier;
+    int activations, max_activations;
 
-    public ContingencyEffectInstance(SpellResolver spell, TRIGGER trigger, int duration, double amplifier) {
+    public ContingencyEffectInstance(SpellResolver spell, TRIGGER trigger, int duration, double amplifier, int max_activations) {
         super(Registry.CONTINGENCY, duration, 0, false, false);
         this.spell = spell;
         this.trigger = trigger;
         this.amplifier = amplifier;
+        this.activations = 0;
+        this.max_activations = max_activations; // Set the maximum activations
     }
 
     public TRIGGER getTrigger() {
@@ -28,7 +31,10 @@ public class ContingencyEffectInstance extends MobEffectInstance {
 
     public void triggerSpell(LivingEntity entity) {
         spell.onResolveEffect(entity.level(), new EntityHitResult(entity));
-        entity.removeEffect(Registry.CONTINGENCY);
+        activations++;
+        if (activations >= max_activations) {
+            entity.removeEffect(Registry.CONTINGENCY);
+        }
     }
 
 

@@ -1,15 +1,18 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
-import alexthw.not_enough_glyphs.common.network.PacketRayEffect;
+import alexthw.not_enough_glyphs.init.ArsNouveauRegistry;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import com.hollingsworth.arsnouveau.api.particle.ParticleEmitter;
+import com.hollingsworth.arsnouveau.api.particle.configurations.properties.SoundProperty;
+import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineEntryData;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
-import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -89,16 +92,41 @@ public class MethodRay extends AbstractCastMethod {
             blockTarget = new BlockHitResult(toPoint, Direction.getNearest(approximateNormal.x, approximateNormal.y, approximateNormal.z), BlockPos.containing(toPoint), true);
             resolver.onResolveEffect(world, blockTarget);
             send(world, spellContext, fromPoint, blockTarget.getLocation());
-            return CastResolveType.SUCCESS;
         } else {
             send(world, spellContext, fromPoint, toPoint);
-            return CastResolveType.FAILURE;
         }
+        return CastResolveType.SUCCESS;
 
     }
 
-    private void send(Level world, SpellContext spellContext, Vec3 fromPoint, Vec3 toPoint) {
-        Networking.sendToNearbyClient(world, spellContext.getUnwrappedCaster(), new PacketRayEffect(fromPoint, toPoint, spellContext.getColors()));
+    public void playResolveSound(SpellContext spellContext, Level level, Vec3 position) {
+        SoundProperty soundProperty = spellContext.getParticleTimeline(ArsNouveauRegistry.RAY_TIMELINE.get()).resolveSound;
+        soundProperty.sound.playSound(level, position.x, position.y, position.z);
+    }
+
+    public ParticleEmitter resolveEmitter(SpellContext spellContext, Vec3 position) {
+        TimelineEntryData entryData = spellContext.getParticleTimeline(ArsNouveauRegistry.RAY_TIMELINE.get()).onResolvingEffect;
+        return createStaticEmitter(entryData, position);
+    }
+
+    private void send(Level world, SpellContext spellContext, Vec3 from, Vec3 to) {
+        double distance = from.distanceTo(to);
+        var player = spellContext.getUnwrappedCaster();
+        double start = 0.0, increment = 0.5;
+        if (player.position().distanceToSqr(from) < 4.0 && to.subtract(from).normalize().dot(player.getViewVector(1f)) > Mth.SQRT_OF_TWO / 2) {
+            start = Math.min(2.0, distance / 2.0);
+            increment = 0.25;
+        }
+        for (double d = start; d < distance; d += increment) {
+            double fractionalDistance = d / distance;
+            Vec3 position = new Vec3(Mth.lerp(fractionalDistance, from.x, to.x),
+                    Mth.lerp(fractionalDistance, from.y, to.y),
+                    Mth.lerp(fractionalDistance, from.z, to.z));
+            ParticleEmitter particleEmitter = resolveEmitter(spellContext, position);
+            particleEmitter.tick(world);
+        }
+        playResolveSound(spellContext, world, from);
+        // Networking.sendToNearbyClient(world, spellContext.getUnwrappedCaster(), new PacketRayEffect(fromPoint, toPoint, spellContext.getColors()));
     }
 
     @Nonnull

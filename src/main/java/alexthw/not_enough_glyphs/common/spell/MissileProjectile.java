@@ -1,13 +1,16 @@
 package alexthw.not_enough_glyphs.common.spell;
 
+import alexthw.not_enough_glyphs.init.ArsNouveauRegistry;
 import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.block.IPrismaticBlock;
 import com.hollingsworth.arsnouveau.api.event.SpellProjectileHitEvent;
+import com.hollingsworth.arsnouveau.api.particle.ParticleEmitter;
+import com.hollingsworth.arsnouveau.api.particle.timelines.ProjectileTimeline;
+import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineEntryData;
+import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineMap;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
-import com.hollingsworth.arsnouveau.client.particle.GlowParticleData;
+import com.hollingsworth.arsnouveau.client.ClientInfo;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
-import com.hollingsworth.arsnouveau.common.network.Networking;
-import com.hollingsworth.arsnouveau.common.network.PacketANEffect;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.block.TargetBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.NeoForge;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +32,6 @@ import java.util.Set;
 
 public class MissileProjectile extends EntityProjectileSpell {
 
-    public SpellResolver spellResolver;
     public float aoe;
     public boolean activateOnEmpty;
     int maxAge = 200;
@@ -45,7 +48,6 @@ public class MissileProjectile extends EntityProjectileSpell {
 
     public MissileProjectile(Level world, SpellResolver resolver, int maxAge, boolean activate, float aoe) {
         super(Registry.MISSILE_PROJECTILE.get(), world, resolver);
-        this.spellResolver = resolver;
         this.aoe = aoe;
         this.maxAge = maxAge;
         this.activateOnEmpty = activate;
@@ -58,6 +60,23 @@ public class MissileProjectile extends EntityProjectileSpell {
             ExplodeMissile();
             this.remove(RemovalReason.DISCARDED);
         }
+    }
+
+    @Override
+    public void buildEmitters() {
+        TimelineMap timelineMap = this.resolver().spell.particleTimeline();
+        ProjectileTimeline projectileTimeline = timelineMap.get(ArsNouveauRegistry.MISSILE_TIMELINE.get());
+        TimelineEntryData trailConfig = projectileTimeline.trailEffect;
+        TimelineEntryData resolveConfig = projectileTimeline.onResolvingEffect;
+        TimelineEntryData spawnConfig = projectileTimeline.onSpawnEffect;
+        TimelineEntryData flairConfig = projectileTimeline.flairEffect;
+
+        this.tickEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, trailConfig);
+        this.resolveEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, resolveConfig);
+        this.onSpawnEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, spawnConfig);
+        this.flairEmitter = new ParticleEmitter(() -> this.getPosition(ClientInfo.partialTicks), this::getRotationVector, flairConfig);
+        this.castSound = projectileTimeline.castSound.sound;
+        this.resolveSound = projectileTimeline.resolveSound.sound;
     }
 
     @Override
@@ -74,10 +93,9 @@ public class MissileProjectile extends EntityProjectileSpell {
 
             if (result instanceof EntityHitResult entityHitResult) {
                 if (entityHitResult.getEntity().equals(this.getOwner())) return;
-                if (this.spellResolver != null) {
+                if (this.resolver() != null) {
                     activateSpellAtPos(entityHitResult.getEntity().position());
-                    Networking.sendToNearbyClient(level(), BlockPos.containing(result.getLocation()), new PacketANEffect(PacketANEffect.EffectType.BURST,
-                            BlockPos.containing(result.getLocation()), getParticleColor()));
+                    sendResolveParticles();
                     attemptRemoval();
                 }
             }
@@ -108,51 +126,26 @@ public class MissileProjectile extends EntityProjectileSpell {
 //                    }
 //                }
 
-                if (this.spellResolver != null) {
+                if (this.resolver() != null) {
                     this.hitList.add(blockraytraceresult.getBlockPos());
                     activateSpellAtPos(blockraytraceresult.getLocation());
-                    Networking.sendToNearbyClient(level(), blockraytraceresult.getBlockPos(), new PacketANEffect(PacketANEffect.EffectType.BURST,
-                            blockraytraceresult.getBlockPos().below(), getParticleColor()));
                 }
-                Networking.sendToNearbyClient(level(), blockraytraceresult.getBlockPos(), new PacketANEffect(PacketANEffect.EffectType.BURST,
-                        BlockPos.containing(result.getLocation()).below(), getParticleColor()));
+                sendResolveParticles();
                 attemptRemoval();
             }
         }
     }
 
-    @Override
-    public void playParticles() {
-        float size = 5f;
-        double deltaX = getX() - xOld;
-        double deltaY = getY() - yOld;
-        double deltaZ = getZ() - zOld;
-        deltaX *= size;
-        deltaY *= size;
-        deltaZ *= size;
-        double dist = Math.ceil(Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ) * 6);
-        for (double j = 0; j < dist; j++) {
-            double coeff = j / dist;
-            level().addParticle(GlowParticleData.createData(getParticleColor(), 0.25f + size, 1.0f, 36),
-                    (float) (xo + deltaX * coeff),
-                    (float) (yo + deltaY * coeff) + 0.1, (float)
-                            (zo + deltaZ * coeff),
-                    0.0125f * (random.nextFloat() - 0.5f),
-                    0.0125f * (random.nextFloat() - 0.5f),
-                    0.0125f * (random.nextFloat() - 0.5f));
-        }
-    }
-
     protected void activateSpellAtPos(Vec3 pos) {
-        if (!this.level().isClientSide() && this.spellResolver != null) {
+        if (!this.level().isClientSide() && this.resolver() != null) {
             float sideOffset = 5f + 1.3f * aoe;
             float upOffset = 2f + aoe;
             Vec3 offset = new Vec3(sideOffset, upOffset, sideOffset);
             AABB axis = new AABB(pos.x + offset.x, pos.y + offset.y, pos.z + offset.z, pos.x - offset.x, pos.y - offset.y, pos.z - offset.z);
-            List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, axis, entity -> entity != spellResolver.spellContext.getUnwrappedCaster());
+            List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, axis, entity -> entity != resolver().spellContext.getUnwrappedCaster());
             if (!entities.isEmpty()) {
                 for (LivingEntity entity : entities) {
-                    this.spellResolver.onResolveEffect(this.level(), new EntityHitResult(entity));
+                    this.resolver().onResolveEffect(this.level(), new EntityHitResult(entity));
                 }
             } else if (activateOnEmpty) {
                 Vec3 vector3d2 = this.position();
@@ -162,15 +155,14 @@ public class MissileProjectile extends EntityProjectileSpell {
                 } else {
                     dist = this.position().subtract(this.getOwner().position());
                 }
-                this.spellResolver.onResolveEffect(this.level(), new BlockHitResult(vector3d2, Direction.getNearest(dist.x, dist.y, dist.z), BlockPos.containing(vector3d2), true));
+                this.resolver().onResolveEffect(this.level(), new BlockHitResult(vector3d2, Direction.getNearest(dist.x, dist.y, dist.z), BlockPos.containing(vector3d2), true));
             }
         }
     }
 
     protected void ExplodeMissile() {
         this.activateSpellAtPos(this.position());
-        Networking.sendToNearbyClient(level(), getOnPos(), new PacketANEffect(PacketANEffect.EffectType.BURST,
-                getOnPos(), getParticleColor()));
+        sendResolveParticles();
     }
 
     @Override
@@ -189,5 +181,10 @@ public class MissileProjectile extends EntityProjectileSpell {
         super.addAdditionalSaveData(tag);
         tag.putInt("maxAge", this.maxAge);
         tag.putFloat("aoe", this.aoe);
+    }
+
+    @Override
+    public @NotNull EntityType<?> getType() {
+        return Registry.MISSILE_PROJECTILE.get();
     }
 }

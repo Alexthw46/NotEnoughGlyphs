@@ -69,6 +69,8 @@ public class NEGLangProvider extends LanguageProvider {
         add("effect.not_enough_glyphs.contingency", "Contingency Spell");
         add("effect.not_enough_glyphs.contingency.desc", "When a specific event triggers, it will cast the spell on the entity.");
 
+        add("ars_nouveau.particle_config.ray", "Ray");
+
         for (Supplier<Glyph> supplier : GlyphRegistry.getGlyphItemMap().values()) {
             Glyph glyph = supplier.get();
             AbstractSpellPart spellPart = glyph.spellPart;

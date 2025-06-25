@@ -4,12 +4,16 @@ import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractContingency extends AbstractEffect implements IPotionEffect {
@@ -33,7 +37,7 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
         // make sure to remove existing contingencies
         if (livingEntity.hasEffect(Registry.CONTINGENCY)) livingEntity.removeEffectNoUpdate(Registry.CONTINGENCY);
         int ticks = getBaseDuration() * 20 + getExtendTimeDuration() * spellStats.getDurationInTicks();
-        livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks, spellStats.getAmpMultiplier()));
+        livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks, spellStats.getAmpMultiplier(), spellStats.getBuffCount(AugmentSplit.INSTANCE)));
     }
 
     @Override
@@ -55,7 +59,7 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
 
     @Override
     protected @NotNull Set<AbstractAugment> getCompatibleAugments() {
-        return getSummonAugments();
+        return augmentSetOf(AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE, AugmentSplit.INSTANCE);
     }
 
     @Override
@@ -71,6 +75,12 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
     @Override
     public int getExtendTimeDuration() {
         return EXTEND_TIME == null ? 100 : EXTEND_TIME.get();
+    }
+
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentSplit.INSTANCE, "Increases the number of possible activations before the contingency ends by one.");
     }
 
     @Override
