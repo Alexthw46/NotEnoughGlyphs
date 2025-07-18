@@ -3,11 +3,9 @@ package alexthw.not_enough_glyphs.common.glyphs.propagators;
 import alexthw.not_enough_glyphs.api.IPropagator;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.TileCaster;
-import com.hollingsworth.arsnouveau.common.block.BasicSpellTurret;
-import com.hollingsworth.arsnouveau.common.block.tile.RotatingTurretTile;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,10 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.omega;
 
@@ -49,6 +44,7 @@ public class PropagateProjectile extends AbstractEffect implements IPropagator {
     @Override
     public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
         MethodProjectile.INSTANCE.addAugmentDescriptions(map);
+        map.put(AugmentExtract.INSTANCE, "Projectile direction will be relative to caster position.");
     }
 
     @Override
@@ -63,20 +59,14 @@ public class PropagateProjectile extends AbstractEffect implements IPropagator {
         int opposite = -1;
         int counter = 0;
 
-        Vec3 direction = pos.subtract(shooter.position());
-        if (resolver.spellContext.getCaster() instanceof TileCaster tc) {
-            if (tc.getTile() instanceof RotatingTurretTile rotatingTurretTile) {
-                direction = rotatingTurretTile.getShootAngle();
-            } else {
-                direction = new Vec3(tc.getTile().getBlockState().getValue(BasicSpellTurret.FACING).step());
-            }
-        }
+        Vec3 direction = IPropagator.getDirection(shooter, resolver, pos);
+
         for (EntityProjectileSpell proj : projectiles) {
             proj.setPos(pos.add(0, 1, 0));
-            if (!(shooter instanceof FakePlayer)) {
-                proj.shoot(shooter, shooter.getXRot(), shooter.getYRot() + Math.round(counter / 2.0) * 5 * opposite, 0.0F, velocity, 0.8f);
-            } else {
+            if (shooter instanceof FakePlayer || stats.hasBuff(AugmentExtract.INSTANCE)) {
                 proj.shoot(direction.x, direction.y, direction.z, velocity, 0.8F);
+            } else {
+                proj.shoot(shooter, shooter.getXRot(), shooter.getYRot() + Math.round(counter / 2.0) * 5 * opposite, 0.0F, velocity, 0.8f);
             }
             opposite = opposite * -1;
             counter++;
@@ -104,7 +94,9 @@ public class PropagateProjectile extends AbstractEffect implements IPropagator {
     @NotNull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return MethodProjectile.INSTANCE.getCompatibleAugments();
+        var extended = new HashSet<>(MethodProjectile.INSTANCE.getCompatibleAugments());
+        extended.add(AugmentExtract.INSTANCE);
+        return extended;
     }
 
     public SpellTier defaultTier() {

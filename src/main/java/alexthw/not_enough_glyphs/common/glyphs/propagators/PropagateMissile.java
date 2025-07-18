@@ -3,14 +3,12 @@ package alexthw.not_enough_glyphs.common.glyphs.propagators;
 import alexthw.not_enough_glyphs.api.IPropagator;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMissile;
+import alexthw.not_enough_glyphs.common.spell.MissileProjectile;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.TileCaster;
-import com.hollingsworth.arsnouveau.common.block.BasicSpellTurret;
-import com.hollingsworth.arsnouveau.common.block.tile.RotatingTurretTile;
-import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -49,6 +47,7 @@ public class PropagateMissile extends AbstractEffect implements IPropagator {
     @Override
     public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
         MethodMissile.INSTANCE.addAugmentDescriptions(map);
+        map.put(AugmentExtract.INSTANCE, "Projectile direction will be relative to caster position.");
     }
 
     @Override
@@ -59,33 +58,27 @@ public class PropagateMissile extends AbstractEffect implements IPropagator {
     @Override
     public void propagate(Level world, HitResult hitResult, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         Vec3 pos = hitResult.getLocation();
-        ArrayList<EntityProjectileSpell> projectiles = new ArrayList<>();
+        ArrayList<MissileProjectile> projectiles = new ArrayList<>();
         int numSplits = stats.getBuffCount(AugmentSplit.INSTANCE);
 
         int opposite = -1;
         int counter = 0;
 
         for (int i = 0; i < numSplits + 1; i++) {
-            EntityProjectileSpell spell = new EntityProjectileSpell(world, resolver);
+            MissileProjectile spell = new MissileProjectile(world, resolver);
             projectiles.add(spell);
         }
 
         float velocity = MethodMissile.getProjectileSpeed(stats);
         boolean gravity = stats.hasBuff(AugmentDampen.INSTANCE);
-        Vec3 direction = pos.subtract(shooter.position());
-        if (resolver.spellContext.getCaster() instanceof TileCaster tc) {
-            if (tc.getTile() instanceof RotatingTurretTile rotatingTurretTile) {
-                direction = rotatingTurretTile.getShootAngle();
-            } else {
-                direction = new Vec3(tc.getTile().getBlockState().getValue(BasicSpellTurret.FACING).step());
-            }
-        }
-        for (EntityProjectileSpell proj : projectiles) {
+        Vec3 direction = IPropagator.getDirection(shooter, resolver, pos);
+
+        for (MissileProjectile proj : projectiles) {
             proj.setPos(pos.add(0, 1, 0));
-            if (!(shooter instanceof FakePlayer)) {
-                proj.shoot(shooter, shooter.getXRot(), shooter.getYRot() + Math.round(counter / 2.0) * 5 * opposite, 0.0F, velocity, 0.8f);
-            } else {
+            if (shooter instanceof FakePlayer || stats.hasBuff(AugmentExtract.INSTANCE)) {
                 proj.shoot(direction.x, direction.y, direction.z, velocity, 0.8F);
+            } else {
+                proj.shoot(shooter, shooter.getXRot(), shooter.getYRot() + Math.round(counter / 2.0) * 5 * opposite, 0.0F, velocity, 0.8f);
             }
             opposite = opposite * -1;
             counter++;

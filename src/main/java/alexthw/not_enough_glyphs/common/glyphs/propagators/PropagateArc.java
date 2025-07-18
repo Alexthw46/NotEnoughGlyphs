@@ -5,12 +5,9 @@ import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodArc;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.TileCaster;
-import com.hollingsworth.arsnouveau.common.block.BasicSpellTurret;
-import com.hollingsworth.arsnouveau.common.block.tile.RotatingTurretTile;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
+import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class PropagateArc extends AbstractEffect implements IPropagator {
@@ -68,21 +67,15 @@ public class PropagateArc extends AbstractEffect implements IPropagator {
             projectiles.add(spell);
         }
 
+
         float velocity = MethodArc.getProjectileSpeed(stats);
-        Vec3 direction = pos.subtract(shooter.position());
-        if (resolver.spellContext.getCaster() instanceof TileCaster tc) {
-            if (tc.getTile() instanceof RotatingTurretTile rotatingTurretTile) {
-                direction = rotatingTurretTile.getShootAngle();
-            } else {
-                direction = new Vec3(tc.getTile().getBlockState().getValue(BasicSpellTurret.FACING).step());
-            }
-        }
+        Vec3 direction = IPropagator.getDirection(shooter, resolver, pos);
         for (EntityProjectileSpell proj : projectiles) {
             proj.setPos(proj.position().add(0, 0.25 * sizeRatio, 0));
-            if (!(shooter instanceof FakePlayer)) {
-                proj.shoot(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, velocity, 0.3f);
-            } else {
+            if (stats.hasBuff(AugmentExtract.INSTANCE) || shooter instanceof FakePlayer) {
                 proj.shoot(direction.x, direction.y, direction.z, velocity, 0.8F);
+            } else {
+                proj.shoot(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, velocity, 0.3f);
             }
             world.addFreshEntity(proj);
         }
@@ -106,7 +99,9 @@ public class PropagateArc extends AbstractEffect implements IPropagator {
     @NotNull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return MethodArc.INSTANCE.getCompatibleAugments();
+        var extended = new HashSet<>(MethodArc.INSTANCE.getCompatibleAugments());
+        extended.add(AugmentExtract.INSTANCE);
+        return extended;
     }
 
     public SpellTier defaultTier() {
@@ -116,6 +111,17 @@ public class PropagateArc extends AbstractEffect implements IPropagator {
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(SpellSchools.MANIPULATION);
+    }
+
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentPierce.INSTANCE, "Projectiles will bounce on blocks or hit through enemies an additional time.");
+        map.put(AugmentSplit.INSTANCE, "Creates multiple projectiles.");
+        map.put(AugmentAccelerate.INSTANCE, "Projectiles will move faster.");
+        map.put(AugmentDecelerate.INSTANCE, "Projectiles will move slower.");
+        map.put(AugmentSensitive.INSTANCE, "Projectiles will hit plants and other materials that do not block motion.");
+        map.put(AugmentExtract.INSTANCE, "Projectile direction will be relative to caster position.");
     }
 
     @Override

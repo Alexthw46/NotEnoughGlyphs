@@ -4,8 +4,10 @@ import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
 import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
 import alexthw.ars_elemental.common.glyphs.PropagatorArc;
 import alexthw.ars_elemental.common.glyphs.PropagatorHoming;
+import alexthw.not_enough_glyphs.api.spell_style.MissileTimeline;
 import alexthw.not_enough_glyphs.api.spell_style.RayMotion;
 import alexthw.not_enough_glyphs.api.spell_style.RayTimeline;
+import alexthw.not_enough_glyphs.api.spell_style.TrailTimeline;
 import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
 import alexthw.not_enough_glyphs.common.glyphs.effects.*;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
@@ -161,8 +163,8 @@ public class ArsNouveauRegistry {
     }
 
     public static final DeferredHolder<IParticleMotionType<?>, IParticleMotionType<RayMotion>> RAY_MOTION = PARTICLE_CONFIG.register("ray", () -> new SimpleParticleMotionType<>(RayMotion.CODEC, RayMotion.STREAM, RayMotion::new));
-    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> MISSILE_TIMELINE = TIMELINE_DF.register("missile_projectile", () -> new SimpleParticleTimelineType<>(MethodMissile.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, ProjectileTimeline::new));
-    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> TRAIL_TIMELINE = TIMELINE_DF.register("trail_projectile", () -> new SimpleParticleTimelineType<>(MethodTrail.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, ProjectileTimeline::new));
+    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> MISSILE_TIMELINE = TIMELINE_DF.register("missile_projectile", () -> new SimpleParticleTimelineType<>(MethodMissile.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, MissileTimeline::new));
+    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> TRAIL_TIMELINE = TIMELINE_DF.register("trail_projectile", () -> new SimpleParticleTimelineType<>(MethodTrail.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, TrailTimeline::new));
     public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<RayTimeline>> RAY_TIMELINE = TIMELINE_DF.register("ray", () -> new SimpleParticleTimelineType<>(MethodRay.INSTANCE, RayTimeline.CODEC, RayTimeline.STREAM_CODEC, RayTimeline::new));
 
     public static void postInit() {
