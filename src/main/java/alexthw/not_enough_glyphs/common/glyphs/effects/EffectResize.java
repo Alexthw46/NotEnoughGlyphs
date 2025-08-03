@@ -13,6 +13,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -39,7 +40,7 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
 
     @Override
     public String getBookDescription() {
-        return "Resizes the target entity for a short time. Amplify to increase the size, dampen to shrink.";
+        return "Resizes the target entity for a short time or resets to original size if not augmented. Use Amplify to grow and Dampen to shrink.";
     }
 
     @Override
@@ -59,7 +60,12 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
         // the entity support the vanilla scale attribute
         if (rayTraceResult.getEntity() instanceof LivingEntity living && living.getAttribute(Attributes.SCALE) != null) {
             // if amplified, apply the expand effect, otherwise apply shrink effect
-            applyConfigPotion(living, spellStats.getAmpMultiplier() >= 0 ? Registry.GROWING_EFFECT : Registry.SHRINKING_EFFECT, spellStats, false);
+            if (spellStats.getAmpMultiplier() == 0) {
+                // remove the effect if it exists, resetting the scale
+                living.removeEffect(Registry.GROWING_EFFECT);
+                living.removeEffect(Registry.SHRINKING_EFFECT);
+            } else
+                applyConfigPotion(living, spellStats.getAmpMultiplier() > 0 ? Registry.GROWING_EFFECT : Registry.SHRINKING_EFFECT, spellStats, false);
         }
     }
 
@@ -75,7 +81,7 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
         int ticks = baseDurationSeconds * 20 + durationBuffSeconds * stats.getDurationInTicks();
         // use the absolute value of the amp multiplier to determine the effect level, since negative values are used for shrinking
         int amp = (int) Math.abs(stats.getAmpMultiplier());
-        entity.addEffect(new MobEffectInstance(potionEffect, ticks, amp, false, showParticles, false));
+        entity.forceAddEffect(new MobEffectInstance(potionEffect, ticks, amp, false, showParticles, false), entity);
     }
 
     @Override
