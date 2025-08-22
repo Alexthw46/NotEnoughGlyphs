@@ -1,10 +1,11 @@
 package alexthw.not_enough_glyphs.common.glyphs.effects;
 
-import alexthw.not_enough_glyphs.common.network.PacketRayEffect;
+import alexthw.not_enough_glyphs.init.ArsNouveauRegistry;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import com.hollingsworth.arsnouveau.api.particle.ParticleEmitter;
+import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineEntryData;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
-import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
@@ -15,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -93,10 +95,6 @@ public class EffectChaining extends AbstractEffect {
         BONUS_ENTITY_DISTANCE = builder.comment("Bonus search distance around each target entity per augment").defineInRange("bonus_entity_distance", 4.0d, 0, Double.MAX_VALUE);
     }
 
-    private static Vec3 getBlockCenter(BlockPos blockPos) {
-        return new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
-    }
-
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         int maxBlocks = (int) (BASE_MAX_BLOCKS.get() + BONUS_BLOCKS.get() * spellStats.getAoeMultiplier());
@@ -115,21 +113,21 @@ public class EffectChaining extends AbstractEffect {
         Iterable<Edge<BlockPos>> chain = SearchTargets(
                 Collections.singleton(rayTraceResult.getBlockPos()),
                 maxBlocks,
-                EffectChaining::getBlockCenter,
-                bp -> getBlockCenter(bp).subtract(getBlockCenter(rayTraceResult.getBlockPos())).length() * 0.01,
+                BlockPos::getCenter,
+                bp -> bp.getCenter().subtract(rayTraceResult.getBlockPos().getCenter()).length() * 0.01,
                 (bp, isMatch) -> BlockPos.betweenClosedStream(
                                 bp.offset(searchBlockDistance, searchBlockDistance, searchBlockDistance),
                                 bp.offset(-searchBlockDistance, -searchBlockDistance, -searchBlockDistance))
-                        .filter(nbp -> getBlockCenter(bp).distanceToSqr(getBlockCenter(nbp)) <= searchDistanceSqr && isMatch.test(nbp))
+                        .filter(nbp -> bp.getCenter().distanceToSqr(nbp.getCenter()) <= searchDistanceSqr && isMatch.test(nbp))
                         .map(BlockPos::immutable)
                         .collect(Collectors.toCollection(ArrayList::new)),
                 chainFilter);
         spellContext.setCanceled(true);
         Spell continuation = spellContext.getRemainingSpell();
         for (Edge<BlockPos> edge : chain) {
-            Vec3 toCenter = getBlockCenter(edge.to);
+            Vec3 toCenter = edge.to.getCenter();
             BlockHitResult chainedRayTraceResult = new BlockHitResult(toCenter, rayTraceResult.getDirection(), edge.to, true);
-            Networking.sendToNearbyClient(world, edge.to, new PacketRayEffect(getBlockCenter(edge.from), toCenter, spellContext.getColors()));
+            sendParticles(world, spellContext, edge.from.getCenter(), toCenter);
             SpellContext newContext = spellContext.clone().withSpell(continuation);
             resolver.getNewResolver(newContext).onResolveEffect(world, chainedRayTraceResult);
         }
@@ -159,13 +157,36 @@ public class EffectChaining extends AbstractEffect {
 
         Spell continuation = spellContext.getRemainingSpell();
         for (Edge<Entity> edge : chain) {
-            Vec3 midpoint = edge.from.position().add(edge.to.position()).scale(0.5);
-            double radius = 64.0 + edge.from.position().distanceTo(midpoint);
+            //Vec3 midpoint = edge.from.position().add(edge.to.position()).scale(0.5);
+            //double radius = 64.0 + edge.from.position().distanceTo(midpoint);
             if (world instanceof ServerLevel) {
-                Networking.sendToNearbyClient(world, edge.to, new PacketRayEffect(edge.from.position(), edge.to.position(), spellContext.getColors()));
+                sendParticles(world, spellContext, edge.from.position(), edge.to.position());
             }
             SpellContext newContext = spellContext.clone().withSpell(continuation);
             resolver.getNewResolver(newContext).onResolveEffect(world, new EntityHitResult(edge.to));
+        }
+    }
+
+    public ParticleEmitter resolveEmitter(SpellContext spellContext, Vec3 position) {
+        TimelineEntryData entryData = spellContext.getParticleTimeline(ArsNouveauRegistry.RAY_TIMELINE.get()).onResolvingEffect;
+        return createStaticEmitter(entryData, position);
+    }
+
+    private void sendParticles(Level world, SpellContext spellContext, Vec3 from, Vec3 to) {
+        double distance = from.distanceTo(to);
+        var player = spellContext.getUnwrappedCaster();
+        double start = 0.0, increment = 0.5;
+        if (player.position().distanceToSqr(from) < 4.0 && to.subtract(from).normalize().dot(player.getViewVector(1f)) > Mth.SQRT_OF_TWO / 2) {
+            start = Math.min(2.0, distance / 2.0);
+            increment = 0.25;
+        }
+        for (double d = start; d < distance; d += increment) {
+            double fractionalDistance = d / distance;
+            Vec3 position = new Vec3(Mth.lerp(fractionalDistance, from.x, to.x),
+                    Mth.lerp(fractionalDistance, from.y, to.y),
+                    Mth.lerp(fractionalDistance, from.z, to.z));
+            ParticleEmitter particleEmitter = resolveEmitter(spellContext, position);
+            particleEmitter.tick(world);
         }
     }
 

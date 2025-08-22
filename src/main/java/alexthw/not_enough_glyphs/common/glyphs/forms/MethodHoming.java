@@ -1,8 +1,8 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
-import alexthw.not_enough_glyphs.api.FilterUtil;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import com.alexthw.sauce.util.GlyphEffectUtil;
 import com.hollingsworth.arsnouveau.api.entity.ISummon;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityHomingProjectileSpell;
@@ -134,9 +134,9 @@ public class MethodHoming extends AbstractCastMethod {
         if (!targetPlayers) {
             ignore.add(entity -> entity instanceof Player);
         }
-        Set<IFilter> filters = FilterUtil.getFilters(spell.recipe(), 0);
+        Set<IFilter> filters = GlyphEffectUtil.getFilters(spell.unsafeList(), 0);
         if (!filters.isEmpty()) {
-            ignore.add(entity -> FilterUtil.checkIgnoreFilters(entity, filters));
+            ignore.add(entity -> GlyphEffectUtil.checkIgnoreFilters(entity, filters));
         }
         return ignore;
     }

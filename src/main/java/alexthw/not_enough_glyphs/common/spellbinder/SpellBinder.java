@@ -20,7 +20,6 @@ import com.hollingsworth.arsnouveau.client.gui.radial_menu.RadialMenu;
 import com.hollingsworth.arsnouveau.client.gui.radial_menu.RadialMenuSlot;
 import com.hollingsworth.arsnouveau.client.gui.utils.RenderUtils;
 import com.hollingsworth.arsnouveau.client.registry.ModKeyBindings;
-import com.hollingsworth.arsnouveau.common.crafting.recipes.IDyeable;
 import com.hollingsworth.arsnouveau.common.items.data.ArmorPerkHolder;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.setup.config.Config;
@@ -67,8 +66,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class SpellBinder extends Item implements ICasterTool, IDyeable, GeoItem, IRadialProvider, ISpellModifierItem {
-
+public class SpellBinder extends Item implements ICasterTool, GeoItem, IRadialProvider, ISpellModifierItem {
 
     /**
      * Used to ensure that the binder caster is up-to-date with the inventory it is bound to

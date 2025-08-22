@@ -1,10 +1,10 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
 import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
-import alexthw.not_enough_glyphs.api.IPropagator;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityHomingProjectileSpell;
 import com.hollingsworth.arsnouveau.common.items.Glyph;

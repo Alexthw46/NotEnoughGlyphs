@@ -12,6 +12,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 
 public class ContingencyEffect extends PublicEffect {
+
     public ContingencyEffect() {
         super(MobEffectCategory.NEUTRAL, 0);
         NeoForge.EVENT_BUS.addListener(ContingencyEffect::onHealTrigger);

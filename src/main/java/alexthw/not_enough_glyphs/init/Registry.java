@@ -19,18 +19,15 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
@@ -46,19 +43,13 @@ public class Registry {
     public static final Supplier<EntityType<TrailingProjectile>> TRAILING_PROJECTILE;
     public static final Supplier<EntityType<MissileProjectile>> MISSILE_PROJECTILE;
 
-    public static final DeferredHolder<Attribute, Attribute> MANA_DISCOUNT = registerAttribute("not_enough_glyphs.perk.mana_discount", (id) -> new RangedAttribute(id, 0.0, 0.0, Double.MAX_VALUE).setSyncable(true));
-
     public static final Supplier<MenuType<SpellBinderContainer>> SPELL_HOLDER;
     public static final Supplier<Item> SPELL_BINDER;
 
     public static final DeferredHolder<MobEffect, MobEffect> GROWING_EFFECT = EFFECTS.register("grow", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.grow"), 0.5D, AttributeModifier.Operation.ADD_VALUE));
     public static final DeferredHolder<MobEffect, MobEffect> SHRINKING_EFFECT = EFFECTS.register("shrink", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.shrink"), -0.2D, AttributeModifier.Operation.ADD_VALUE));
 
-    public static DeferredHolder<Attribute, Attribute> registerAttribute(String name, Function<String, Attribute> attribute) {
-        //UUIDS.put(registryObject, uuid);
-        return ATTRIBUTES.register(name, () -> attribute.apply(name));
-    }    public static final DeferredHolder<MobEffect, MobEffect> CONTINGENCY = EFFECTS.register("contingency", ContingencyEffect::new);
-
+    public static final DeferredHolder<MobEffect, MobEffect> CONTINGENCY = EFFECTS.register("contingency", ContingencyEffect::new);
 
     static {
         TRAILING_PROJECTILE = addEntity("trail", 0.5F, 0.5F, true, true, TrailingProjectile::new, MobCategory.MISC);
@@ -100,16 +91,7 @@ public class Registry {
                 for (var item : ITEMS.getEntries())
                     event.accept(item.get());
         });
-        modbus.addListener(Registry::modifyEntityAttributes);
     }
-
-
-
-
-    public static void modifyEntityAttributes(EntityAttributeModificationEvent event) {
-        event.getTypes().stream().filter(e -> e == EntityType.PLAYER).forEach(e -> Registry.ATTRIBUTES.getEntries().forEach((v) -> event.add(e, v)));
-    }
-
 
     public static final DeferredRegister<DataComponentType<?>> DATA = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, NotEnoughGlyphs.MODID);
 

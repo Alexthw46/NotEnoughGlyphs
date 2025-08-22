@@ -1,8 +1,8 @@
 package alexthw.not_enough_glyphs.api;
 
-import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.not_enough_glyphs.common.spell.FocusPerk;
 import alexthw.not_enough_glyphs.common.spellbinder.SpellBinder;
+import com.alexthw.sauce.api.item.ISchoolFocus;
 import com.hollingsworth.arsnouveau.api.perk.Perk;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchool;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchools;

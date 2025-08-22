@@ -1,6 +1,6 @@
 package alexthw.not_enough_glyphs.common.spell;
 
-import alexthw.not_enough_glyphs.init.Registry;
+import com.alexthw.sauce.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.perk.PerkAttributes;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +27,7 @@ public class PacificThread extends BookPerk {
     @Override
     public @NotNull ItemAttributeModifiers applyAttributeModifiers(ItemAttributeModifiers modifiers, ItemStack stack, int slotValue, EquipmentSlotGroup equipmentSlotGroup) {
         return modifiers
-                .withModifierAdded(Registry.MANA_DISCOUNT, new AttributeModifier(prefix("pacific_perk"), 50 * slotValue, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup)
+                .withModifierAdded(ModRegistry.MANA_DISCOUNT, new AttributeModifier(prefix("pacific_perk"), 50 * slotValue, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup)
                 .withModifierAdded(PerkAttributes.SPELL_DAMAGE_BONUS, new AttributeModifier(prefix("pacific_perk"), -3 * slotValue, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
     }
 

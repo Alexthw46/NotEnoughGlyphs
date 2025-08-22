@@ -3,6 +3,7 @@ package alexthw.not_enough_glyphs.datagen;
 
 import alexthw.ars_elemental.ArsElemental;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import com.alexthw.sauce.Sauce;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.registry.GlyphRegistry;
 import com.hollingsworth.arsnouveau.api.registry.PerkRegistry;
@@ -75,7 +76,7 @@ public class NEGLangProvider extends LanguageProvider {
             Glyph glyph = supplier.get();
             AbstractSpellPart spellPart = glyph.spellPart;
             ResourceLocation registryName = glyph.spellPart.getRegistryName();
-            if (!registryName.getNamespace().equals(ArsNouveau.MODID)) {
+            if (!registryName.getNamespace().equals(ArsNouveau.MODID) && !registryName.getNamespace().equals(Sauce.MODID)) {
 
                 if (registryName.getNamespace().equals(ArsElemental.MODID)) {
                     // if the glyph is not one of the projectile we provide, we skip it

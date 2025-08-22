@@ -1,10 +1,10 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
-import alexthw.not_enough_glyphs.api.IPropagator;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMissile;
 import alexthw.not_enough_glyphs.common.spell.MissileProjectile;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
