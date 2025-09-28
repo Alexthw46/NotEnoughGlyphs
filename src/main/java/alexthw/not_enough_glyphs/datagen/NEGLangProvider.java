@@ -52,9 +52,15 @@ public class NEGLangProvider extends LanguageProvider {
         add("item.ars_nouveau.thread_slow_power", "Slow Power");
         add("ars_nouveau.perk_desc.thread_slow_power", "Thread for the spellbinder. Will increase the damage of the spells cast from the equipped book but heavily reduce their speed.");
         add("item.ars_nouveau.thread_sharp_paper", "Sharp Pages");
-        add("ars_nouveau.perk_desc.thread_sharp_paper", "Thread for the spellbinder. Will increase the melee damage if used as a weapon.");
+        add("ars_nouveau.perk_desc.thread_sharp_paper", "Thread for the spellbinder. Will increase the melee damage of the spellbinder if used as a weapon.");
         add("item.ars_nouveau.thread_knockback", "Heavy Cover");
-        add("ars_nouveau.perk_desc.thread_knockback", "Thread for the spellbinder. Will increase the knockback of the spellbook if used as a melee weapon.");
+        add("ars_nouveau.perk_desc.thread_knockback", "Thread for the spellbinder. Will increase the knockback of the spellbinder if used as a melee weapon.");
+        add("item.ars_nouveau.thread_scritchance", "Lucky Cover");
+        add("ars_nouveau.perk_desc.thread_scritchance", "Thread for the spellbinder. Will increase the critical chance of spells.");
+        add("item.ars_nouveau.thread_scritdamage", "Keen Cover");
+        add("ars_nouveau.perk_desc.thread_scritdamage", "Thread for the spellbinder. Will increase the critical damage of spells.");
+
+
         add("not_enough_glyphs.perk.mana_discount", "Mana Discount");
         add("not_enough_glyphs.perk.mana_discount.desc", "Reduces the mana cost of the spell by %s.");
         add("ars_nouveau.page.focus_threads", "Book Thread: Focus");

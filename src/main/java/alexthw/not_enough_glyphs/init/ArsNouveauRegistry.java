@@ -9,9 +9,19 @@ import alexthw.not_enough_glyphs.api.spell_style.RayMotion;
 import alexthw.not_enough_glyphs.api.spell_style.RayTimeline;
 import alexthw.not_enough_glyphs.api.spell_style.TrailTimeline;
 import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
-import alexthw.not_enough_glyphs.common.glyphs.effects.*;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectChaining;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectFlatten;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectMomentum;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectPlow;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectResize;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectReverseDirection;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
-import alexthw.not_enough_glyphs.common.glyphs.forms.*;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodArc;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMissile;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodOverhead;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodRay;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodTrail;
 import alexthw.not_enough_glyphs.common.glyphs.propagators.*;
 import alexthw.not_enough_glyphs.common.spell.*;
 import com.hollingsworth.arsnouveau.api.particle.configurations.IParticleMotionType;
@@ -155,6 +165,9 @@ public class ArsNouveauRegistry {
         PerkRegistry.registerPerk(BulldozeThread.INSTANCE);
         PerkRegistry.registerPerk(SharpThread.INSTANCE);
         PerkRegistry.registerPerk(PounchThread.INSTANCE);
+
+        PerkRegistry.registerPerk(SpellCritChancePerk.INSTANCE);
+        PerkRegistry.registerPerk(SpellCritDamagePerk.INSTANCE);
     }
 
     public static void register(AbstractSpellPart spellPart) {

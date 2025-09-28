@@ -2,6 +2,7 @@ package alexthw.not_enough_glyphs.init;
 
 import alexthw.not_enough_glyphs.ClientStuff;
 import alexthw.not_enough_glyphs.Events;
+import com.alexthw.sauce.Sauce;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -13,12 +14,12 @@ import net.neoforged.neoforge.common.NeoForge;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(NotEnoughGlyphs.MODID)
-public class NotEnoughGlyphs
-{
+public class NotEnoughGlyphs {
 
     public static final String MODID = "not_enough_glyphs";
 
     public NotEnoughGlyphs(IEventBus modEventBus, ModContainer modContainer) {
+        Sauce.ENABLE_SPELL_CRIT = true;
         Registry.init(modEventBus);
         Events.registerListeners(modEventBus, NeoForge.EVENT_BUS);
         ArsNouveauRegistry.registerGlyphs();

@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-01T18:59:25.5544532	Item Models: not_enough_glyphs
+// 1.21.1	2025-09-27T18:48:57.5859447	Item Models: not_enough_glyphs
 dd61e8efbb48a2e8af64898eda1ea8f0250d2123 assets/not_enough_glyphs/models/item/thread_air_focus.json
 fd6f61ac05be94d332fdf7967859e84fb8c69129 assets/not_enough_glyphs/models/item/thread_air_focus_icon.json
 42212e7147d52256a5636b11a5e3b2c1384b9f86 assets/not_enough_glyphs/models/item/thread_cheap_damage.json
@@ -9,6 +9,10 @@ db9acdd3f4adc81a8a61b2a15d75dfdfe162cbd6 assets/not_enough_glyphs/models/item/th
 a9ed9bde809b6a1f36b7efe904269c686084a87d assets/not_enough_glyphs/models/item/thread_fire_focus_icon.json
 bc1ae285a05997cf431a616e1cca7f8bab72a71f assets/not_enough_glyphs/models/item/thread_knockback.json
 99cfc645f30d9eacc152054976ae5336d46e1cd7 assets/not_enough_glyphs/models/item/thread_knockback_icon.json
+2f8f015e462ca46ebce4860ed4c7bc73c4db90ed assets/not_enough_glyphs/models/item/thread_scritchance.json
+90561a940cf6c64a9e17ce8e7100d8abcc2f8093 assets/not_enough_glyphs/models/item/thread_scritchance_icon.json
+cf7d93de025646985edfa1a26df478f8d489e63f assets/not_enough_glyphs/models/item/thread_scritdamage.json
+060b834710fe85919798d7a18750a17f29bf2ded assets/not_enough_glyphs/models/item/thread_scritdamage_icon.json
 58fa1f7afc6ee209fa5f169dc57561b94aefe7b8 assets/not_enough_glyphs/models/item/thread_shaper_focus.json
 da1a06a736c3b4c79de474b1b4c28bfcb8095b97 assets/not_enough_glyphs/models/item/thread_shaper_focus_icon.json
 f9d918faf7584e906f5e65ba21c80cfe1b1fe485 assets/not_enough_glyphs/models/item/thread_sharp_paper.json

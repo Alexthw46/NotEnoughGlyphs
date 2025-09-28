@@ -41,6 +41,9 @@ public class NEGApparatusProvider extends ApparatusRecipeProvider {
         addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(Items.DIAMOND_SWORD).withPedestalItem(ItemsRegistry.MANIPULATION_ESSENCE).withPedestalItem(Items.FLINT).withResult(getPerkItem(SharpThread.INSTANCE.getRegistryName())).build());
         addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(Items.PISTON).withPedestalItem(ItemsRegistry.AIR_ESSENCE).withPedestalItem(Items.IRON_BLOCK).withResult(getPerkItem(PounchThread.INSTANCE.getRegistryName())).build());
 
+        addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(Items.BOW).withPedestalItem(Items.RABBIT_FOOT).withPedestalItem(Items.QUARTZ).withResult(getPerkItem(SpellCritChancePerk.INSTANCE.getRegistryName())).build());
+        addRecipe(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(Items.GOLDEN_SWORD).withPedestalItem(Items.DRAGON_BREATH).withPedestalItem(Items.BLAZE_POWDER).withResult(getPerkItem(SpellCritDamagePerk.INSTANCE.getRegistryName())).build());
+
         elementalList.add(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(ModItems.LESSER_FIRE_FOCUS.get()).withPedestalItem(2, ItemsRegistry.FIRE_ESSENCE).withResult(getPerkItem(FocusPerk.ELEMENTAL_FIRE.getRegistryName())).build());
         elementalList.add(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(ModItems.LESSER_WATER_FOCUS.get()).withPedestalItem(2, ItemsRegistry.WATER_ESSENCE).withResult(getPerkItem(FocusPerk.ELEMENTAL_WATER.getRegistryName())).build());
         elementalList.add(builder().withReagent(ItemsRegistry.BLANK_THREAD).withPedestalItem(ModItems.LESSER_EARTH_FOCUS.get()).withPedestalItem(2, ItemsRegistry.EARTH_ESSENCE).withResult(getPerkItem(FocusPerk.ELEMENTAL_EARTH.getRegistryName())).build());

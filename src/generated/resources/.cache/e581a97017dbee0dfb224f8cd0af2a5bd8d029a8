@@ -1,9 +1,11 @@
-// 1.21.1	2025-02-02T15:26:43.0368591	Apparatus
+// 1.21.1	2025-09-28T12:12:25.4297695	Apparatus
 e589dea8222d4637ae8676c23c0a95206046ff26 data/ars_nouveau/recipe/thread_air_focus.json
 7333e4e92c265c7ef01f549a1ee72d2935fdefa8 data/ars_nouveau/recipe/thread_cheap_damage.json
 ea6fb34d9c2cb39bd8ac737796098c6e196ca1bd data/ars_nouveau/recipe/thread_earth_focus.json
 2d4f86f7fda575cc0f4483bf27a41e370c2a1def data/ars_nouveau/recipe/thread_fire_focus.json
 8a209dfc5a49ca0383a19288347eedf6371c7bdc data/ars_nouveau/recipe/thread_knockback.json
+cfa499b417aaadeb3ccdc7bea998d1637c66d1e4 data/ars_nouveau/recipe/thread_scritchance.json
+d8842383b92faacc606a809f3576fbd6cd1eac59 data/ars_nouveau/recipe/thread_scritdamage.json
 89c1f9b18bc3d340d525d84d4c15c06199912b5f data/ars_nouveau/recipe/thread_shaper_focus.json
 45fa41999f701356c2c8574a071efb0ad3194c79 data/ars_nouveau/recipe/thread_sharp_paper.json
 c6cfbb2d460b191a37d5a9858fba02f3e4916091 data/ars_nouveau/recipe/thread_slow_power.json

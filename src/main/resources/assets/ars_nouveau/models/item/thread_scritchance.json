@@ -1,0 +1,12 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "parent": "item/generated",
+  "base": {
+    "parent": "not_enough_glyphs:item/thread_scritchance"
+  },
+  "perspectives": {
+    "ground": {
+      "parent": "not_enough_glyphs:item/thread_scritchance_icon"
+    }
+  }
+}
