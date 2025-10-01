@@ -1,11 +1,15 @@
 package alexthw.not_enough_glyphs.common.spell;
 
-import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
+import com.alexthw.sauce.event.AttributeEventHandler;
 import com.hollingsworth.arsnouveau.api.perk.IEffectResolvePerk;
-import com.hollingsworth.arsnouveau.api.perk.PerkInstance;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchool;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchools;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import org.jetbrains.annotations.NotNull;
 
 import static com.hollingsworth.arsnouveau.ArsNouveau.prefix;
 
@@ -27,9 +31,8 @@ public class FocusPerk extends BookPerk implements IEffectResolvePerk {
     }
 
     @Override
-    public void onEffectPreResolve(EffectResolveEvent.Pre event, PerkInstance perkInstance) {
-        if (perkInstance.getSlot().value() > 0 && school.isPartOfSchool(event.resolveEffect)) {
-            event.spellStats.setDamageModifier(event.spellStats.getDamageModifier() + 2 * perkInstance.getSlot().value());
-        }
+    public @NotNull ItemAttributeModifiers applyAttributeModifiers(ItemAttributeModifiers modifiers, ItemStack stack, int slotValue, EquipmentSlotGroup equipmentSlotGroup) {
+        return super.applyAttributeModifiers(modifiers, stack, slotValue, equipmentSlotGroup).withModifierAdded(AttributeEventHandler.schoolToPowerAttribute.get(this.school), new AttributeModifier(this.getRegistryName(), 2 * slotValue, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
     }
+
 }
