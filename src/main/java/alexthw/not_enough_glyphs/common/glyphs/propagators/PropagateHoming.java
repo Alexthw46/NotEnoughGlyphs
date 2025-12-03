@@ -1,6 +1,5 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
-import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
@@ -21,7 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming.getProjectileSpeed;
 
@@ -90,7 +93,7 @@ public class PropagateHoming extends AbstractEffect implements IPropagator {
     @NotNull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        var extended = new HashSet<>(MethodHomingProjectile.INSTANCE.getCompatibleAugments());
+        var extended = new HashSet<>(MethodHoming.INSTANCE.getCompatibleAugments());
         extended.add(AugmentExtract.INSTANCE);
         return extended;
     }

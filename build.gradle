@@ -162,7 +162,7 @@ dependencies {
         }
     }) { transitive = false }
     implementation "software.bernie.geckolib:geckolib-neoforge-1.21.1:${geckolib_version}"
-    implementation ("com.alexthw.ars_elemental:ars_elemental-${minecraft_version}:${elemental_version}") {transitive=false}
+    compileOnly("com.alexthw.ars_elemental:ars_elemental-${minecraft_version}:${elemental_version}") { transitive = false }
     compileOnly "com.hollingsworth.nuggets:nuggets-neoforge-1.21:${nuggets_version}"
     compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
     implementation "mezz.jei:jei-1.21.1-neoforge:${jei_version}"
