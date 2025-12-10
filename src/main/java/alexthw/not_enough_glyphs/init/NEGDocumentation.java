@@ -1,6 +1,11 @@
 package alexthw.not_enough_glyphs.init;
 
-import alexthw.not_enough_glyphs.common.spell.*;
+import alexthw.not_enough_glyphs.common.spell.BulldozeThread;
+import alexthw.not_enough_glyphs.common.spell.FocusPerk;
+import alexthw.not_enough_glyphs.common.spell.PacificThread;
+import alexthw.not_enough_glyphs.common.spell.PounchThread;
+import alexthw.not_enough_glyphs.common.spell.RandomPerk;
+import alexthw.not_enough_glyphs.common.spell.SharpThread;
 import com.hollingsworth.arsnouveau.api.documentation.ReloadDocumentationEvent;
 import com.hollingsworth.arsnouveau.api.documentation.builder.DocEntryBuilder;
 import com.hollingsworth.arsnouveau.api.documentation.entry.DocEntry;
@@ -9,6 +14,7 @@ import com.hollingsworth.arsnouveau.api.registry.DocumentationRegistry;
 import com.hollingsworth.arsnouveau.api.registry.PerkRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 
 import static com.hollingsworth.arsnouveau.setup.registry.Documentation.addBasicItem;
@@ -39,16 +45,25 @@ public class NEGDocumentation {
                 .withCraftingPages(PerkRegistry.getPerkItemMap().get(RandomPerk.INSTANCE.getRegistryName()))
                 .withSortNum(101));
 
-        var focus_threads = addPage(new DocEntryBuilder(DocumentationRegistry.SPELL_CASTING, "focus_threads")
+        DocEntry focus_threads;
+        if (ModList.get().isLoaded("ars_elemental"))
+            focus_threads = addPage(new DocEntryBuilder(DocumentationRegistry.SPELL_CASTING, "focus_threads")
+                    .withIcon(PerkRegistry.getPerkItemMap().get(FocusPerk.MANIPULATION.getRegistryName()))
+                    .withTextPage("ars_nouveau.page.focus_threads.desc")
+                    .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.SUMMONING.getRegistryName()))
+                    .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.MANIPULATION.getRegistryName()))
+                    .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_FIRE.getRegistryName()))
+                    .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_AIR.getRegistryName()))
+                    .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_EARTH.getRegistryName()))
+                    .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_WATER.getRegistryName()))
+                    .withSortNum(101));
+        else focus_threads = addPage(new DocEntryBuilder(DocumentationRegistry.SPELL_CASTING, "focus_threads")
                 .withIcon(PerkRegistry.getPerkItemMap().get(FocusPerk.MANIPULATION.getRegistryName()))
                 .withTextPage("ars_nouveau.page.focus_threads.desc")
                 .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.SUMMONING.getRegistryName()))
                 .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.MANIPULATION.getRegistryName()))
-                .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_FIRE.getRegistryName()))
-                .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_AIR.getRegistryName()))
-                .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_EARTH.getRegistryName()))
-                .withCraftingPages(PerkRegistry.getPerkItemMap().get(FocusPerk.ELEMENTAL_WATER.getRegistryName()))
                 .withSortNum(101));
+
         addBasicItem(Registry.SPELL_BINDER.get(), DocumentationRegistry.SPELL_CASTING, 95).withRelations(book_threads, focus_threads);
 
     }
