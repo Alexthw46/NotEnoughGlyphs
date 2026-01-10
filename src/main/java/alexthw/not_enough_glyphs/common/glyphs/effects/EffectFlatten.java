@@ -137,7 +137,7 @@ public class EffectFlatten extends AbstractEffect implements IDamageEffect {
             glyphItem = new Glyph(this) {
                 @Override
                 public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODID;
+                    return NotEnoughGlyphs.MODNAME;
                 }
             };
         }

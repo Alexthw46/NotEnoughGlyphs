@@ -333,7 +333,7 @@ public class EffectChaining extends AbstractEffect {
             glyphItem = new Glyph(this) {
                 @Override
                 public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODID;
+                    return NotEnoughGlyphs.MODNAME;
                 }
             };
         }

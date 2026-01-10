@@ -7,7 +7,12 @@ import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
-import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDecelerate;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -130,7 +135,7 @@ public class PropagateArc extends AbstractEffect implements IPropagator {
             glyphItem = new Glyph(this) {
                 @Override
                 public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODID;
+                    return NotEnoughGlyphs.MODNAME;
                 }
             };
         }

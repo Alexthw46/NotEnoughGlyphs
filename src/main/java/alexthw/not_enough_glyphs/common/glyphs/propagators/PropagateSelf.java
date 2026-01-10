@@ -70,7 +70,7 @@ public class PropagateSelf extends AbstractEffect implements IPropagator {
             glyphItem = new Glyph(this) {
                 @Override
                 public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODID;
+                    return NotEnoughGlyphs.MODNAME;
                 }
             };
         }

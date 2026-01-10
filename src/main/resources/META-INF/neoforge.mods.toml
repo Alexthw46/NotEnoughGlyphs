@@ -26,9 +26,9 @@ displayName="Not Enough Glyphs" #mandatory
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="not_enough_glyphs.png" #optional
 # A text field displayed in the mod UI
-credits="Ars Nouveau and friends for inspiration, DerringersMods as the original maker of toomanyglyphs" #optional
+credits = "Ars Nouveau and friends for inspiration, DerringersMods as the original maker of toomanyglyphs, DMK as the maker of ars omega" #optional
 # A text field displayed in the mod UI
-authors="Porting by Alexthw to 1.19.2 and up" #optional
+authors = "Alexthw" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 A mixed bag of add-ons to make Ars Nouveau spells more flexible, more intelligent, or maybe in a few cases just crazy convoluted combos.
@@ -42,11 +42,13 @@ config = "not_enough_glyphs.mixins.json"
     versionRange="[1.21,)"
     ordering="NONE"
     side="BOTH"
+
 [[dependencies.not_enough_glyphs]]
     modId="ars_nouveau"
-versionRange = "[1.21.1-5.9.0,)"
+versionRange = "[1.21.1-5.11,)"
 ordering = "AFTER"
 side = "BOTH"
+
 [[dependencies.not_enough_glyphs]]
 modId = "ars_elemental"
 type = "optional"

@@ -17,6 +17,7 @@ import net.neoforged.neoforge.common.NeoForge;
 public class NotEnoughGlyphs {
 
     public static final String MODID = "not_enough_glyphs";
+    public static final String MODNAME = "Not Enough Glyphs";
 
     public NotEnoughGlyphs(IEventBus modEventBus, ModContainer modContainer) {
         Sauce.ENABLE_SPELL_CRIT = true;
