@@ -168,7 +168,7 @@ public class EffectChaining extends AbstractEffect {
     }
 
     public ParticleEmitter resolveEmitter(SpellContext spellContext, Vec3 position) {
-        TimelineEntryData entryData = spellContext.getParticleTimeline(ArsNouveauRegistry.RAY_TIMELINE.get()).onResolvingEffect;
+        TimelineEntryData entryData = spellContext.getParticleTimeline(ArsNouveauRegistry.CHAIN_TIMELINE.get()).onResolvingEffect;
         return createStaticEmitter(entryData, position);
     }
 

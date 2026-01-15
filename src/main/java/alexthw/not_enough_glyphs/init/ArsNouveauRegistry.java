@@ -26,6 +26,7 @@ import alexthw.not_enough_glyphs.common.glyphs.propagators.*;
 import alexthw.not_enough_glyphs.common.spell.*;
 import com.hollingsworth.arsnouveau.api.particle.configurations.IParticleMotionType;
 import com.hollingsworth.arsnouveau.api.particle.configurations.SimpleParticleMotionType;
+import com.hollingsworth.arsnouveau.api.particle.timelines.BurstTimeline;
 import com.hollingsworth.arsnouveau.api.particle.timelines.IParticleTimelineType;
 import com.hollingsworth.arsnouveau.api.particle.timelines.ProjectileTimeline;
 import com.hollingsworth.arsnouveau.api.particle.timelines.SimpleParticleTimelineType;
@@ -179,6 +180,7 @@ public class ArsNouveauRegistry {
     public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> MISSILE_TIMELINE = TIMELINE_DF.register("missile_projectile", () -> new SimpleParticleTimelineType<>(MethodMissile.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, MissileTimeline::new));
     public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<ProjectileTimeline>> TRAIL_TIMELINE = TIMELINE_DF.register("trail_projectile", () -> new SimpleParticleTimelineType<>(MethodTrail.INSTANCE, ProjectileTimeline.CODEC, ProjectileTimeline.STREAM_CODEC, TrailTimeline::new));
     public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<RayTimeline>> RAY_TIMELINE = TIMELINE_DF.register("ray", () -> new SimpleParticleTimelineType<>(MethodRay.INSTANCE, RayTimeline.CODEC, RayTimeline.STREAM_CODEC, RayTimeline::new));
+    public static final DeferredHolder<IParticleTimelineType<?>, IParticleTimelineType<BurstTimeline>> CHAIN_TIMELINE = TIMELINE_DF.register("chaining", () -> new SimpleParticleTimelineType<>(EffectChaining.INSTANCE, BurstTimeline.CODEC, BurstTimeline.STREAM_CODEC, BurstTimeline::new));
 
     public static void postInit() {
         SpellCasterRegistry.register(Registry.SPELL_BINDER.get(), (stack) -> stack.get(Registry.SPELL_BINDER_CASTER));

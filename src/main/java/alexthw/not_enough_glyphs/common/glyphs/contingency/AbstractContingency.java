@@ -7,6 +7,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -55,6 +56,12 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
     @Override
     protected int getDefaultManaCost() {
         return 100;
+    }
+
+    @Override
+    protected void addAugmentCostOverrides(Map<ResourceLocation, Integer> defaults) {
+        super.addAugmentCostOverrides(defaults);
+        defaults.put(AugmentSplit.INSTANCE.getRegistryName(), 100);
     }
 
     @Override
