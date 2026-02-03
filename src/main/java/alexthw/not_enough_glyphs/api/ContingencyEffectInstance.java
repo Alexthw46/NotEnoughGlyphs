@@ -68,7 +68,7 @@ public class ContingencyEffectInstance extends MobEffectInstance {
             } else onExpirationRunnable.run();
         };
 
-        return super.tick(entity, newExpirationRunnable);
+        return super.tick(entity, newExpirationRunnable) && activations <= max_activations;
     }
 
     public enum TRIGGER {
