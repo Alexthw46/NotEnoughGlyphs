@@ -8,6 +8,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentRandomize;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectBurst;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectLinger;
@@ -17,6 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -64,6 +66,7 @@ public class EffectChaining extends AbstractEffect {
         map.put(AugmentAOE.INSTANCE, "Increases the number of targets struck.");
         map.put(AugmentPierce.INSTANCE, "Increases the maximum distance between targets.");
         map.put(AugmentSensitive.INSTANCE, "Restrict chaining to same-type entities and to exposed blocks. If two are added, chaining on blocks will only happen where the hit side of the block is exposed.");
+        map.put(AugmentRandomize.INSTANCE, "Randomly excludes valid targets from the chaining, creating less uniform shapes.");
     }
 
     @Override
@@ -110,6 +113,8 @@ public class EffectChaining extends AbstractEffect {
                     bp -> world.getBlockState(bp).is(struck.getBlock()) && world.getBlockState(bp.relative(rayTraceResult.getDirection())).canBeReplaced();
             default -> bp -> world.getBlockState(bp).is(struck.getBlock());
         };
+        Set<BlockPos> permanentlyExcluded = new HashSet<>();
+        var random = RandomSource.createNewThreadLocalInstance();
         Iterable<Edge<BlockPos>> chain = SearchTargets(
                 Collections.singleton(rayTraceResult.getBlockPos()),
                 maxBlocks,
@@ -119,6 +124,13 @@ public class EffectChaining extends AbstractEffect {
                                 bp.offset(searchBlockDistance, searchBlockDistance, searchBlockDistance),
                                 bp.offset(-searchBlockDistance, -searchBlockDistance, -searchBlockDistance))
                         .filter(nbp -> bp.getCenter().distanceToSqr(nbp.getCenter()) <= searchDistanceSqr && isMatch.test(nbp))
+                        .filter(nbp -> !permanentlyExcluded.contains(nbp))
+                        .filter(nbp -> {
+                            if (!spellStats.isRandomized()) return true;
+                            boolean exclude = random.nextDouble() >= spellStats.getBuffCount(AugmentRandomize.INSTANCE) / 5.0;
+                            if (!exclude) permanentlyExcluded.add(nbp);
+                            return exclude;
+                        })
                         .map(BlockPos::immutable)
                         .collect(Collectors.toCollection(ArrayList::new)),
                 chainFilter);
@@ -152,7 +164,7 @@ public class EffectChaining extends AbstractEffect {
                         new AABB(
                                 e.position().x + distance, e.position().y + distance, e.position().z + distance,
                                 e.position().x - distance, e.position().y - distance, e.position().z - distance),
-                        t -> t.position().distanceToSqr(e.position()) <= distanceSqr && isMatch.test(t)),
+                        t -> t.position().distanceToSqr(e.position()) <= distanceSqr && isMatch.test(t) && (!spellStats.isRandomized() || t.getRandom().nextDouble() > spellStats.getBuffCount(AugmentRandomize.INSTANCE) / 5.0)),
                 entityMatch);
 
         Spell continuation = spellContext.getRemainingSpell();
@@ -203,12 +215,13 @@ public class EffectChaining extends AbstractEffect {
     @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentSensitive.INSTANCE.getRegistryName(), 2);
+        defaults.put(AugmentRandomize.INSTANCE.getRegistryName(), 5);
     }
 
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return setOf(AugmentAOE.INSTANCE, AugmentPierce.INSTANCE, AugmentSensitive.INSTANCE);
+        return setOf(AugmentAOE.INSTANCE, AugmentPierce.INSTANCE, AugmentSensitive.INSTANCE, AugmentRandomize.INSTANCE);
     }
 
     public static Iterable<BlockPos> SearchBlockStates(Level world, Collection<BlockPos> start, int maxBlocks,
