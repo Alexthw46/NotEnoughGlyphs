@@ -127,9 +127,9 @@ public class EffectChaining extends AbstractEffect {
                         .filter(nbp -> !permanentlyExcluded.contains(nbp))
                         .filter(nbp -> {
                             if (!spellStats.isRandomized()) return true;
-                            boolean exclude = random.nextDouble() >= spellStats.getBuffCount(AugmentRandomize.INSTANCE) / 5.0;
-                            if (!exclude) permanentlyExcluded.add(nbp);
-                            return exclude;
+                            boolean pass = (0.1D + random.nextDouble()) >= spellStats.getBuffCount(AugmentRandomize.INSTANCE) / 3.0;
+                            if (!pass) permanentlyExcluded.add(nbp);
+                            return pass;
                         })
                         .map(BlockPos::immutable)
                         .collect(Collectors.toCollection(ArrayList::new)),
@@ -164,7 +164,7 @@ public class EffectChaining extends AbstractEffect {
                         new AABB(
                                 e.position().x + distance, e.position().y + distance, e.position().z + distance,
                                 e.position().x - distance, e.position().y - distance, e.position().z - distance),
-                        t -> t.position().distanceToSqr(e.position()) <= distanceSqr && isMatch.test(t) && (!spellStats.isRandomized() || t.getRandom().nextDouble() > spellStats.getBuffCount(AugmentRandomize.INSTANCE) / 5.0)),
+                        t -> t.position().distanceToSqr(e.position()) <= distanceSqr && isMatch.test(t) && (!spellStats.isRandomized() || (0.1D + t.getRandom().nextDouble()) >= spellStats.getBuffCount(AugmentRandomize.INSTANCE) / 3.0)),
                 entityMatch);
 
         Spell continuation = spellContext.getRemainingSpell();
@@ -215,7 +215,7 @@ public class EffectChaining extends AbstractEffect {
     @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentSensitive.INSTANCE.getRegistryName(), 2);
-        defaults.put(AugmentRandomize.INSTANCE.getRegistryName(), 5);
+        defaults.put(AugmentRandomize.INSTANCE.getRegistryName(), 3);
     }
 
     @Nonnull
