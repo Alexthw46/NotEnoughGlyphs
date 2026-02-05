@@ -33,9 +33,6 @@ public class ContingencyEffectInstance extends MobEffectInstance {
         if (activations <= max_activations) {
             spell.onResolveEffect(entity.level(), new EntityHitResult(entity));
             activations++;
-            if (activations >= max_activations) {
-                entity.removeEffect(Registry.CONTINGENCY);
-            }
         }
     }
 
@@ -65,10 +62,14 @@ public class ContingencyEffectInstance extends MobEffectInstance {
         Runnable newExpirationRunnable = () -> {
             if (trigger == TRIGGER.EXPIRE) {
                 triggerSpell(entity);
+                if (activations > max_activations) {
+                    onExpirationRunnable.run();
+                }
             } else onExpirationRunnable.run();
         };
 
-        return super.tick(entity, newExpirationRunnable);
+        // Remove the effect if max activations reached by returning false
+        return super.tick(entity, newExpirationRunnable) && activations <= max_activations;
     }
 
     public enum TRIGGER {
