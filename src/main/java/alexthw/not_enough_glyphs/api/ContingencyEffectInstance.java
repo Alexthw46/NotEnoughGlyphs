@@ -31,11 +31,10 @@ public class ContingencyEffectInstance extends MobEffectInstance {
 
     public void triggerSpell(LivingEntity entity) {
         if (activations <= max_activations) {
+            activations++; // Increase before resolve, otherwise a contingency set in the spell will be increased instead
             spell.onResolveEffect(entity.level(), new EntityHitResult(entity));
-            activations++;
         }
     }
-
 
     @Override
     public void onMobHurt(@NotNull LivingEntity livingEntity, @NotNull DamageSource damageSource, float amount) {
