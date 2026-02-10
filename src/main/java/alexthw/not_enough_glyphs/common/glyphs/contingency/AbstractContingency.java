@@ -2,7 +2,6 @@ package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
 import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
-import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
@@ -35,8 +34,6 @@ public abstract class AbstractContingency extends AbstractEffect implements IPot
     }
 
     public void applyContingency(SpellStats spellStats, LivingEntity livingEntity, SpellResolver newResolver) {
-        // make sure to remove existing contingencies
-        if (livingEntity.hasEffect(Registry.CONTINGENCY)) livingEntity.removeEffectNoUpdate(Registry.CONTINGENCY);
         int ticks = getBaseDuration() * 20 + getExtendTimeDuration() * spellStats.getDurationInTicks();
         livingEntity.addEffect(new ContingencyEffectInstance(newResolver, getTrigger(), ticks, spellStats.getAmpMultiplier(), spellStats.getBuffCount(AugmentSplit.INSTANCE)));
     }

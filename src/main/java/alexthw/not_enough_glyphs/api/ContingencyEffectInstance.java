@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ContingencyEffectInstance extends MobEffectInstance {
 
-    protected final TRIGGER trigger;
+    protected TRIGGER trigger;
     SpellResolver spell;
     double amplifier;
     int activations, max_activations;
@@ -46,6 +46,14 @@ public class ContingencyEffectInstance extends MobEffectInstance {
 
     @Override
     public boolean update(@NotNull MobEffectInstance other) {
+        if (!(other instanceof ContingencyEffectInstance contingency)) return false;
+        super.update(other); // update basic stuff
+        // update Contingency data
+        this.trigger = contingency.trigger;
+        this.amplifier = contingency.amplifier;
+        this.activations = contingency.activations;
+        this.max_activations = contingency.max_activations;
+        this.spell = contingency.spell;
         return true;
     }
 
