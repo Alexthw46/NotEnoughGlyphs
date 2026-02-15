@@ -1,7 +1,6 @@
 package alexthw.not_enough_glyphs.init;
 
 import alexthw.not_enough_glyphs.ClientStuff;
-import alexthw.not_enough_glyphs.Events;
 import com.alexthw.sauce.Sauce;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -10,7 +9,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(NotEnoughGlyphs.MODID)
@@ -22,7 +20,6 @@ public class NotEnoughGlyphs {
     public NotEnoughGlyphs(IEventBus modEventBus, ModContainer modContainer) {
         Sauce.ENABLE_SPELL_CRIT = true;
         Registry.init(modEventBus);
-        Events.registerListeners(modEventBus, NeoForge.EVENT_BUS);
         ArsNouveauRegistry.registerGlyphs();
         modEventBus.addListener(Networking::register);
         modEventBus.addListener(this::setup);
@@ -32,6 +29,7 @@ public class NotEnoughGlyphs {
         if (FMLEnvironment.dist.isClient()) {
             modEventBus.register(ClientStuff.class);
         }
+
     }
 
     public static ResourceLocation prefix(String path) {

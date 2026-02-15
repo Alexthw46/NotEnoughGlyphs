@@ -1,7 +1,12 @@
 package alexthw.not_enough_glyphs.common.glyphs.effects;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
-import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
+import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
+import com.hollingsworth.arsnouveau.api.spell.SpellStats;
+import com.hollingsworth.arsnouveau.api.spell.SpellTier;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +27,11 @@ public class EffectMomentum extends AbstractEffect {
 
     public EffectMomentum() {
         super(CompatRL.neg("momentum"), "Momentum");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     @Override

@@ -1,8 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 
-public class BlinkContingency extends AbstractContingency {
+import com.alexthw.sauce.util.ContingencyEffectInstance;
+
+public class BlinkContingency extends NEGAbstractContingency {
 
     public static final BlinkContingency INSTANCE = new BlinkContingency();
 
@@ -16,8 +17,8 @@ public class BlinkContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.BLINK;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyTriggers.BLINK;
     }
 
 }

@@ -13,7 +13,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import java.util.concurrent.CompletableFuture;
 
 
-@EventBusSubscriber(modid = NotEnoughGlyphs.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = NotEnoughGlyphs.MODID)
 public class DatagenMain {
 
     public static CompletableFuture<HolderLookup.Provider> registries;

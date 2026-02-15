@@ -1,8 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 
-public class HealContingency extends AbstractContingency {
+import com.alexthw.sauce.util.ContingencyEffectInstance;
+
+public class HealContingency extends NEGAbstractContingency {
 
     public static final HealContingency INSTANCE = new HealContingency();
 
@@ -16,8 +17,8 @@ public class HealContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.ON_HEAL;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyTriggers.ON_HEAL;
     }
 
 

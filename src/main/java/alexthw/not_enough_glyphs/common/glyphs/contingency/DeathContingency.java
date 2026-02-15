@@ -1,8 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 
-public class DeathContingency extends AbstractContingency {
+import com.alexthw.sauce.util.ContingencyEffectInstance;
+
+public class DeathContingency extends NEGAbstractContingency {
 
     public static final DeathContingency INSTANCE = new DeathContingency();
 
@@ -16,8 +17,8 @@ public class DeathContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.DEATH;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyTriggers.DEATH;
     }
 
 

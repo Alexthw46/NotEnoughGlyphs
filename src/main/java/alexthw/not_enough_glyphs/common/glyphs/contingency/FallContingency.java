@@ -1,14 +1,18 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
+import com.alexthw.sauce.util.ContingencyEffectInstance;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Set;
 
-public class FallContingency extends AbstractContingency {
+public class FallContingency extends NEGAbstractContingency {
 
     public static final FallContingency INSTANCE = new FallContingency();
 
@@ -22,8 +26,8 @@ public class FallContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.ON_FALL;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyTriggers.ON_FALL;
     }
 
     @Override

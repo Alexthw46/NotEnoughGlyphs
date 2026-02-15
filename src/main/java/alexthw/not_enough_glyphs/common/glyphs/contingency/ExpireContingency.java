@@ -1,6 +1,7 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
+
+import com.alexthw.sauce.util.ContingencyEffectInstance;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
-public class ExpireContingency extends AbstractContingency {
+public class ExpireContingency extends NEGAbstractContingency {
     public static final ExpireContingency INSTANCE = new ExpireContingency();
 
     public ExpireContingency() {
@@ -22,8 +23,8 @@ public class ExpireContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.EXPIRE;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyEffectInstance.EXPIRE;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package alexthw.not_enough_glyphs.init;
 
-import alexthw.not_enough_glyphs.common.ContingencyEffect;
 import alexthw.not_enough_glyphs.common.spell.MissileProjectile;
 import alexthw.not_enough_glyphs.common.spell.TrailingProjectile;
 import alexthw.not_enough_glyphs.common.spellbinder.BinderCasterData;
@@ -48,8 +47,6 @@ public class Registry {
 
     public static final DeferredHolder<MobEffect, MobEffect> GROWING_EFFECT = EFFECTS.register("grow", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.grow"), 0.5D, AttributeModifier.Operation.ADD_VALUE));
     public static final DeferredHolder<MobEffect, MobEffect> SHRINKING_EFFECT = EFFECTS.register("shrink", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.shrink"), -0.2D, AttributeModifier.Operation.ADD_VALUE));
-
-    public static final DeferredHolder<MobEffect, MobEffect> CONTINGENCY = EFFECTS.register("contingency", ContingencyEffect::new);
 
     static {
         TRAILING_PROJECTILE = addEntity("trail", 0.5F, 0.5F, true, true, TrailingProjectile::new, MobCategory.MISC);

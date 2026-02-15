@@ -1,8 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
 
-public class FireContingency extends AbstractContingency {
+import com.alexthw.sauce.util.ContingencyEffectInstance;
+
+public class FireContingency extends NEGAbstractContingency {
 
     public static final FireContingency INSTANCE = new FireContingency();
 
@@ -11,8 +12,8 @@ public class FireContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.ON_FIRE;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyTriggers.ON_FIRE;
     }
 
     @Override

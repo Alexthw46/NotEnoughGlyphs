@@ -73,8 +73,6 @@ public class NEGLangProvider extends LanguageProvider {
         add("effect.not_enough_glyphs.shrink.desc", "Shrinks down the entity.");
         add("effect.not_enough_glyphs.grow", "Growing");
         add("effect.not_enough_glyphs.grow.desc", "Increases the entity's size.");
-        add("effect.not_enough_glyphs.contingency", "Contingency Spell");
-        add("effect.not_enough_glyphs.contingency.desc", "When a specific event triggers, it will cast the spell on the entity.");
 
         add("ars_nouveau.particle_config.ray", "Ray");
 

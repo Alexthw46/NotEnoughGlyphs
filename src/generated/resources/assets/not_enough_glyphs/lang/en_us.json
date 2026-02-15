@@ -156,8 +156,6 @@
   "arsomega.glyph_name.glyph_propagate_projectile": "Propagate Projectile",
   "arsomega.glyph_name.glyph_propagate_self": "Propagate Self",
   "arsomega.glyph_name.glyph_propagate_underfoot": "Propagate Underfoot",
-  "effect.not_enough_glyphs.contingency": "Contingency Spell",
-  "effect.not_enough_glyphs.contingency.desc": "When a specific event triggers, it will cast the spell on the entity.",
   "effect.not_enough_glyphs.grow": "Growing",
   "effect.not_enough_glyphs.grow.desc": "Increases the entity's size.",
   "effect.not_enough_glyphs.shrink": "Shrinking",

@@ -1,6 +1,7 @@
 package alexthw.not_enough_glyphs.common.glyphs.contingency;
 
-import alexthw.not_enough_glyphs.api.ContingencyEffectInstance;
+
+import com.alexthw.sauce.util.ContingencyEffectInstance;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Set;
 
-public class HeroicsContingency extends AbstractContingency {
+public class HeroicsContingency extends NEGAbstractContingency {
 
     public static final HeroicsContingency INSTANCE = new HeroicsContingency();
 
@@ -23,8 +24,8 @@ public class HeroicsContingency extends AbstractContingency {
     }
 
     @Override
-    public ContingencyEffectInstance.TRIGGER getTrigger() {
-        return ContingencyEffectInstance.TRIGGER.HEROICS;
+    public ContingencyEffectInstance.ContingencyTrigger getTrigger() {
+        return ContingencyTriggers.HEROICS;
     }
 
     @Override
