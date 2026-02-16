@@ -156,8 +156,6 @@
   "arsomega.glyph_name.glyph_propagate_projectile": "弹射物调态",
   "arsomega.glyph_name.glyph_propagate_self": "自身调态",
   "arsomega.glyph_name.glyph_propagate_underfoot": "脚下调态",
-  "effect.not_enough_glyphs.contingency": "应变法术",
-  "effect.not_enough_glyphs.contingency.desc": "出现特定事件时对受影响实体施放法术。",
   "effect.not_enough_glyphs.grow": "变大",
   "effect.not_enough_glyphs.grow.desc": "增大实体的尺寸。",
   "effect.not_enough_glyphs.shrink": "变小",
