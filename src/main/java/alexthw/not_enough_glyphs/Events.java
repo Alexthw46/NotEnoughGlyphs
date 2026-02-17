@@ -17,6 +17,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
+import net.neoforged.neoforge.event.entity.living.LivingUseTotemEvent;
 import net.neoforged.neoforge.items.ComponentItemHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +50,13 @@ public class Events {
 
     @SubscribeEvent
     public static void onDeathEvent(LivingDeathEvent event) {
+        if (event.getEntity() instanceof LivingEntity entity && entity.getEffect(ModRegistry.CONTINGENCY) instanceof ContingencyEffectInstance cei && cei.getTrigger() == ContingencyTriggers.DEATH) {
+            cei.triggerSpell(entity);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDeathTotemEvent(LivingUseTotemEvent event) {
         if (event.getEntity() instanceof LivingEntity entity && entity.getEffect(ModRegistry.CONTINGENCY) instanceof ContingencyEffectInstance cei && cei.getTrigger() == ContingencyTriggers.DEATH) {
             cei.triggerSpell(entity);
         }
