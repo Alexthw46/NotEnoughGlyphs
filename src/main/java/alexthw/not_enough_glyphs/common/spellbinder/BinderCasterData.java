@@ -5,12 +5,21 @@ import alexthw.not_enough_glyphs.init.Registry;
 import com.google.common.collect.ImmutableMap;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
 
 public class BinderCasterData extends AbstractCaster<BinderCasterData> {
 
@@ -59,4 +68,22 @@ public class BinderCasterData extends AbstractCaster<BinderCasterData> {
         return new ThreadwiseSpellResolver(context);
     }
 
+    @Override
+    public void addToTooltip(Item.@NotNull TooltipContext pContext, @NotNull Consumer<Component> pTooltipAdder, @NotNull TooltipFlag pTooltipFlag) {
+        if (getSpell().isEmpty()){
+            pTooltipAdder.accept(Component.translatable("not_enough_glyphs.spell_binder.empty").withStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
+            return;
+        }
+        if (!getSpellName().isEmpty()) {
+            pTooltipAdder.accept(Component.literal(getSpellName()));
+        }
+        if (isSpellHidden()) {
+            pTooltipAdder.accept(Component.literal(getHiddenRecipe()).withStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("minecraft", "alt")).withColor(ChatFormatting.GOLD)));
+        } else {
+            Spell spell = getSpell();
+            pTooltipAdder.accept(Component.literal(spell.getDisplayString()));
+        }
+        if (!getFlavorText().isEmpty())
+            pTooltipAdder.accept(Component.literal(getFlavorText()).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.BLUE)));
+    }
 }

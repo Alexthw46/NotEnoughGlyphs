@@ -30,6 +30,7 @@ public class NEGLangProvider extends LanguageProvider {
     protected void addTranslations() {
 
         add("item.not_enough_glyphs.spell_binder", "Spell Binder");
+        add("ars_nouveau.spell_binder.empty", "Add spell parchments and caster tomes in the binder by opening its inventory.");
         add("ars_nouveau.spell_binder.open", "Press %s to open the inventory");
         add("ars_nouveau.book_thread", "Book Thread : %s");
         add("ars_nouveau.book_slot", "Book Thread Slots");
