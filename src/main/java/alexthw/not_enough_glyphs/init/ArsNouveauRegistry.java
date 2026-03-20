@@ -1,9 +1,5 @@
 package alexthw.not_enough_glyphs.init;
 
-import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
-import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
-import alexthw.ars_elemental.common.glyphs.PropagatorArc;
-import alexthw.ars_elemental.common.glyphs.PropagatorHoming;
 import alexthw.not_enough_glyphs.api.spell_style.MissileTimeline;
 import alexthw.not_enough_glyphs.api.spell_style.RayMotion;
 import alexthw.not_enough_glyphs.api.spell_style.RayTimeline;
@@ -144,15 +140,7 @@ public class ArsNouveauRegistry {
             register(PropagateArc.INSTANCE);
             register(PropagateHoming.INSTANCE);
         } else {
-
-            registeredSpells.addAll(List.of(
-                    MethodArcProjectile.INSTANCE, MethodHomingProjectile.INSTANCE,
-                    PropagatorArc.INSTANCE, PropagatorHoming.INSTANCE)
-            );
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_FIRE);
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_WATER);
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_EARTH);
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_AIR);
+            ArsElementalCompatRegistry.register();
         }
 
         //ex scalaes
