@@ -5,6 +5,7 @@
   "refmap": "not_enough_glyphs.refmap.json",
   "plugin": "alexthw.not_enough_glyphs.common.mixin.MixinPlugin",
   "mixins": [
+    "SummoningFocusMixin"
   ],
   "injectors": {
     "defaultRequire": 1
