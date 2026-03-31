@@ -11,8 +11,10 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
+import com.hollingsworth.arsnouveau.setup.registry.ModEntities;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -43,7 +45,12 @@ public class MethodArc extends AbstractCastMethod {
         float sizeRatio = shooter.getEyeHeight() / Player.DEFAULT_EYE_HEIGHT;
 
         for (int i = 1; i < 1 + numSplits + 1; i++) {
-            EntityProjectileSpell spell = new EntityProjectileSpell(world, resolver).setGravity(true);
+            EntityProjectileSpell spell = new EntityProjectileSpell(world, resolver) {
+                @Override
+                public @NotNull EntityType<?> getType() {
+                    return ModEntities.SPELL_PROJ_ARC.get();
+                }
+            }.setGravity(true);
             projectiles.add(spell);
         }
 
