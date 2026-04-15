@@ -20,6 +20,6 @@ public class SpellCritChancePerk extends BookPerk {
 
     @Override
     public @NotNull ItemAttributeModifiers applyAttributeModifiers(ItemAttributeModifiers modifiers, ItemStack stack, int slotValue, EquipmentSlotGroup equipmentSlotGroup) {
-        return modifiers.withModifierAdded(ModRegistry.SPELL_CRIT, new AttributeModifier(prefix("scritchance_perk"), 10 * slotValue, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
+        return modifiers.withModifierAdded(ModRegistry.SPELL_CRIT, new AttributeModifier(prefix("scritchance_perk"), 0.10 * slotValue, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
     }
 }

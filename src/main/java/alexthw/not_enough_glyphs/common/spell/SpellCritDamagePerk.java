@@ -21,7 +21,7 @@ public class SpellCritDamagePerk extends BookPerk {
 
     @Override
     public @NotNull ItemAttributeModifiers applyAttributeModifiers(ItemAttributeModifiers modifiers, ItemStack stack, int slotValue, EquipmentSlotGroup equipmentSlotGroup) {
-        return modifiers.withModifierAdded(ModRegistry.SPELL_CRIT_DAMAGE, new AttributeModifier(prefix("scritdamage_perk"), 25 * slotValue, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
+        return modifiers.withModifierAdded(ModRegistry.SPELL_CRIT_DAMAGE, new AttributeModifier(prefix("scritdamage_perk"), 0.25 * slotValue, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
     }
 
 }
