@@ -44,7 +44,7 @@ public class EffectFlatten extends AbstractEffect implements IDamageEffect {
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         for (BlockPos p : SpellUtil.calcAOEBlocks(shooter, rayTraceResult.getBlockPos(), rayTraceResult, spellStats.getAoeMultiplier(), spellStats.getBuffCount(AugmentPierce.INSTANCE))) {
-            doFlat(p, rayTraceResult, world, spellStats);
+            doFlat(p, rayTraceResult, world, spellStats, shooter);
         }
     }
 
@@ -53,10 +53,10 @@ public class EffectFlatten extends AbstractEffect implements IDamageEffect {
         return be != null && (world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null) != null || be instanceof Container);
     }
 
-    public void doFlat(BlockPos p, BlockHitResult rayTraceResult, Level world, SpellStats spellStats){
+    public void doFlat(BlockPos p, BlockHitResult rayTraceResult, Level world, SpellStats spellStats, @NotNull LivingEntity shooter) {
         ItemStack shovel = new ItemStack(Items.DIAMOND_SHOVEL);
         applyEnchantments(world, spellStats, shovel);
-        Player entity = ANFakePlayer.getPlayer((ServerLevel) world);
+        Player entity = ANFakePlayer.getPlayer((ServerLevel) world, shooter.getUUID());
         entity.setItemInHand(InteractionHand.MAIN_HAND, shovel);
         if (dupeCheck(world, p)) return;
         entity.setPos(p.getX(), p.getY(), p.getZ());
