@@ -30,10 +30,10 @@ public class NEGLangProvider extends LanguageProvider {
     protected void addTranslations() {
 
         add("item.not_enough_glyphs.spell_binder", "Spell Binder");
-        add("ars_nouveau.spell_binder.empty", "Add spell parchments and caster tomes in the binder by opening its inventory.");
+        add("not_enough_glyphs.spell_binder.empty", "Add spell parchments and caster tomes in the binder by opening its inventory.");
         add("ars_nouveau.spell_binder.open", "Press %s to open the inventory");
-        add("ars_nouveau.book_thread", "Book Thread : %s");
-        add("ars_nouveau.book_slot", "Book Thread Slots");
+        add("ars_nouveau.book_thread", "Book Cover : %s");
+        add("ars_nouveau.book_slot", "Book Cover Slots");
         add("item.ars_nouveau.thread_summon_focus", "Summoning Focus");
         add("ars_nouveau.perk_desc.thread_summon_focus", "Thread for the spellbinder. Will enable glyph combos as if the summoning focus was equipped.");
         add("item.ars_nouveau.thread_shaper_focus", "BlockShaping Focus");
@@ -61,14 +61,13 @@ public class NEGLangProvider extends LanguageProvider {
         add("item.ars_nouveau.thread_scritdamage", "Keen Cover");
         add("ars_nouveau.perk_desc.thread_scritdamage", "Thread for the spellbinder. Will increase the critical damage of spells.");
 
-
         add("not_enough_glyphs.perk.mana_discount", "Mana Discount");
         add("not_enough_glyphs.perk.mana_discount.desc", "Reduces the mana cost of the spell by %s.");
-        add("ars_nouveau.page.focus_threads", "Book Thread: Focus");
+        add("ars_nouveau.page.focus_threads", "Book Cover: Focus");
         add("ars_nouveau.page.focus_threads.desc", "Having these threads on the spellbinder will allow to unlock the glyph combos as if the corresponding focus was equipped. In a level 2 slot, they will give a small damage bonus to the spells from the matching school.");
         add("not_enough_glyphs.page.spell_binder", "An alternative to the traditional spellcasting, the spellbinder is a tool that allows to cast spells from the spell parchemnts and caster tomes put inside it. The left side will hold the 10 spells for the radial menu (V), while the right side allow to keep additional 15 spells to switch when needed.");
-        add("ars_nouveau.page.book_threads", "Book Threads");
-        add("not_enough_glyphs.page.book_threads.desc", "The book threads are at the core of the spellbinder. They allow to give your binder special properties and effects, similar to how Armor Threads work. You can use an Alteration Table to slot up to two threads into the Spell Binder.");
+        add("ars_nouveau.page.book_threads", "Book Covers");
+        add("not_enough_glyphs.page.book_threads.desc", "The Book Covers are at the core of the spellbinder. They allow to give your binder special properties and effects, similar to how Armor Threads work. You can use an Alteration Table to slot up to two covers into the Spell Binder.");
 
         add("effect.not_enough_glyphs.shrink", "Shrinking");
         add("effect.not_enough_glyphs.shrink.desc", "Shrinks down the entity.");
