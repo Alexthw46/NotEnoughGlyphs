@@ -57,7 +57,6 @@ jobs:
           name: sources-jar
           path: build/libs/*-sources.jar
       - uses: Kir-Antipov/mc-publish@v3.3
-        if: ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
         with:
           curseforge-id: 1023517
           modrinth-id: WgAFDDv0
