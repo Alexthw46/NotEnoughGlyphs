@@ -203,7 +203,7 @@
   "not_enough_glyphs.glyph_name.glyph_plow": "开垦",
   "not_enough_glyphs.glyph_name.glyph_propagate_plane": "平面调态",
   "not_enough_glyphs.glyph_name.glyph_trail": "回响轨迹",
-  "not_enough_glyphs.page.book_threads.desc": "书皮居于法术活页夹的核心。它们可给予活页夹特殊属性和效果，与盔甲的纤维类似。可在改衣台中为法术活页夹编入纤维，最多两个。",
+  "not_enough_glyphs.page.book_threads.desc": "书皮是法术活页夹的核心。它们可给予活页夹特殊属性和效果，与盔甲的纤维类似。可在改衣台中为法术活页夹编入纤维，最多两个。",
   "not_enough_glyphs.page.spell_binder": "法术活页夹是传统施法方式的替代方案，它可以使用放入其中的法术羊皮纸和施法者卷册施法。左侧的10个槽位会作为法术圆盘菜单（V）中的选项；右侧还可存放15个法术，以供需要时替换。",
   "not_enough_glyphs.perk.mana_discount": "节魔",
   "not_enough_glyphs.perk.mana_discount.desc": "令法术的魔力消耗减少%s。",
