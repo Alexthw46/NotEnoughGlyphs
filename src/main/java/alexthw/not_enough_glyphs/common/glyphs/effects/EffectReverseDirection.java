@@ -13,6 +13,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -86,11 +87,15 @@ public class EffectReverseDirection extends AbstractEffect implements IPropagato
                     case NORTH, SOUTH, EAST, WEST -> Direction.UP;
                 };
             }
-            int ampMod = (int) stats.getAmpMultiplier();
-            boolean counterClockwise = ampMod < 0;
+            // Only works to cycle between the NSWE directions, as the vertical directions don't have a clockwise/counter-clockwise, and it makes no sense to double-negate
+            if (direction.getAxis().isHorizontal()) {
 
-            for (int i = 0; i < (counterClockwise ? 0 : 1) + Math.abs(ampMod); i++) {
-                direction = counterClockwise ? direction.getCounterClockWise() : direction.getClockWise();
+                int ampMod = (int) stats.getAmpMultiplier();
+                boolean counterClockwise = ampMod < 0;
+
+                for (int i = 0; i < (counterClockwise ? 0 : 1) + Math.abs(ampMod); i++) {
+                    direction = counterClockwise ? direction.getCounterClockWise() : direction.getClockWise();
+                }
             }
 
             reversedRayTraceResult = blockHitResult
@@ -110,5 +115,13 @@ public class EffectReverseDirection extends AbstractEffect implements IPropagato
         map.put(AugmentSensitive.INSTANCE, "Rotates the placement on a different axis.");
         map.put(AugmentDampen.INSTANCE, "Increases rotations counter-clockwise.");
         map.put(AugmentAmplify.INSTANCE, "Increases rotations clockwise.");
+    }
+
+    @Override
+    protected Map<ResourceLocation, Integer> getDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+        defaults.put(AugmentDampen.INSTANCE.getRegistryName(), 2);
+        defaults.put(AugmentSensitive.INSTANCE.getRegistryName(), 1);
+        return super.getDefaultAugmentLimits(defaults);
     }
 }
