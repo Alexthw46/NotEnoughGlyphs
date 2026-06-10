@@ -1,3 +1,9 @@
+# Not Enough Glyphs 1.21.1 - 4.5.0
+
+* Band-Aid to prevent world breaking from upgrading the spellbinder (which is unintended to be possible)
+* Added Ride and Feed glyphs
+* "Random" Filter
+
 # Not Enough Glyphs 1.21.1 - 4.4.0
 
 * Renamed Book Threads into Book Covers.

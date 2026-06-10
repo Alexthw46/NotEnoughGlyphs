@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-01T15:16:12.5285771	Glyph Recipes
+// 1.21.1	2026-06-10T15:11:22.9454225	Glyph Recipes
 eadf85ed85d3d51d18d233f60f42499db50c2701 data/arsomega/recipe/glyph_flatten.json
 29e10750ffe510f94a668aa0c857457de6b70ec9 data/arsomega/recipe/glyph_missile.json
 9a0a6a76839cd613040c7bf0412471aec097f076 data/arsomega/recipe/glyph_overhead.json
@@ -21,10 +21,13 @@ c8e67c840878a07a1cfcc0764e7b80368e16d01e data/not_enough_glyphs/recipe/glyph_con
 520081f79126770645bb590aec00626bb5adf6f2 data/not_enough_glyphs/recipe/glyph_contingency_heal.json
 6dde3efe18da9a4badb432958ef11df0797543e2 data/not_enough_glyphs/recipe/glyph_contingency_health.json
 bb72db898614374f5d0c432ae7918aee7b361898 data/not_enough_glyphs/recipe/glyph_contingency_time.json
+b354d965851de34113a4ff26ce704947560528e4 data/not_enough_glyphs/recipe/glyph_feed.json
 bf0f52d4ae8885ae1ad355a1966678617191ddc3 data/not_enough_glyphs/recipe/glyph_filter_dark.json
 3050cdbecd6e7811334e940401f0cc90dc140dbe data/not_enough_glyphs/recipe/glyph_filter_light.json
+2cbf1f91aea0e5feb28b14ea215b6868716856c4 data/not_enough_glyphs/recipe/glyph_filter_random.json
 903e502ae38e0389fd850d5bf8df8e20c396aea3 data/not_enough_glyphs/recipe/glyph_plow.json
 4f5e847f4298f028fc2f4c95970d22f1bfcf86c3 data/not_enough_glyphs/recipe/glyph_propagate_plane.json
+51f4e077d08706325c4e5a41fe0e5dbb5e682f46 data/not_enough_glyphs/recipe/glyph_ride.json
 7ad530c41308a5fc46da0080da9c9e32b7f85555 data/not_enough_glyphs/recipe/glyph_trail.json
 ad6da64c55c86c163f75b152b82f2708e67de54c data/toomanyglyphs/recipe/glyph_chaining.json
 fc37d416c27750bd43bd8046e6d665af8e0c4644 data/toomanyglyphs/recipe/glyph_filter_animal.json

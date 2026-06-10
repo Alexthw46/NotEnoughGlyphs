@@ -9,12 +9,7 @@ import alexthw.not_enough_glyphs.api.spell_style.RayMotion;
 import alexthw.not_enough_glyphs.api.spell_style.RayTimeline;
 import alexthw.not_enough_glyphs.api.spell_style.TrailTimeline;
 import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
-import alexthw.not_enough_glyphs.common.glyphs.effects.EffectChaining;
-import alexthw.not_enough_glyphs.common.glyphs.effects.EffectFlatten;
-import alexthw.not_enough_glyphs.common.glyphs.effects.EffectMomentum;
-import alexthw.not_enough_glyphs.common.glyphs.effects.EffectPlow;
-import alexthw.not_enough_glyphs.common.glyphs.effects.EffectResize;
-import alexthw.not_enough_glyphs.common.glyphs.effects.EffectReverseDirection;
+import alexthw.not_enough_glyphs.common.glyphs.effects.*;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodArc;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
@@ -76,6 +71,8 @@ public class ArsNouveauRegistry {
         register(EffectPlow.INSTANCE);
         register(MethodTrail.INSTANCE);
         register(EffectMomentum.INSTANCE);
+        register(EffectRide.INSTANCE);
+        register(EffectFeed.INSTANCE);
 
         //neg filters
         register(FilterLight.LIGHT);
@@ -185,7 +182,7 @@ public class ArsNouveauRegistry {
 
     public static void postInit() {
         SpellCasterRegistry.register(Registry.SPELL_BINDER.get(), (stack) -> stack.get(Registry.SPELL_BINDER_CASTER));
-        PerkRegistry.registerPerkProvider(Registry.SPELL_BINDER.get(), List.of(List.of(PerkSlot.ONE, PerkSlot.TWO)));
+        PerkRegistry.registerPerkProvider(Registry.SPELL_BINDER.get(), List.of(List.of(PerkSlot.ONE, PerkSlot.TWO), List.of(PerkSlot.ONE, PerkSlot.TWO), List.of(PerkSlot.ONE, PerkSlot.TWO)));
         EffectReset.RESET_LIMITS.add(PropagatePlane.INSTANCE);
         EffectReset.RESET_LIMITS.add(EffectChaining.INSTANCE);
 

@@ -1,0 +1,31 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 55,
+  "inputs": [
+    {
+      "tag": "c:foods"
+    },
+    {
+      "tag": "c:foods"
+    },
+    {
+      "tag": "c:foods"
+    },
+    {
+      "tag": "c:foods"
+    },
+    {
+      "tag": "c:foods"
+    },
+    {
+      "tag": "c:foods"
+    },
+    {
+      "item": "ars_nouveau:conjuration_essence"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "not_enough_glyphs:glyph_feed"
+  }
+}

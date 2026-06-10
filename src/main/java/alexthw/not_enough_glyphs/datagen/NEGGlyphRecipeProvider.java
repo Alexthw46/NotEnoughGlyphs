@@ -7,11 +7,17 @@ import alexthw.ars_elemental.common.glyphs.PropagatorHoming;
 import alexthw.not_enough_glyphs.common.glyphs.contingency.*;
 import alexthw.not_enough_glyphs.common.glyphs.effects.*;
 import alexthw.not_enough_glyphs.common.glyphs.filters.*;
-import alexthw.not_enough_glyphs.common.glyphs.forms.*;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodArc;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMissile;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodOverhead;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodRay;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodTrail;
 import alexthw.not_enough_glyphs.common.glyphs.propagators.*;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.common.crafting.recipes.GlyphRecipe;
 import com.hollingsworth.arsnouveau.common.datagen.GlyphRecipeProvider;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentRandomize;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodSelf;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodUnderfoot;
@@ -45,10 +51,14 @@ public class NEGGlyphRecipeProvider extends GlyphRecipeProvider {
         recipes.add(get(EffectPlow.INSTANCE).withItem(ItemsRegistry.EARTH_ESSENCE).withItem(Items.STONE_HOE));
         recipes.add(get(EffectFlatten.INSTANCE).withItem(ItemsRegistry.EARTH_ESSENCE).withItem(Items.IRON_SHOVEL).withItem(Items.ANVIL));
 
+        recipes.add(get(EffectFeed.INSTANCE).withIngredient(Ingredient.of(Tags.Items.FOODS), 6).withItem(ItemsRegistry.CONJURATION_ESSENCE));
+        recipes.add(get(EffectRide.INSTANCE).withItem(Items.SADDLE).withItem(ItemsRegistry.MANIPULATION_ESSENCE));
+
         recipes.add(get(PropagatePlane.INSTANCE).withItem(ItemsRegistry.MANIPULATION_ESSENCE).withItem(Items.DIAMOND_BLOCK).withItem(Items.FIREWORK_STAR).withItem(ItemsRegistry.WILDEN_SPIKE));
 
         recipes.add(get(FilterLight.LIGHT).withItem(Items.TORCH));
         recipes.add(get(FilterDark.DARK).withItem(Items.TORCH).withIngredient(Ingredient.of(Tags.Items.DYES_BLACK)));
+        recipes.add(get(FilterRandom.INSTANCE).withItem(AugmentRandomize.INSTANCE.getGlyph()));
 
         // Contingency Glyphs
         recipes.add(get(HealContingency.INSTANCE).withItem(ItemsRegistry.ABJURATION_ESSENCE).withItem(Items.REPEATER).withItem(Items.HONEY_BOTTLE));

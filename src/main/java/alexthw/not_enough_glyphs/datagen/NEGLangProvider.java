@@ -73,7 +73,8 @@ public class NEGLangProvider extends LanguageProvider {
         add("effect.not_enough_glyphs.shrink.desc", "Shrinks down the entity.");
         add("effect.not_enough_glyphs.grow", "Growing");
         add("effect.not_enough_glyphs.grow.desc", "Increases the entity's size.");
-
+        add("effect.not_enough_glyphs.stuffed", "Stuffed");
+        add("effect.not_enough_glyphs.stuffed.desc", "Too much food! Increases the entity's size and makes them more vulnerable to crush. Might explode if crushed when under 1/4 health");
         add("ars_nouveau.particle_config.ray", "Ray");
 
         for (Supplier<Glyph> supplier : GlyphRegistry.getGlyphItemMap().values()) {
