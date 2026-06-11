@@ -1,5 +1,6 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
+import alexthw.ars_elemental.common.entity.FlashjackEntity;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.alexthw.sauce.util.GlyphEffectUtil;
@@ -15,6 +16,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
@@ -64,22 +66,21 @@ public class MethodHoming extends AbstractCastMethod {
         return Math.max(0.2F, 0.5F + stats.getAccMultiplier() / 5.0F);
     }
 
-    @Override
-    public CastResolveType onCast(ItemStack stack, LivingEntity shooter, Level world, SpellStats spellStats, SpellContext context, SpellResolver resolver) {
-
-        List<Predicate<LivingEntity>> ignore = basicIgnores(shooter, spellStats.hasBuff(AugmentSensitive.INSTANCE), resolver.spell);
-
-        if (shooter instanceof Player) {
-            ignore.add(entity -> entity instanceof ISummon summon && shooter.getUUID().equals(summon.getOwnerUUID()));
-            ignore.add(entity -> entity instanceof OwnableEntity pet && shooter.equals(pet.getOwner()));
-        } else if (shooter instanceof ISummon summon && summon.getOwnerUUID() != null) {
-            ignore.add(entity -> entity instanceof ISummon summon2 && summon.getOwnerUUID().equals(summon2.getOwnerUUID()));
-            ignore.add(entity -> entity instanceof OwnableEntity pet && summon.getOwnerUUID().equals(pet.getOwnerUUID()));
+    public static List<Predicate<LivingEntity>> basicIgnores(LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+        List<Predicate<LivingEntity>> ignore = new ArrayList<>();
+        ignore.add((entity -> !entity.isAlive()));
+        ignore.add((entity -> entity == shooter));
+        ignore.add(entity -> entity instanceof FamiliarEntity || entity instanceof FlashjackEntity);
+        ignore.add(entity -> entity.hasEffect(MobEffects.INVISIBILITY));
+        ignore.add(shooter::isAlliedTo);
+        if (!spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
+            ignore.add(entity -> entity instanceof Player);
         }
-
-        summonProjectiles(world, shooter, spellStats, resolver, ignore);
-
-        return CastResolveType.SUCCESS;
+        Set<IFilter> filters = GlyphEffectUtil.getFilters(spellContext.getSpell().unsafeList(), 0);
+        if (!filters.isEmpty()) {
+            ignore.add(entity -> GlyphEffectUtil.checkIgnoreFilters(entity, filters, spellStats, spellContext, resolver));
+        }
+        return ignore;
     }
 
     /**
@@ -128,21 +129,22 @@ public class MethodHoming extends AbstractCastMethod {
         return augmentSetOf(AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentDecelerate.INSTANCE, AugmentSensitive.INSTANCE);
     }
 
-    public static List<Predicate<LivingEntity>> basicIgnores(LivingEntity shooter, Boolean targetPlayers, Spell spell) {
-        List<Predicate<LivingEntity>> ignore = new ArrayList<>();
+    @Override
+    public CastResolveType onCast(ItemStack stack, LivingEntity shooter, Level world, SpellStats spellStats, SpellContext context, SpellResolver resolver) {
 
-        ignore.add((entity -> !entity.isAlive()));
-        ignore.add((entity -> entity == shooter));
-        ignore.add(entity -> entity instanceof FamiliarEntity);
-        ignore.add(shooter::isAlliedTo);
-        if (!targetPlayers) {
-            ignore.add(entity -> entity instanceof Player);
+        List<Predicate<LivingEntity>> ignore = basicIgnores(shooter, spellStats, context, resolver);
+
+        if (shooter instanceof Player) {
+            ignore.add(entity -> entity instanceof ISummon summon && shooter.getUUID().equals(summon.getOwnerUUID()));
+            ignore.add(entity -> entity instanceof OwnableEntity pet && shooter.equals(pet.getOwner()));
+        } else if (shooter instanceof ISummon summon && summon.getOwnerUUID() != null) {
+            ignore.add(entity -> entity instanceof ISummon summon2 && summon.getOwnerUUID().equals(summon2.getOwnerUUID()));
+            ignore.add(entity -> entity instanceof OwnableEntity pet && summon.getOwnerUUID().equals(pet.getOwnerUUID()));
         }
-        Set<IFilter> filters = GlyphEffectUtil.getFilters(spell.unsafeList(), 0);
-        if (!filters.isEmpty()) {
-            ignore.add(entity -> GlyphEffectUtil.checkIgnoreFilters(entity, filters));
-        }
-        return ignore;
+
+        summonProjectiles(world, shooter, spellStats, resolver, ignore);
+
+        return CastResolveType.SUCCESS;
     }
 
     @Override
