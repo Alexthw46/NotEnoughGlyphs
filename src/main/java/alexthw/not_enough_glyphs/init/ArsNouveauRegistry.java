@@ -77,7 +77,6 @@ public class ArsNouveauRegistry {
         //neg filters
         register(FilterLight.LIGHT);
         register(FilterDark.DARK);
-        register(FilterRandom.INSTANCE);
 
         //contingencies
         register(FallContingency.INSTANCE);
@@ -155,6 +154,10 @@ public class ArsNouveauRegistry {
 
         //ex scalaes
         register(EffectResize.INSTANCE);
+
+        //controle
+        if (!ModList.get().isLoaded("ars_controle"))
+            register(FilterRandom.INSTANCE);
 
         //perks
         PerkRegistry.registerPerk(FocusPerk.MANIPULATION);

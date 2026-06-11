@@ -10,6 +10,8 @@ import com.hollingsworth.arsnouveau.common.potions.PublicEffect;
 import com.hollingsworth.arsnouveau.setup.registry.CreativeTabRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -34,6 +36,8 @@ import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
 
 
 public class Registry {
+
+    public static TagKey<EntityType<?>> RIDE_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, prefix("ride_blacklist"));
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(NotEnoughGlyphs.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, NotEnoughGlyphs.MODID);

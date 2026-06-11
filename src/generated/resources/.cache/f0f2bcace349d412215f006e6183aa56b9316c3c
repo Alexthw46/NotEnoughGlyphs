@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-10T15:11:22.9454225	Glyph Recipes
+// 1.21.1	2026-06-11T11:17:58.4378531	Glyph Recipes
 eadf85ed85d3d51d18d233f60f42499db50c2701 data/arsomega/recipe/glyph_flatten.json
 29e10750ffe510f94a668aa0c857457de6b70ec9 data/arsomega/recipe/glyph_missile.json
 9a0a6a76839cd613040c7bf0412471aec097f076 data/arsomega/recipe/glyph_overhead.json
@@ -7,6 +7,7 @@ f34ec52cb55ecf79a98debf54dac79944db20864 data/arsomega/recipe/glyph_propagate_mi
 642037c134d803d493740a9e7dd2f02b5911b50f data/arsomega/recipe/glyph_propagate_projectile.json
 dc74a3fdaea2a848f06db15f92aba680a9194aa3 data/arsomega/recipe/glyph_propagate_self.json
 e62fe6551cbd2a9494844faa81ca51c350c0c98a data/arsomega/recipe/glyph_propagate_underfoot.json
+93ff746e1de394eb76f6eaa2d4eb9e8c7dd21e6d data/ars_controle/recipe/glyph_filter_random.json
 7af1aca836a572719061d1c76265c17f65db049b data/ars_elemental/recipe/glyph_arc_projectile.json
 50c612d0c397d871b411f61ce0902d0add2f5aad data/ars_elemental/recipe/glyph_homing_projectile.json
 966d8c4eab3aac28ebd7605e46fde1edc828dcb3 data/ars_elemental/recipe/glyph_propagator_arc.json
@@ -24,7 +25,6 @@ bb72db898614374f5d0c432ae7918aee7b361898 data/not_enough_glyphs/recipe/glyph_con
 b354d965851de34113a4ff26ce704947560528e4 data/not_enough_glyphs/recipe/glyph_feed.json
 bf0f52d4ae8885ae1ad355a1966678617191ddc3 data/not_enough_glyphs/recipe/glyph_filter_dark.json
 3050cdbecd6e7811334e940401f0cc90dc140dbe data/not_enough_glyphs/recipe/glyph_filter_light.json
-2cbf1f91aea0e5feb28b14ea215b6868716856c4 data/not_enough_glyphs/recipe/glyph_filter_random.json
 903e502ae38e0389fd850d5bf8df8e20c396aea3 data/not_enough_glyphs/recipe/glyph_plow.json
 4f5e847f4298f028fc2f4c95970d22f1bfcf86c3 data/not_enough_glyphs/recipe/glyph_propagate_plane.json
 51f4e077d08706325c4e5a41fe0e5dbb5e682f46 data/not_enough_glyphs/recipe/glyph_ride.json

@@ -1,5 +1,6 @@
 package alexthw.not_enough_glyphs.common.glyphs.effects;
 
+import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +29,7 @@ public class EffectRide extends AbstractEffect {
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (isNotFakePlayer(shooter) && shooter != rayTraceResult.getEntity()) {
-            if (rayTraceResult.getEntity() instanceof Enemy)
+            if (rayTraceResult.getEntity() instanceof Enemy || rayTraceResult.getEntity().getType().is(Registry.RIDE_BLACKLIST))
                 return;
             shooter.startRiding(rayTraceResult.getEntity());
         }

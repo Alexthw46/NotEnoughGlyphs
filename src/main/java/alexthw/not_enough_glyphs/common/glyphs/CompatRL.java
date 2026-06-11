@@ -26,4 +26,8 @@ public class CompatRL {
         return ResourceLocation.fromNamespaceAndPath("ars_trinkets", "glyph_" + path);
     }
 
+    public static ResourceLocation controle(String path) {
+        return ResourceLocation.fromNamespaceAndPath("ars_controle", "glyph_" + path);
+    }
+
 }

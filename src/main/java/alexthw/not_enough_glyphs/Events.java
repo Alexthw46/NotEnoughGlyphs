@@ -1,6 +1,7 @@
 package alexthw.not_enough_glyphs;
 
 import alexthw.not_enough_glyphs.common.glyphs.contingency.ContingencyTriggers;
+import alexthw.not_enough_glyphs.common.glyphs.effects.EffectFeed;
 import alexthw.not_enough_glyphs.init.Registry;
 import com.alexthw.sauce.registry.ModRegistry;
 import com.alexthw.sauce.util.ContingencyEffectInstance;
@@ -84,17 +85,17 @@ public class Events {
             if (event.target instanceof LivingEntity entity && entity.level() instanceof ServerLevel server) {
                 var stuff = entity.getEffect(Registry.STUFFED_EFFECT);
                 if (stuff != null) {
-                    if (entity.getHealth() / entity.getMaxHealth() < 0.25F) {
+                    if (entity.getHealth() / entity.getMaxHealth() < 0.25F && server.random.nextFloat() < EffectFeed.INSTANCE.FOODXPLOSION_CHANCE.get() * (stuff.getAmplifier() + 1)) {
                         entity.kill();
                         server.sendParticles(ParticleTypes.EXPLOSION, entity.position().x, entity.position().y + 0.5, entity.position().z, 5,
                                 ParticleUtil.inRange(-0.5, 0.5), ParticleUtil.inRange(-0.5, 0.5), ParticleUtil.inRange(-0.5, 0.5), 0.3);
                         for (Entity e : server.getEntities(event.caster, new AABB(
                                 entity.position().add(4, 4, 4), entity.position().subtract(4, 4, 4)))) {
                             if (!(e instanceof LivingEntity living && living.getHealth() <= 0 || e.isAlliedTo(event.caster)))
-                                e.hurt(event.damageSource, event.damage * (1.25F + 0.25F * stuff.getAmplifier()));
+                                e.hurt(event.damageSource, event.damage * (1 + EffectFeed.INSTANCE.STUFFED_CRUSH_MULTIPLIER.get().floatValue() * (stuff.getAmplifier() + 1)));
                         }
                     } else {
-                        event.damage = event.damage * (1.25F + 0.25F * stuff.getAmplifier());
+                        event.damage = event.damage * (1 + EffectFeed.INSTANCE.STUFFED_CRUSH_MULTIPLIER.get().floatValue() * (stuff.getAmplifier() + 1));
                     }
                 }
             }

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -56,6 +57,16 @@ public class EffectFeed extends AbstractEffect {
             toFeed.eat(world, food.getStack());
             toFeed.addEffect(new MobEffectInstance(Registry.STUFFED_EFFECT, 400, Math.min(foodXplosionLevel, 9)));
         }
+    }
+
+    public ModConfigSpec.DoubleValue FOODXPLOSION_CHANCE;
+    public ModConfigSpec.DoubleValue STUFFED_CRUSH_MULTIPLIER;
+
+    @Override
+    public void buildConfig(ModConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+        FOODXPLOSION_CHANCE = builder.comment("Chance to explode based on stuffed level when hit by crush under 25% health, in percentage (0-1 = 0% - 100%)").defineInRange("foodxplosion_chance", 0.1, 0.0f, 1.0f);
+        STUFFED_CRUSH_MULTIPLIER = builder.comment("Damage multiplier for crush damage taken while stuffed").defineInRange("stuffed_crush_multiplier", 0.25, 0.0f, Double.MAX_VALUE);
     }
 
     @Override

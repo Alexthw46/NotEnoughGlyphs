@@ -1,3 +1,9 @@
+# Not Enough Glyphs 1.21.1 - 4.5.1
+
+* Adds config for stuffed-crush damage boost and foodXplosion
+* Adds an entity blacklist for ride
+* Moved the "Random" filter to Ars Controle namespace and fully replicated its functionalities
+
 # Not Enough Glyphs 1.21.1 - 4.5.0
 
 * Band-Aid to prevent world breaking from upgrading the spellbinder (which is unintended to be possible)
