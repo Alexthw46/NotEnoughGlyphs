@@ -1,5 +1,8 @@
 package alexthw.not_enough_glyphs.common.glyphs.filters;
 
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
+import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.api.spell.SpellTier;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.level.Level;
@@ -20,7 +23,7 @@ public class FilterBaby extends FilterEntity {
     }
 
     @Override
-    public boolean shouldResolveOnEntity(EntityHitResult target, Level level) {
+    public boolean shouldResolveOnEntity(EntityHitResult target, Level level, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (!(target.getEntity() instanceof AgeableMob ageableMob)) return false;
         return ageableMob.isBaby();
     }

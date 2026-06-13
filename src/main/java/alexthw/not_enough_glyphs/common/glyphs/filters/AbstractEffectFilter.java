@@ -35,13 +35,13 @@ public abstract class AbstractEffectFilter extends AbstractFilter {
     }
 
     @Override
-    public boolean shouldAffect(HitResult rayTraceResult, Level level) {
-        return inverted != super.shouldAffect(rayTraceResult, level);
+    public boolean shouldAffect(HitResult rayTraceResult, Level level, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+        return inverted != super.shouldAffect(rayTraceResult, level, spellStats, spellContext, resolver);
     }
 
     @Override
     public void onResolve(HitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        if (!shouldAffect(rayTraceResult, world)) spellContext.setCanceled(true);
+        if (!shouldAffect(rayTraceResult, world, spellStats, spellContext, resolver)) spellContext.setCanceled(true);
     }
 
     protected boolean inverted = false;
@@ -57,11 +57,6 @@ public abstract class AbstractEffectFilter extends AbstractFilter {
         return setOf(SpellSchools.MANIPULATION);
     }
 
-    @Override
-    public int getDefaultManaCost() {
-        return 0;
-    }
-
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
@@ -69,11 +64,19 @@ public abstract class AbstractEffectFilter extends AbstractFilter {
     }
 
     @Override
-    public boolean shouldResolveOnBlock(BlockHitResult target, Level level) {
+    public boolean shouldResolveOnBlock(BlockHitResult target, Level level, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         return false;
     }
 
     @Override
+    public boolean shouldResolveOnEntity(EntityHitResult target, Level level, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+        return false;
+    }
+
+    public boolean shouldResolveOnBlock(BlockHitResult target, Level level) {
+        return false;
+    }
+
     public boolean shouldResolveOnEntity(EntityHitResult target, Level level) {
         return false;
     }
@@ -90,4 +93,5 @@ public abstract class AbstractEffectFilter extends AbstractFilter {
         }
         return this.glyphItem;
     }
+
 }

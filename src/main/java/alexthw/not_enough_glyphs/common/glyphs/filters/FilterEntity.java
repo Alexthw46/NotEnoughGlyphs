@@ -1,6 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.filters;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
+import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -24,7 +27,7 @@ public class FilterEntity extends AbstractEffectFilter {
     }
 
     @Override
-    public boolean shouldResolveOnEntity(EntityHitResult target, Level level) {
+    public boolean shouldResolveOnEntity(EntityHitResult target, Level level, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         return true;
     }
 }
