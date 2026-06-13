@@ -1,6 +1,5 @@
 package alexthw.not_enough_glyphs.common.spell;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,7 +12,7 @@ import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
 
 public class SharpThread extends BookPerk {
 
-    public static final SharpThread INSTANCE = new SharpThread(ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "thread_sharp_paper"));
+    public static final SharpThread INSTANCE = new SharpThread(prefix("thread_sharp_paper"));
 
     public SharpThread(ResourceLocation key) {
         super(key);

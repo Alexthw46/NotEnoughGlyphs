@@ -11,6 +11,7 @@ import com.hollingsworth.arsnouveau.setup.registry.CreativeTabRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
@@ -22,11 +23,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -38,7 +39,7 @@ import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
 public class Registry {
 
     public static TagKey<EntityType<?>> RIDE_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, prefix("ride_blacklist"));
-
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, NotEnoughGlyphs.MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(NotEnoughGlyphs.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, NotEnoughGlyphs.MODID);
     public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(BuiltInRegistries.MENU, NotEnoughGlyphs.MODID);
@@ -65,6 +66,17 @@ public class Registry {
             ItemStack stack = inv.player.getItemInHand(mainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
             return new SpellBinderContainer(id, inv, stack);
         }));
+
+        TABS.register("general", () -> CreativeModeTab.builder()
+                .title(Component.translatable("itemGroup.not_enough_glyphs"))
+                .icon(() -> SPELL_BINDER.get().getDefaultInstance())
+                .displayItems((params, output) -> {
+                    for (var entry : ITEMS.getEntries()) {
+                        output.accept(entry.get().getDefaultInstance());
+                    }
+                }).withTabsBefore(CreativeTabRegistry.BLOCKS.getId())
+                .build());
+
     }
 
     static <T extends Entity> Supplier<EntityType<T>> addEntity(String name, float width, float height, boolean fire, boolean noSave, EntityType.EntityFactory<T> factory, MobCategory kind) {
@@ -89,11 +101,7 @@ public class Registry {
         ATTRIBUTES.register(modbus);
         EFFECTS.register(modbus);
         DATA.register(modbus);
-        modbus.addListener((BuildCreativeModeTabContentsEvent event) -> {
-            if (event.getTab() == CreativeTabRegistry.BLOCKS.get())
-                for (var item : ITEMS.getEntries())
-                    event.accept(item.get());
-        });
+        TABS.register(modbus);
     }
 
     public static final DeferredRegister<DataComponentType<?>> DATA = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, NotEnoughGlyphs.MODID);

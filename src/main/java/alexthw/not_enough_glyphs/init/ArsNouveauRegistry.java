@@ -19,12 +19,14 @@ import alexthw.not_enough_glyphs.common.glyphs.forms.MethodRay;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodTrail;
 import alexthw.not_enough_glyphs.common.glyphs.propagators.*;
 import alexthw.not_enough_glyphs.common.spell.*;
+import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.particle.configurations.IParticleMotionType;
 import com.hollingsworth.arsnouveau.api.particle.configurations.SimpleParticleMotionType;
 import com.hollingsworth.arsnouveau.api.particle.timelines.BurstTimeline;
 import com.hollingsworth.arsnouveau.api.particle.timelines.IParticleTimelineType;
 import com.hollingsworth.arsnouveau.api.particle.timelines.ProjectileTimeline;
 import com.hollingsworth.arsnouveau.api.particle.timelines.SimpleParticleTimelineType;
+import com.hollingsworth.arsnouveau.api.perk.IPerk;
 import com.hollingsworth.arsnouveau.api.perk.PerkSlot;
 import com.hollingsworth.arsnouveau.api.registry.ParticleMotionRegistry;
 import com.hollingsworth.arsnouveau.api.registry.PerkRegistry;
@@ -40,6 +42,7 @@ import com.hollingsworth.arsnouveau.setup.registry.APIRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -146,10 +149,10 @@ public class ArsNouveauRegistry {
                     MethodArcProjectile.INSTANCE, MethodHomingProjectile.INSTANCE,
                     PropagatorArc.INSTANCE, PropagatorHoming.INSTANCE)
             );
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_FIRE);
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_WATER);
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_EARTH);
-            PerkRegistry.registerPerk(FocusPerk.ELEMENTAL_AIR);
+            registerPerk(FocusPerk.ELEMENTAL_FIRE);
+            registerPerk(FocusPerk.ELEMENTAL_WATER);
+            registerPerk(FocusPerk.ELEMENTAL_EARTH);
+            registerPerk(FocusPerk.ELEMENTAL_AIR);
         }
 
         //ex scalaes
@@ -160,16 +163,25 @@ public class ArsNouveauRegistry {
             register(FilterRandom.INSTANCE);
 
         //perks
-        PerkRegistry.registerPerk(FocusPerk.MANIPULATION);
-        PerkRegistry.registerPerk(FocusPerk.SUMMONING);
-        PerkRegistry.registerPerk(RandomPerk.INSTANCE);
-        PerkRegistry.registerPerk(PacificThread.INSTANCE);
-        PerkRegistry.registerPerk(BulldozeThread.INSTANCE);
-        PerkRegistry.registerPerk(SharpThread.INSTANCE);
-        PerkRegistry.registerPerk(PounchThread.INSTANCE);
+        registerPerk(FocusPerk.MANIPULATION);
+        registerPerk(FocusPerk.SUMMONING);
+        registerPerk(RandomPerk.INSTANCE);
+        registerPerk(PacificThread.INSTANCE);
+        registerPerk(BulldozeThread.INSTANCE);
+        registerPerk(SharpThread.INSTANCE);
+        registerPerk(PounchThread.INSTANCE);
 
-        PerkRegistry.registerPerk(SpellCritChancePerk.INSTANCE);
-        PerkRegistry.registerPerk(SpellCritDamagePerk.INSTANCE);
+        registerPerk(SpellCritChancePerk.INSTANCE);
+        registerPerk(SpellCritDamagePerk.INSTANCE);
+
+    }
+
+    public static void registerPerk(IPerk perk) {
+        // Maps both the old and the new to act as alias when loading a world post-switch
+        var oldVersion = ArsNouveau.prefix(perk.getRegistryName().getPath());
+        PerkRegistry.getPerkMap().put(oldVersion, perk);
+        PerkRegistry.registerPerk(perk);
+        BuiltInRegistries.ITEM.addAlias(oldVersion, perk.getRegistryName());
     }
 
     public static void register(AbstractSpellPart spellPart) {

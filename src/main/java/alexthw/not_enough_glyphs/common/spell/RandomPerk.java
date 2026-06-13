@@ -1,6 +1,6 @@
 package alexthw.not_enough_glyphs.common.spell;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
+import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.perk.IEffectResolvePerk;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
@@ -17,7 +17,7 @@ public class RandomPerk extends BookPerk implements IEffectResolvePerk {
         super(key);
     }
 
-    public static final RandomPerk INSTANCE = new RandomPerk(ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "thread_wild_magic"));
+    public static final RandomPerk INSTANCE = new RandomPerk(NotEnoughGlyphs.prefix("thread_wild_magic"));
     public static final Random random = new Random();
 
     public enum WILD_MAGIC {

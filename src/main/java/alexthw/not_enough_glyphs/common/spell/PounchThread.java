@@ -1,6 +1,5 @@
 package alexthw.not_enough_glyphs.common.spell;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,7 +12,7 @@ import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
 
 public class PounchThread extends BookPerk {
 
-    public static final PounchThread INSTANCE = new PounchThread(ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "thread_knockback"));
+    public static final PounchThread INSTANCE = new PounchThread(prefix("thread_knockback"));
 
     public PounchThread(ResourceLocation key) {
         super(key);

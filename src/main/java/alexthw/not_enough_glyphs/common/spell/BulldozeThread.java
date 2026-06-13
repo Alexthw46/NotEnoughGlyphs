@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.NotNull;
 
-import static com.hollingsworth.arsnouveau.ArsNouveau.prefix;
+import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
 
 public class BulldozeThread extends BookPerk implements IEffectResolvePerk {
     public BulldozeThread(ResourceLocation key) {

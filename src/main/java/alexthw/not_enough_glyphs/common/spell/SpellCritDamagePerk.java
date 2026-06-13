@@ -1,7 +1,6 @@
 package alexthw.not_enough_glyphs.common.spell;
 
 import com.alexthw.sauce.registry.ModRegistry;
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,7 +12,7 @@ import static alexthw.not_enough_glyphs.init.NotEnoughGlyphs.prefix;
 
 public class SpellCritDamagePerk extends BookPerk {
 
-    public static final SpellCritDamagePerk INSTANCE = new SpellCritDamagePerk(ResourceLocation.fromNamespaceAndPath(ArsNouveau.MODID, "thread_scritdamage"));
+    public static final SpellCritDamagePerk INSTANCE = new SpellCritDamagePerk(prefix("thread_scritdamage"));
 
     public SpellCritDamagePerk(ResourceLocation key) {
         super(key);
