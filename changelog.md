@@ -1,3 +1,9 @@
+# Not Enough Glyphs 1.21.1 - 4.6.0
+
+* Updated Sauce to 0.0.42 for Ars Nouveau 5.12+
+* Migration of namespaces of book covers from ars nouveau namespace to not enough glyphs namespace, migration should be
+  lossless but a backup is always advised.
+
 # Not Enough Glyphs 1.21.1 - 4.5.1
 
 * Adds config for stuffed-crush damage boost and foodXplosion

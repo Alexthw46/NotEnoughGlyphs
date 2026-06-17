@@ -45,7 +45,7 @@ config = "not_enough_glyphs.mixins.json"
 
 [[dependencies.not_enough_glyphs]]
     modId="ars_nouveau"
-versionRange = "[1.21.1-5.11,)"
+versionRange = "[1.21.1-5.12,)"
 ordering = "AFTER"
 side = "BOTH"
 
