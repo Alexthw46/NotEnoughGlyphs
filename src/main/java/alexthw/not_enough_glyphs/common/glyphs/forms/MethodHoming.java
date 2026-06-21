@@ -1,6 +1,5 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
-import alexthw.ars_elemental.common.entity.FlashjackEntity;
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
 import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.alexthw.sauce.util.GlyphEffectUtil;
@@ -70,7 +69,7 @@ public class MethodHoming extends AbstractCastMethod {
         List<Predicate<LivingEntity>> ignore = new ArrayList<>();
         ignore.add((entity -> !entity.isAlive()));
         ignore.add((entity -> entity == shooter));
-        ignore.add(entity -> entity instanceof FamiliarEntity || entity instanceof FlashjackEntity);
+        ignore.add(entity -> entity instanceof FamiliarEntity);
         ignore.add(entity -> entity.hasEffect(MobEffects.INVISIBILITY));
         ignore.add(shooter::isAlliedTo);
         if (!spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
