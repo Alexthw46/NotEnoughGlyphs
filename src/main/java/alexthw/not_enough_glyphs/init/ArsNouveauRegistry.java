@@ -36,6 +36,7 @@ import com.hollingsworth.arsnouveau.api.spell.ITurretBehavior;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.common.block.tile.RotatingTurretTile;
+import com.hollingsworth.arsnouveau.common.items.PerkItem;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectReset;
 import com.hollingsworth.arsnouveau.setup.registry.APIRegistry;
@@ -45,9 +46,11 @@ import net.minecraft.core.Position;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -149,10 +152,6 @@ public class ArsNouveauRegistry {
                     MethodArcProjectile.INSTANCE, MethodHomingProjectile.INSTANCE,
                     PropagatorArc.INSTANCE, PropagatorHoming.INSTANCE)
             );
-            registerPerk(FocusPerk.ELEMENTAL_FIRE);
-            registerPerk(FocusPerk.ELEMENTAL_WATER);
-            registerPerk(FocusPerk.ELEMENTAL_EARTH);
-            registerPerk(FocusPerk.ELEMENTAL_AIR);
         }
 
         //ex scalaes
@@ -162,25 +161,54 @@ public class ArsNouveauRegistry {
         if (!ModList.get().isLoaded("ars_controle"))
             register(FilterRandom.INSTANCE);
 
-        //perks
-        registerPerk(FocusPerk.MANIPULATION);
-        registerPerk(FocusPerk.SUMMONING);
-        registerPerk(RandomPerk.INSTANCE);
-        registerPerk(PacificThread.INSTANCE);
-        registerPerk(BulldozeThread.INSTANCE);
-        registerPerk(SharpThread.INSTANCE);
-        registerPerk(PounchThread.INSTANCE);
-
-        registerPerk(SpellCritChancePerk.INSTANCE);
-        registerPerk(SpellCritDamagePerk.INSTANCE);
-
     }
 
-    public static void registerPerk(IPerk perk) {
-        // Maps both the old and the new to act as alias when loading a world post-switch
+    /**
+     * Registers our perks and their backing perk-items.
+     * <p>
+     * This runs from {@link net.neoforged.neoforge.registries.RegisterEvent} for the item registry, NOT from the mod
+     * constructor. Ars Nouveau materialises a {@code PerkItem} for every entry in {@link PerkRegistry#getPerkMap()} at the
+     * time its own item {@code RegisterEvent} handler fires. The old code populated that shared map from our (parallel) mod
+     * constructor, and put each perk under two keys (the {@code ars_nouveau:} alias and our own id) — so Ars Nouveau's
+     * sweep saw each perk twice and registered its item twice. How many of those duplicate registrations actually landed
+     * depended on construct/class-load ordering and resolved differently per side: the dedicated server registered each
+     * {@code not_enough_glyphs:thread_*} item twice (13 extra raw ids) while the client registered each once. On join the
+     * client remaps to the server's id set, leaving those 13 server-only ids as null ITEM holders (and crashing any mod
+     * that iterates the ITEM registry on join).
+     * <p>
+     * Because Not Enough Glyphs depends on Ars Nouveau, our {@code RegisterEvent} listeners fire after Ars Nouveau's, so
+     * its perk-map sweep never sees these perks. We therefore register each perk-item ourselves here exactly once,
+     * deterministically and single-threaded, identically on both sides.
+     */
+    public static void registerPerks(RegisterEvent.RegisterHelper<Item> helper) {
+        if (arsElemental) {
+            registerPerk(helper, FocusPerk.ELEMENTAL_FIRE);
+            registerPerk(helper, FocusPerk.ELEMENTAL_WATER);
+            registerPerk(helper, FocusPerk.ELEMENTAL_EARTH);
+            registerPerk(helper, FocusPerk.ELEMENTAL_AIR);
+        }
+
+        registerPerk(helper, FocusPerk.MANIPULATION);
+        registerPerk(helper, FocusPerk.SUMMONING);
+        registerPerk(helper, RandomPerk.INSTANCE);
+        registerPerk(helper, PacificThread.INSTANCE);
+        registerPerk(helper, BulldozeThread.INSTANCE);
+        registerPerk(helper, SharpThread.INSTANCE);
+        registerPerk(helper, PounchThread.INSTANCE);
+
+        registerPerk(helper, SpellCritChancePerk.INSTANCE);
+        registerPerk(helper, SpellCritDamagePerk.INSTANCE);
+    }
+
+    public static void registerPerk(RegisterEvent.RegisterHelper<Item> helper, IPerk perk) {
+        PerkRegistry.registerPerk(perk);
+        // Mirror Ars Nouveau's ItemsRegistry#onItemRegistry: create and register the backing perk-item ourselves.
+        PerkItem perkItem = new PerkItem(perk);
+        PerkRegistry.getPerkItemMap().put(perk.getRegistryName(), perkItem);
+        helper.register(perk.getRegistryName(), perkItem);
+        // Maps the old ars_nouveau-namespaced id to ours so worlds saved before the namespace switch keep loading.
         var oldVersion = ArsNouveau.prefix(perk.getRegistryName().getPath());
         PerkRegistry.getPerkMap().put(oldVersion, perk);
-        PerkRegistry.registerPerk(perk);
         BuiltInRegistries.ITEM.addAlias(oldVersion, perk.getRegistryName());
     }
 
