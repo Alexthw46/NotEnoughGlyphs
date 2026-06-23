@@ -39,10 +39,12 @@ import com.hollingsworth.arsnouveau.common.block.tile.RotatingTurretTile;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectReset;
 import com.hollingsworth.arsnouveau.setup.registry.APIRegistry;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -176,11 +178,13 @@ public class ArsNouveauRegistry {
 
     }
 
+    public static final List<Pair<ResourceLocation, IPerk>> perkToRemap = new ArrayList<>();
+
     public static void registerPerk(IPerk perk) {
         // Maps both the old and the new to act as alias when loading a world post-switch
         var oldVersion = ArsNouveau.prefix(perk.getRegistryName().getPath());
-        PerkRegistry.getPerkMap().put(oldVersion, perk);
         PerkRegistry.registerPerk(perk);
+        perkToRemap.add(Pair.of(oldVersion, perk));
         BuiltInRegistries.ITEM.addAlias(oldVersion, perk.getRegistryName());
     }
 
@@ -202,10 +206,12 @@ public class ArsNouveauRegistry {
         EffectReset.RESET_LIMITS.add(EffectChaining.INSTANCE);
 
         registerSpellStyles();
+        for (var alias : perkToRemap) {
+            PerkRegistry.getPerkMap().put(alias.getFirst(), alias.getSecond());
+        }
     }
 
     public static void registerSpellStyles() {
-
 
         List<IParticleMotionType<?>> PROJECTILE_OPTIONS = Arrays.asList(
                 ParticleMotionRegistry.TRAIL_TYPE.get(),
