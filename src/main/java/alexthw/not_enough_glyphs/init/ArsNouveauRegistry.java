@@ -75,6 +75,7 @@ public class ArsNouveauRegistry {
 
         //methods
         register(MethodMounted.INSTANCE);
+        register(PropagateMounted.INSTANCE);
 
         //neg effects
         register(EffectPlow.INSTANCE);

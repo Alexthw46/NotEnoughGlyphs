@@ -10,12 +10,9 @@ import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,52 +56,56 @@ public class MethodMounted extends AbstractCastMethod {
         int pierce = spellStats.getBuffCount(AugmentPierce.INSTANCE);
         int split = spellStats.getBuffCount(AugmentSplit.INSTANCE);
 
-        if (aeo > 0)
+        if (vehicle != null)
         {
-            resolver.onResolveEffect(my_level, new EntityHitResult(target)); // ensures the target is the first to be hit
-            aeo -= 1;
-            List<Entity> passengers = new LinkedList<Entity>();
-            passengers.addAll(vehicle.getPassengers());
-            while(!(aeo <= 0 || passengers.isEmpty()))
+            if (aeo > 0)
             {
-                if (passengers.get(0) != target)
+                resolver.onResolveEffect(my_level, new EntityHitResult(target)); // ensures the target is the first to be hit
+                aeo -= 1;
+                List<Entity> passengers = new LinkedList<Entity>();
+                passengers.addAll(vehicle.getPassengers());
+                while(!(aeo <= 0 || passengers.isEmpty()))
                 {
-                    resolver.onResolveEffect(my_level, new EntityHitResult(passengers.get(0)));
-                    aeo -= 1;
+                    if (passengers.get(0) != target)
+                    {
+                        resolver.onResolveEffect(my_level, new EntityHitResult(passengers.get(0)));
+                        aeo -= 1;
+                    }
+                    passengers.remove(0);
                 }
-                passengers.remove(0);
             }
-        }
-        if (pierce > 0)
-        {
-            Entity sub_vehicle = vehicle.getVehicle();
-            while(pierce > 0 && sub_vehicle != null)
+            if (pierce > 0)
             {
-                resolver.onResolveEffect(my_level, new EntityHitResult(sub_vehicle));
-                sub_vehicle = sub_vehicle.getVehicle();
-                pierce -= 1;
-            }
-        }
-        if (split > 0) // this could get out of hand quickly... hopefully never...
-        {
-            List<Entity> sub_riders = new LinkedList<Entity>();
-            sub_riders.addAll(target.getPassengers());
-            List<Entity> sub_sub_riders = new LinkedList<Entity>();
-            while(split > 0 && !sub_riders.isEmpty())
-            {
-                for(Entity e : sub_riders)
+                Entity sub_vehicle = vehicle.getVehicle();
+                while(pierce > 0 && sub_vehicle != null)
                 {
-                    resolver.onResolveEffect(my_level, new EntityHitResult(e));
-                    sub_sub_riders.addAll(e.getPassengers());
+                    resolver.onResolveEffect(my_level, new EntityHitResult(sub_vehicle));
+                    sub_vehicle = sub_vehicle.getVehicle();
+                    pierce -= 1;
                 }
-                sub_riders.clear();
-                sub_riders.addAll(sub_sub_riders);
-                sub_sub_riders.clear();
-                split -= 1;
             }
+            if (split > 0) // this could get out of hand quickly... hopefully never...
+            {
+                List<Entity> sub_riders = new LinkedList<Entity>();
+                sub_riders.addAll(target.getPassengers());
+                List<Entity> sub_sub_riders = new LinkedList<Entity>();
+                while(split > 0 && !sub_riders.isEmpty())
+                {
+                    for(Entity e : sub_riders)
+                    {
+                        resolver.onResolveEffect(my_level, new EntityHitResult(e));
+                        sub_sub_riders.addAll(e.getPassengers());
+                    }
+                    sub_riders.clear();
+                    sub_riders.addAll(sub_sub_riders);
+                    sub_sub_riders.clear();
+                    split -= 1;
+                }
+            }
+
+            resolver.onResolveEffect(my_level, new EntityHitResult(vehicle));
         }
 
-        resolver.onResolveEffect(my_level, new EntityHitResult(vehicle));
         return CastResolveType.SUCCESS;
     }
 
