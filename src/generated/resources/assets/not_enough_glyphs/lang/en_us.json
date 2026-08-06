@@ -122,6 +122,7 @@
   "ars_nouveau.augment_desc.glyph_reverse_direction_glyph_amplify": "Increases rotations clockwise.",
   "ars_nouveau.augment_desc.glyph_reverse_direction_glyph_dampen": "Increases rotations counter-clockwise.",
   "ars_nouveau.augment_desc.glyph_reverse_direction_glyph_sensitive": "Rotates the placement on a different axis.",
+  "ars_nouveau.augment_desc.glyph_ride_glyph_extract": "Dismounts the target entity instead.",
   "ars_nouveau.augment_desc.glyph_trail_glyph_accelerate": "Increases the velocity of the projectile.",
   "ars_nouveau.augment_desc.glyph_trail_glyph_aoe": "Increases the area of effect.",
   "ars_nouveau.augment_desc.glyph_trail_glyph_decelerate": "Decreases the velocity of the projectile.",
