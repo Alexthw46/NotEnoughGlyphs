@@ -14,6 +14,7 @@ import alexthw.not_enough_glyphs.common.glyphs.filters.*;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodArc;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMissile;
+import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMounted;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodOverhead;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodRay;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodTrail;
@@ -71,6 +72,9 @@ public class ArsNouveauRegistry {
         tooManyGlyphs = ModList.get().isLoaded("toomanyglyphs");
         arsOmega = ModList.get().isLoaded("arsomega");
         arsTrinkets = ModList.get().isLoaded("ars_trinkets");
+
+        //methods
+        register(MethodMounted.INSTANCE);
 
         //neg effects
         register(EffectPlow.INSTANCE);
