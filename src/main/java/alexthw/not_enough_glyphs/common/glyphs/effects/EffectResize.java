@@ -8,11 +8,15 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentRandomize;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
+
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -47,6 +51,8 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
         super.addAugmentDescriptions(map);
         map.put(AugmentAmplify.INSTANCE, "Enlarge the target.");
         map.put(AugmentDampen.INSTANCE, "Shrink the target.");
+        map.put(AugmentRandomize.INSTANCE, "Randomize size variance.");
+        map.put(AugmentSensitive.INSTANCE, "Applies scale to target's abilities.");
     }
 
     @Override
@@ -63,8 +69,33 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
                 // remove the effect if it exists, resetting the scale
                 living.removeEffect(Registry.GROWING_EFFECT);
                 living.removeEffect(Registry.SHRINKING_EFFECT);
-            } else
-                applyConfigPotion(living, spellStats.getAmpMultiplier() > 0 ? Registry.GROWING_EFFECT : Registry.SHRINKING_EFFECT, spellStats, false);
+                living.removeEffect(Registry.GROWING_PLUS_EFFECT);
+                living.removeEffect(Registry.SHRINKING_PLUS_EFFECT);
+                if (spellStats.isRandomized())
+                {
+                    int randomSize = living.getRandom().nextIntBetweenInclusive(-3, 3);
+                    if (randomSize != 0)
+                    {
+                        spellStats.setAmpMultiplier(Math.abs(randomSize));
+                        applyConfigPotion(living, getResizeEffect((randomSize > 0), spellStats.isSensitive() && living instanceof Player), spellStats, false);
+                    }
+                }
+            }
+            else
+            {
+                double multiplier = spellStats.getAmpMultiplier();
+                boolean grow = (multiplier > 0);
+                multiplier *= grow ? 5 : -2;
+
+                if (spellStats.isRandomized())
+                {
+                    int my_range = grow ? 3 : 1;
+                    multiplier += living.getRandom().nextIntBetweenInclusive(-my_range, my_range);
+                }
+
+                spellStats.setAmpMultiplier(multiplier);
+                applyConfigPotion(living, getResizeEffect(grow, spellStats.isSensitive() && living instanceof Player), spellStats, false);
+            }
         }
     }
 
@@ -79,7 +110,16 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
             return;
         int ticks = baseDurationSeconds * 20 + durationBuffSeconds * stats.getDurationInTicks();
         // use the absolute value of the amp multiplier to determine the effect level, since negative values are used for shrinking
-        int amp = (int) Math.abs(stats.getAmpMultiplier());
+        int amp = (int) stats.getAmpMultiplier();
+        
+        if (amp > 0)
+        {
+            amp -= 1;
+        }
+        else
+        {
+            amp = 0; // impossible but just in case
+        }
         entity.forceAddEffect(new MobEffectInstance(potionEffect, ticks, amp, false, showParticles, false), entity);
     }
 
@@ -121,7 +161,7 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
     @NotNull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return augmentSetOf(AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE, AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE);
+        return augmentSetOf(AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE, AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentRandomize.INSTANCE, AugmentSensitive.INSTANCE);
     }
 
     @Override
@@ -136,6 +176,11 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
 
     public int getDurationDown() {
         return DURATION_DOWN_TIME == null ? 30 : DURATION_DOWN_TIME.get();
+    }
+
+    private Holder<MobEffect> getResizeEffect(boolean grow, boolean plus)
+    {
+        return grow ? (plus ? Registry.GROWING_PLUS_EFFECT : Registry.GROWING_EFFECT) : (plus ? Registry.SHRINKING_PLUS_EFFECT : Registry.SHRINKING_EFFECT);
     }
 
 }

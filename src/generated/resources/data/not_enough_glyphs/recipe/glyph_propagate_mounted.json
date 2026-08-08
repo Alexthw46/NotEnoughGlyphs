@@ -1,0 +1,16 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 55,
+  "inputs": [
+    {
+      "item": "ars_nouveau:manipulation_essence"
+    },
+    {
+      "item": "not_enough_glyphs:glyph_mounted"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "not_enough_glyphs:glyph_propagate_mounted"
+  }
+}

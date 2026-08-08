@@ -2,7 +2,10 @@ package alexthw.not_enough_glyphs.common.glyphs.effects;
 
 import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
+
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
@@ -10,6 +13,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
+import java.util.Map;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.neg;
 
@@ -28,10 +32,15 @@ public class EffectRide extends AbstractEffect {
 
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        if (isNotFakePlayer(shooter) && shooter != rayTraceResult.getEntity()) {
-            if (rayTraceResult.getEntity() instanceof Enemy || rayTraceResult.getEntity().getType().is(Registry.RIDE_BLACKLIST))
+        Entity result = rayTraceResult.getEntity();
+        if (spellStats.getAugments().contains(AugmentExtract.INSTANCE))
+        {
+            result.stopRiding();
+        }
+        else if (isNotFakePlayer(shooter) && shooter != result) {
+            if (result instanceof Enemy || result.getType().is(Registry.RIDE_BLACKLIST))
                 return;
-            shooter.startRiding(rayTraceResult.getEntity());
+            shooter.startRiding(result);
         }
     }
 
@@ -46,7 +55,13 @@ public class EffectRide extends AbstractEffect {
     }
 
     @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentExtract.INSTANCE, "Dismounts target entity instead.");
+    }
+
+    @Override
     protected @NotNull Set<AbstractAugment> getCompatibleAugments() {
-        return Set.of();
+        return Set.of(AugmentExtract.INSTANCE);
     }
 }
