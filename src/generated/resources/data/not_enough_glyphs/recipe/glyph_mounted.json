@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "inputs": [
+    {
+      "item": "minecraft:leather_horse_armor"
+    },
+    {
+      "tag": "minecraft:wool_carpets"
+    },
+    {
+      "item": "ars_nouveau:manipulation_essence"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "not_enough_glyphs:glyph_mounted"
+  }
+}

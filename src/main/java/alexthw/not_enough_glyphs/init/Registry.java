@@ -51,9 +51,36 @@ public class Registry {
     public static final Supplier<MenuType<SpellBinderContainer>> SPELL_HOLDER;
     public static final Supplier<Item> SPELL_BINDER;
 
-    public static final DeferredHolder<MobEffect, MobEffect> GROWING_EFFECT = EFFECTS.register("grow", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.grow"), 0.5D, AttributeModifier.Operation.ADD_VALUE));
-    public static final DeferredHolder<MobEffect, MobEffect> SHRINKING_EFFECT = EFFECTS.register("shrink", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.shrink"), -0.2D, AttributeModifier.Operation.ADD_VALUE));
-    public static final DeferredHolder<MobEffect, MobEffect> STUFFED_EFFECT = EFFECTS.register("stuffed", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0).addAttributeModifier(Attributes.SCALE, prefix("effects.stuffed"), 0.025D, AttributeModifier.Operation.ADD_VALUE).addAttributeModifier(PerkAttributes.WHIRLIESPRIG, prefix("effects.stuffed"), 0.05, AttributeModifier.Operation.ADD_VALUE));
+    public static final DeferredHolder<MobEffect, MobEffect> GROWING_EFFECT = EFFECTS.register("grow", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0)
+        .addAttributeModifier(Attributes.SCALE, prefix("effects.grow"), 0.1D, AttributeModifier.Operation.ADD_VALUE)
+    );
+    public static final DeferredHolder<MobEffect, MobEffect> GROWING_PLUS_EFFECT = EFFECTS.register("grow_plus", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0)
+        .addAttributeModifier(Attributes.SCALE, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_VALUE)
+        .addAttributeModifier(Attributes.ENTITY_INTERACTION_RANGE, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.BLOCK_INTERACTION_RANGE, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.STEP_HEIGHT, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.JUMP_STRENGTH, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.GRAVITY, prefix("effects.grow_plus"), 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.FALL_DAMAGE_MULTIPLIER, prefix("effects.grow_plus"), -0.05D, AttributeModifier.Operation.ADD_VALUE) // approximate - we actually need to divide
+    );
+    public static final DeferredHolder<MobEffect, MobEffect> SHRINKING_EFFECT = EFFECTS.register("shrink", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0)
+        .addAttributeModifier(Attributes.SCALE, prefix("effects.shrink"), -0.1D, AttributeModifier.Operation.ADD_VALUE)
+    );
+    public static final DeferredHolder<MobEffect, MobEffect> SHRINKING_PLUS_EFFECT = EFFECTS.register("shrink_plus", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0)
+        .addAttributeModifier(Attributes.SCALE, prefix("effects.shrink_plus"), -0.1D, AttributeModifier.Operation.ADD_VALUE)
+        .addAttributeModifier(Attributes.ENTITY_INTERACTION_RANGE, prefix("effects.shrink_plus"), -0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.BLOCK_INTERACTION_RANGE, prefix("effects.shrink_plus"), -0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.STEP_HEIGHT, prefix("effects.shrink_plus"), -0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.JUMP_STRENGTH, prefix("effects.shrink_plus"), -0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, prefix("effects.shrink_plus"), -0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.GRAVITY, prefix("effects.grow_plus"), -0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+        .addAttributeModifier(Attributes.FALL_DAMAGE_MULTIPLIER, prefix("effects.grow_plus"), 0.2D, AttributeModifier.Operation.ADD_VALUE) // approximate - we actually need to divide
+    );
+    public static final DeferredHolder<MobEffect, MobEffect> STUFFED_EFFECT = EFFECTS.register("stuffed", () -> new PublicEffect(MobEffectCategory.NEUTRAL, 0)
+        .addAttributeModifier(Attributes.SCALE, prefix("effects.stuffed"), 0.025D, AttributeModifier.Operation.ADD_VALUE)
+        .addAttributeModifier(PerkAttributes.WHIRLIESPRIG, prefix("effects.stuffed"), 0.05, AttributeModifier.Operation.ADD_VALUE)
+    );
 
     static {
         TRAILING_PROJECTILE = addEntity("trail", 0.5F, 0.5F, true, true, TrailingProjectile::new, MobCategory.MISC);
