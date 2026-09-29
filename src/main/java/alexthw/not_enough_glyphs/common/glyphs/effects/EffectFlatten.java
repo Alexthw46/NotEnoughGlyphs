@@ -1,11 +1,10 @@
 package alexthw.not_enough_glyphs.common.glyphs.effects;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentFortune;
@@ -34,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
 
-public class EffectFlatten extends AbstractEffect implements IDamageEffect {
+public class EffectFlatten extends AbstractEffect implements IDamageEffect, RepackedGlyph {
     public static final EffectFlatten INSTANCE = new EffectFlatten("flatten", "Flatten");
 
     private EffectFlatten(String tag, String description) {
@@ -131,16 +130,4 @@ public class EffectFlatten extends AbstractEffect implements IDamageEffect {
     }
 
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
 }

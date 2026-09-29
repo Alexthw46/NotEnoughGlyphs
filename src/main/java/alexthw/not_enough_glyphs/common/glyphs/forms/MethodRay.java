@@ -1,7 +1,7 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.init.ArsNouveauRegistry;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.particle.ParticleEmitter;
 import com.hollingsworth.arsnouveau.api.particle.configurations.properties.SoundProperty;
 import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineEntryData;
@@ -11,7 +11,6 @@ import com.hollingsworth.arsnouveau.api.spell.CastResolveType;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import net.minecraft.core.BlockPos;
@@ -32,7 +31,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,7 +39,7 @@ import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.tmg;
 
-public class MethodRay extends AbstractCastMethod {
+public class MethodRay extends AbstractCastMethod implements RepackedGlyph {
     public static final MethodRay INSTANCE = new MethodRay("ray", "Ray");
 
     public MethodRay(String tag, String description) {
@@ -196,16 +194,5 @@ public class MethodRay extends AbstractCastMethod {
         return "Instantaneously strikes the pointed-at target, at limited yet greater range than Touch. Mana is expended whether or not the ray hits anything. AOE increases range. Sensitive 1 lets the ray strike objects that do not block motion, such as plants or floating Magelight globes. Sensitive 2 allows the ray to strike fluids.";
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

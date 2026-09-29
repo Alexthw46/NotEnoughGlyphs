@@ -1,14 +1,12 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodOverhead;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -18,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public class PropagateOverhead extends AbstractEffect implements IPropagator {
+public class PropagateOverhead extends AbstractEffect implements IPropagator, RepackedGlyph {
 
     public static final PropagateOverhead INSTANCE = new PropagateOverhead();
 
@@ -68,16 +66,5 @@ public class PropagateOverhead extends AbstractEffect implements IPropagator {
         return MethodOverhead.INSTANCE.getCompatibleAugments();
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

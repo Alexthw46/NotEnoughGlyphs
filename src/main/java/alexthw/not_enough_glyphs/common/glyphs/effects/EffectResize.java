@@ -1,9 +1,8 @@
 package alexthw.not_enough_glyphs.common.glyphs.effects;
 
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.init.Registry;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
@@ -13,7 +12,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -24,7 +22,7 @@ import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.scalaes;
 
-public class EffectResize extends AbstractEffect implements IPotionEffect {
+public class EffectResize extends AbstractEffect implements IPotionEffect, RepackedGlyph {
 
     public static final EffectResize INSTANCE = new EffectResize();
 
@@ -100,18 +98,6 @@ public class EffectResize extends AbstractEffect implements IPotionEffect {
         return 100;
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
 
     @Override
     protected @NotNull Set<SpellSchool> getSchools() {

@@ -1,13 +1,12 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import com.alexthw.sauce.util.GlyphEffectUtil;
 import com.hollingsworth.arsnouveau.api.entity.ISummon;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityHomingProjectileSpell;
 import com.hollingsworth.arsnouveau.common.entity.familiar.FamiliarEntity;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDecelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
@@ -32,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class MethodHoming extends AbstractCastMethod {
+public class MethodHoming extends AbstractCastMethod implements RepackedGlyph {
 
     public static final MethodHoming INSTANCE = new MethodHoming();
 
@@ -146,16 +145,5 @@ public class MethodHoming extends AbstractCastMethod {
         return CastResolveType.SUCCESS;
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

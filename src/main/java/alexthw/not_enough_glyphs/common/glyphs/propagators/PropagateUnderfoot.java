@@ -1,13 +1,11 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodUnderfoot;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -19,7 +17,7 @@ import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.omega;
 
-public class PropagateUnderfoot extends AbstractEffect implements IPropagator {
+public class PropagateUnderfoot extends AbstractEffect implements IPropagator, RepackedGlyph {
 
     public static final PropagateUnderfoot INSTANCE = new PropagateUnderfoot();
 
@@ -73,16 +71,5 @@ public class PropagateUnderfoot extends AbstractEffect implements IPropagator {
         return MethodUnderfoot.INSTANCE.getCompatibleAugments();
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

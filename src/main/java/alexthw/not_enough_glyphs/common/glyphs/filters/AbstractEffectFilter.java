@@ -1,11 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.filters;
 
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -16,7 +14,7 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Set;
 
-public abstract class AbstractEffectFilter extends AbstractFilter {
+public abstract class AbstractEffectFilter extends AbstractFilter implements RepackedGlyph {
 
     public AbstractEffectFilter(ResourceLocation tag, String description) {
         super(tag, description);
@@ -79,19 +77,6 @@ public abstract class AbstractEffectFilter extends AbstractFilter {
 
     public boolean shouldResolveOnEntity(EntityHitResult target, Level level) {
         return shouldResolveOnEntity(target,level, new SpellStats.Builder().build(),null,null);
-    }
-
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
     }
 
 }

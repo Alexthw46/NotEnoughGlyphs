@@ -1,13 +1,14 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodSelf;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.omega;
 
-public class PropagateSelf extends AbstractEffect implements IPropagator {
+public class PropagateSelf extends AbstractEffect implements IPropagator, RepackedGlyph {
 
     public static final PropagateSelf INSTANCE = new PropagateSelf();
 
@@ -32,7 +33,10 @@ public class PropagateSelf extends AbstractEffect implements IPropagator {
 
     @Override
     public void propagate(Level world, HitResult result, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
-        resolver.onResolveEffect(world, new EntityHitResult(shooter));
+        if (resolver.spellContext != null && resolver.spellContext.castingTile != null) {
+            BlockPos blockPos = resolver.spellContext.castingTile.getBlockPos();
+            resolver.onResolveEffect(world, new BlockHitResult(blockPos.getCenter(), Direction.DOWN, blockPos, true));
+        } else resolver.onResolveEffect(world, new EntityHitResult(shooter));
     }
 
     @Override
@@ -64,16 +68,5 @@ public class PropagateSelf extends AbstractEffect implements IPropagator {
         return MethodSelf.INSTANCE.getCompatibleAugments();
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

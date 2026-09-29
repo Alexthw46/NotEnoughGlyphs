@@ -1,17 +1,15 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodMissile;
 import alexthw.not_enough_glyphs.common.spell.MissileProjectile;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSplit;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-public class PropagateMissile extends AbstractEffect implements IPropagator {
+public class PropagateMissile extends AbstractEffect implements IPropagator, RepackedGlyph {
 
     public static final PropagateMissile INSTANCE = new PropagateMissile();
 
@@ -118,16 +116,4 @@ public class PropagateMissile extends AbstractEffect implements IPropagator {
     }
 
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
 }

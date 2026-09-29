@@ -1,10 +1,9 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDecelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
@@ -27,7 +26,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class MethodArc extends AbstractCastMethod {
+public class MethodArc extends AbstractCastMethod implements RepackedGlyph {
 
     public static final MethodArc INSTANCE = new MethodArc();
 
@@ -113,16 +112,5 @@ public class MethodArc extends AbstractCastMethod {
         return augmentSetOf(AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentDecelerate.INSTANCE, AugmentSensitive.INSTANCE, AugmentExtract.INSTANCE);
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

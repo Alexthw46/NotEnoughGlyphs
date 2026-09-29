@@ -1,9 +1,8 @@
 package alexthw.not_enough_glyphs.common.glyphs.forms;
 
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.common.spell.MissileProjectile;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.InteractionHand;
@@ -23,7 +22,7 @@ import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.omega;
 
-public class MethodMissile extends AbstractCastMethod {
+public class MethodMissile extends AbstractCastMethod implements RepackedGlyph {
 
     public static final MethodMissile INSTANCE = new MethodMissile("missile", "Missile");
 
@@ -136,16 +135,5 @@ public class MethodMissile extends AbstractCastMethod {
         return this.setOf(SpellSchools.ELEMENTAL_AIR, SpellSchools.ELEMENTAL_FIRE);
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }
