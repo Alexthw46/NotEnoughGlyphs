@@ -7,7 +7,6 @@ import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
-import com.hollingsworth.arsnouveau.api.spell.SpellTier;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
@@ -33,6 +32,11 @@ public class EffectReverseDirection extends AbstractEffect implements IPropagato
     }
 
     @Override
+    public Integer getTypeIndex() {
+        return 8;
+    }
+
+    @Override
     public String getBookDescription() {
         return "Reverses the direction of the spell, making it resolve as it was cast from the opposite side of the block. Especially useful with block-placing spells, as reversing the direction of pierce will point towards the caster instead of away.";
     }
@@ -40,11 +44,6 @@ public class EffectReverseDirection extends AbstractEffect implements IPropagato
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         copyResolver(rayTraceResult, world, shooter, spellStats, spellContext, resolver);
-    }
-
-    @Override
-    public SpellTier defaultTier() {
-        return SpellTier.ONE;
     }
 
     @Override
