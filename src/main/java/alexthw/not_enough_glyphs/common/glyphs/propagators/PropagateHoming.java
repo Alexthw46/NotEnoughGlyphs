@@ -1,15 +1,13 @@
 package alexthw.not_enough_glyphs.common.glyphs.propagators;
 
 import alexthw.not_enough_glyphs.common.glyphs.CompatRL;
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.alexthw.sauce.api.IPropagator;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityHomingProjectileSpell;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -28,7 +26,7 @@ import java.util.Set;
 
 import static alexthw.not_enough_glyphs.common.glyphs.forms.MethodHoming.getProjectileSpeed;
 
-public class PropagateHoming extends AbstractEffect implements IPropagator {
+public class PropagateHoming extends AbstractEffect implements IPropagator, RepackedGlyph {
 
     public static final PropagateHoming INSTANCE = new PropagateHoming();
 
@@ -124,16 +122,5 @@ public class PropagateHoming extends AbstractEffect implements IPropagator {
         map.put(AugmentExtract.INSTANCE, "Projectile direction will be relative to caster position.");
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
+
 }

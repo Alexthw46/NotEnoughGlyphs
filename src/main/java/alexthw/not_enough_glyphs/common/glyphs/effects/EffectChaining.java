@@ -1,11 +1,10 @@
 package alexthw.not_enough_glyphs.common.glyphs.effects;
 
+import alexthw.not_enough_glyphs.common.glyphs.RepackedGlyph;
 import alexthw.not_enough_glyphs.init.ArsNouveauRegistry;
-import alexthw.not_enough_glyphs.init.NotEnoughGlyphs;
 import com.hollingsworth.arsnouveau.api.particle.ParticleEmitter;
 import com.hollingsworth.arsnouveau.api.particle.timelines.TimelineEntryData;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentRandomize;
@@ -21,7 +20,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -42,7 +40,7 @@ import java.util.stream.Stream;
 
 import static alexthw.not_enough_glyphs.common.glyphs.CompatRL.tmg;
 
-public class EffectChaining extends AbstractEffect {
+public class EffectChaining extends AbstractEffect implements RepackedGlyph {
 
     public static final EffectChaining INSTANCE = new EffectChaining("chaining", "Chaining");
 
@@ -340,16 +338,4 @@ public class EffectChaining extends AbstractEffect {
         return selectedEdges;
     }
 
-    @Override
-    public Glyph getGlyph() {
-        if (glyphItem == null) {
-            glyphItem = new Glyph(this) {
-                @Override
-                public @NotNull String getCreatorModId(@NotNull ItemStack itemStack) {
-                    return NotEnoughGlyphs.MODNAME;
-                }
-            };
-        }
-        return this.glyphItem;
-    }
 }
