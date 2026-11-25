@@ -144,10 +144,6 @@ repositories {
         name = 'Forge'
         url = "https://maven.minecraftforge.net"
     }
-    maven {
-        name = "OctoStudios"
-        url = uri("https://maven.octo-studios.com/releases")
-    }
     maven { url 'https://jitpack.io' }
 
 }
