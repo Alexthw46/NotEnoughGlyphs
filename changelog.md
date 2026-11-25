@@ -1,3 +1,7 @@
+# Not Enough Glyphs 1.21.1 - 4.6.4
+* Fix propagate Self unintended behaviors when used on turrets
+* Makes redirect direction a propagator type glyph so it doesn't break glyph ordering/categorization
+
 # Not Enough Glyphs 1.21.1 - 4.6.2
 * Hotfix for filter always blocking resolve on runes after API update
 * Propagate Underfoot can now target the vehicle of the entity it's resolving on
